@@ -1,0 +1,15 @@
+# FGCU Engineering Course Schedule — Fall 2020 — CEG
+
+Term: Fall 2020
+Subject: CEG
+Courses: 1
+
+---
+
+## CEG Courses — Fall 2020
+
+CEG 4012C Fall 2020 — Instructor: Kunberger, Tanya
+Course: Geotechnical Engineering II (3 credits) | CRN: 80539
+Schedule: W -- 08:01am - 12:31pm -- Holmes Engineering 142 W -- 08:00am - 12:30pm -- Holmes Engineering 147 Exam : W -- 07:31am - 09:46am -- Holmes Engineering 142 Exam : W -- 07:30am - 09:45am -- Holmes Engineering 147
+Session: Full Term
+Note: 8/19, 9/16, 10/14, & 11/25. HYBR

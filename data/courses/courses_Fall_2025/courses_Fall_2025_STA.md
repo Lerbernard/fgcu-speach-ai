@@ -1,0 +1,14 @@
+# FGCU Engineering Course Schedule — Fall 2025 — STA
+
+Term: Fall 2025
+Subject: STA
+Courses: 1
+
+---
+
+## STA Courses — Fall 2025
+
+STA 3038 Fall 2025 — Instructor: Ciris, Pelin
+Course: Prob & Stat for Data Sci (3 credits) | CRN: 87150
+Schedule: M W -- 12:00pm - 01:15pm -- Holmes Engineering 402
+Session: Full Term

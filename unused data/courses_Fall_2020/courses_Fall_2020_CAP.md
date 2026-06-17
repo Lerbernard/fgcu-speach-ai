@@ -1,0 +1,15 @@
+# FGCU Engineering Course Schedule — Fall 2020 — CAP
+
+Term: Fall 2020
+Subject: CAP
+Courses: 1
+
+---
+
+## CAP Courses — Fall 2020
+
+CAP 4770 Fall 2020 — Instructor: Koufakou, Anna
+Course: Knowledge Disc. & Data Mining (3 credits) | CRN: 83298
+Schedule: W -- 01:30pm - 04:15pm -- Online (Virtual) Exam : W -- 12:30pm - 02:45pm -- Online (Virtual)
+Session: Full Term
+Note: Instructions: SYNC

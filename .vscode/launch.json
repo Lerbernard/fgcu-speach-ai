@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FastAPI Backend",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["main:app", "--reload", "--port", "8000"],
+      "cwd": "${workspaceFolder}\\backend",
+      "envFile": "${workspaceFolder}\\backend\\.env"
+    },
+    {
+      "name": "Run Scraper",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}\\scraper\\scrape_fgcu.py",
+      "cwd": "${workspaceFolder}\\scraper",
+      "envFile": "${workspaceFolder}\\backend\\.env"
+    },
+    {
+      "name": "Run Ingest",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}\\backend\\ingest.py",
+      "cwd": "${workspaceFolder}\\backend",
+      "envFile": "${workspaceFolder}\\backend\\.env"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# FGCU Engineering Course Schedule — Fall 2023 — CNT
+
+Term: Fall 2023
+Subject: CNT
+Courses: 2
+
+---
+
+## CNT Courses — Fall 2023
+
+CNT 4104 Fall 2023 — Instructor: Qu, Chengyi
+Course: Software Proj Comp Networks (3 credits) | CRN: 80596
+Schedule: R -- 09:00am - 10:15am -- Holmes Engineering 202
+Session: Full Term
+Note: Class has both face-to-face meetings and an online component. Click on Gulfline CRN to view face-to-face meeting dates. HYBR
+
+CNT 4104 Fall 2023 — Instructor: Qu, Chengyi
+Course: Software Proj Comp Networks (3 credits) | CRN: 80595
+Schedule: T -- 09:00am - 10:15am -- Holmes Engineering 202
+Session: Full Term
+Note: Class has both face-to-face meetings and an online meetings. Click on Gulfline CRN to view face-to-face meeting dates and view course syllabus. Instructions: . : . HYBR

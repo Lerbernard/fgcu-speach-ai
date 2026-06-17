@@ -1,0 +1,43 @@
+# Core Secrets & Environment Variables (CRITICAL)
+# This keeps your Pinecone, Groq, and ElevenLabs keys safe!
+.env
+.env.*
+*.env
+
+# Python Caches and Bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Python Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+lib/
+bin/
+include/
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Data & Audio Temp files (Optional, keep if you don't want local test data pushed)
+# If you want to push your actual "data" folder to GitHub, comment out the line below with a '#'
+# ../data/
+*.mp3
+*.webm
+*.wav

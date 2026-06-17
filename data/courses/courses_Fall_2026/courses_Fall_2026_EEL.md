@@ -1,0 +1,14 @@
+# FGCU Engineering Course Schedule — Fall 2026 — EEL
+
+Term: Fall 2026
+Subject: EEL
+Courses: 1
+
+---
+
+## EEL Courses — Fall 2026
+
+EEL 4730 Fall 2026 — Instructor: STAFF
+Course: Embedded Programming (3 credits) | CRN: 87721
+Schedule: M W -- 12:00pm - 01:15pm -- Holmes Engineering 433Exam :M -- 10:00am - 12:15pm -- Holmes Engineering 433
+Session: Full Term

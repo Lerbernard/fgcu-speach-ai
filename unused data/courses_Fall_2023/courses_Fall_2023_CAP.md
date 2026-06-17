@@ -1,0 +1,14 @@
+# FGCU Engineering Course Schedule — Fall 2023 — CAP
+
+Term: Fall 2023
+Subject: CAP
+Courses: 1
+
+---
+
+## CAP Courses — Fall 2023
+
+CAP 4770 Fall 2023 — Instructor: Koufakou, Anna
+Course: Knowledge Disc. & Data Mining (3 credits) | CRN: 85706
+Schedule: T R -- 04:30pm - 05:45pm -- Holmes Engineering 202
+Session: Full Term

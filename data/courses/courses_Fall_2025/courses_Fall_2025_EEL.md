@@ -1,0 +1,14 @@
+# FGCU Engineering Course Schedule — Fall 2025 — EEL
+
+Term: Fall 2025
+Subject: EEL
+Courses: 1
+
+---
+
+## EEL Courses — Fall 2025
+
+EEL 5769 Fall 2025 — Instructor: Allen, Paul
+Course: Computer Architecture (3 credits) | CRN: 87153
+Schedule: M W -- 04:30pm - 05:45pm -- Holmes Engineering 202
+Session: Full Term

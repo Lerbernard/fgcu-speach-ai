@@ -1,0 +1,14 @@
+# FGCU Engineering Course Schedule — Fall 2026 — STA
+
+Term: Fall 2026
+Subject: STA
+Courses: 1
+
+---
+
+## STA Courses — Fall 2026
+
+STA 3038 Fall 2026 — Instructor: Ciris, Pelin
+Course: Prob & Stat for Data Sci (3 credits) | CRN: 87150
+Schedule: M W -- 12:00pm - 01:15pm -- Holmes Engineering 402Exam :M -- 10:00am - 12:15pm -- Holmes Engineering 402
+Session: Full Term

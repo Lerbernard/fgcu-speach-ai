@@ -1,0 +1,14 @@
+# FGCU Engineering Course Schedule — Fall 2023 — COT
+
+Term: Fall 2023
+Subject: COT
+Courses: 1
+
+---
+
+## COT Courses — Fall 2023
+
+COT 3400 Fall 2023 — Instructor: Islam, Md Baharul
+Course: Design&Analysis of Algorithms (3 credits) | CRN: 85470
+Schedule: M W -- 09:00am - 10:15am -- Holmes Engineering 402
+Session: Full Term
