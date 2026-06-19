@@ -1,0 +1,2 @@
+**Computer Science & Software Engineering Club (CSSEC) **
+CSSEC is open to everyone, whether you're a coding newbie or a tech enthusiast. Their meetings cover topics and events such as career development sessions, coding workshops, and social events. Each year they host EagleHacks, a hackathon sponsored by local companies. Whether you’re here to grow your technical skills, build your professional network, or just have fun with like-minded people, CSSEC has something for you! 

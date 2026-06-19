@@ -1,0 +1,2 @@
+**Eagle X | Fall & Spring Semesters**
+Eagle X is a university-wide showcase where students share their experiences in internships, leadership, service-learning, and research. Presentations are judged by industry partners, and awards are given across several categories. It's an opportunity to celebrate student achievements, gain inspiration from peers, and see the many ways Eagles are making an impact. 

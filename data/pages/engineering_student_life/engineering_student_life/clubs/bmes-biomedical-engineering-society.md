@@ -1,0 +1,2 @@
+**Biomedical Engineering Society (BMES)**
+The BMES Student Chapter at FGCU is dedicated to serving its members and its community through educational and professional development. BMES is a support group for students in need of homework help, study material, and advice. It promotes the development of student education by giving members the ability to see real life application of concepts learned in the classroom.

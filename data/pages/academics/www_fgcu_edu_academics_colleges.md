@@ -1,4 +1,4 @@
-# Colleges & Schools at FGCU
+h# Colleges & Schools at FGCU
 
 Each college and school delivers challenging academics, experiential learning, and comprehensive support — common denominators for success here and after graduation.
 

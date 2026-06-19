@@ -1,0 +1,2 @@
+**Women in Construction (WIC)**
+The Florida Gulf Coast University Women in Construction (WIC) Student Chapter, a recently established Registered Student Organization (RSO), is dedicated to cultivating student interest in the construction industry while prioritizing the empowerment of women and underrepresented minorities. Students from all academic disciplines are encouraged to participate in their organization.

@@ -1,0 +1,2 @@
+**Order of the Engineer | Spring Semester**
+The Order of the Engineer is a national organization that welcomes students into the engineering profession. During the induction ceremony, participants take an ethical oath, learn about the standards and responsibilities of being an engineer, and receive a ring as a symbol of their commitment to the field. It's a meaningful way to celebrate your path into the profession and connect with its values.

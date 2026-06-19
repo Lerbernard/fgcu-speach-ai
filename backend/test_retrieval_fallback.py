@@ -15,7 +15,7 @@ def _install_stubs():
     def mod(n):
         m = types.ModuleType(n); sys.modules[n] = m; return m
     li = mod("llama_index"); lic = mod("llama_index.core")
-    lic.VectorStoreIndex = MagicMock(); lic.Settings = MagicMock(); li.core = lic
+    lic.VectorStoreIndex = MagicMock(); lic.Settings = MagicMock(); lic.PromptTemplate = MagicMock(); li.core = lic
     vs = mod("llama_index.core.vector_stores")
     vs.MetadataFilters = vs.MetadataFilter = vs.FilterOperator = MagicMock(); lic.vector_stores = vs
     lvs = mod("llama_index.vector_stores"); lpc = mod("llama_index.vector_stores.pinecone")
@@ -68,7 +68,8 @@ CALLS = []
 QUEUE = []
 
 
-def fake_make_engine(doc_types, program, term, course_code=None, professor=None):
+def fake_make_engine(doc_types, program, term, course_code=None, professor=None,
+                     qa_template=None, postprocessors=None):
     CALLS.append({"doc_types": doc_types, "course_code": course_code,
                   "professor": professor, "term": term})
     idx = len(CALLS) - 1

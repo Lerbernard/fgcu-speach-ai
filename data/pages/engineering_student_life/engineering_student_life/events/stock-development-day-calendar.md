@@ -1,0 +1,1 @@
+| Stock Development Day  | /eng/calendar-photos/stock-calendar.jpg  | 02  | 09  | 2026  | 4:30 pm - 5:45 pm  | 1  | 3  | Start off the semester by connecting with the Associated Builders & Contractors (ABC) student chapter and hearing from industry leaders about the latest updates on the construction market in Southwest Florida.  | A panel of industry members sit at a table  |  

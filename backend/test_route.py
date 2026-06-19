@@ -61,6 +61,7 @@ def _install_stubs():
     li_core = mod("llama_index.core")
     li_core.VectorStoreIndex = MagicMock(name="VectorStoreIndex")
     li_core.Settings = MagicMock(name="Settings")           # allows attr assignment
+    li_core.PromptTemplate = MagicMock(name="PromptTemplate")
     li.core = li_core
 
     li_vs = mod("llama_index.core.vector_stores")
@@ -189,7 +190,8 @@ NONE = None
 # New page-topic routes
 ADM    = ["admissions", "general"]
 POL    = ["policy", "general"]
-SL     = ["student_life", "club", "general"]
+SL     = ["student_life", "club", "event", "general"]
+EVT    = ["event", "admissions", "club", "general"]
 DEPT   = ["department", "program", "general"]
 PROG   = ["program", "degree_map", "general"]
 CAMPUS = ["campus", "general", "faculty", "student_life"]
@@ -214,9 +216,10 @@ ROUTING_CASES = [
     ("en", "What does Professor Allen teach?", CO, None, None, False, "professor-teaches route"),
     ("en", "Who teaches it in fall 2026?", CO, "fall 2026", HIST_COP1500, False, "course code from history"),
     ("en", "What classes are offered in fall 2026?", CO, "fall 2026", None, False, "term-pinned schedule, no code/prof -> offerings by term (reaches subject rollups)"),
-    ("en", "What is Holmes is Your Home?", SL, None, None, False, "named student-life event -> student_life"),
-    ("es", "¿Qué es Holmes is Your Home?", SL, None, None, False, "same event, Spanish wrapper (proper noun is language-invariant)"),
-    ("en", "What is EagleHacks 2026?", SL, None, None, False, "named hackathon event -> student_life"),
+    ("en", "What is Holmes is Your Home?", EVT, None, None, False, "named student-life event -> event route"),
+    ("es", "¿Qué es Holmes is Your Home?", EVT, None, None, False, "same event, Spanish wrapper (proper noun is language-invariant)"),
+    ("en", "What is EagleHacks 2026?", EVT, None, None, False, "named hackathon event -> event route"),
+    ("en", "What events are happening on campus?", EVT, None, None, False, "generic event query -> event route"),
     ("en", "Where can I get tutoring?", LS, None, None, False, "help route"),
     ("en", "What do students say about Professor Buckley?", RV, None, None, False, "rating route"),
     ("en", "Tell me about the Dendritic Institute.", INST, None, None, False, "institute -> department+general"),
@@ -231,15 +234,24 @@ ROUTING_CASES = [
      [{"question": "Who is Paul Allen?", "answer": "He is a professor."}],
      False, "unrelated follow-up must NOT be hijacked to faculty by history"),
     ("en", "How do I apply for admission?", ADM, None, None, False, "admissions route"),
+    ("en", "What is Say Yes to the Nest?", EVT, None, None, False, "named admissions event -> event route (filter still includes admissions)"),
+    ("es", "¿Qué es Say Yes to the Nest?", EVT, None, None, False, "same event, Spanish wrapper"),
     # New page-data topics --------------------------------------------------
     ("en", "What is Holmes?", CAMPUS, None, None, False, "Holmes the building -> campus"),
-    ("en", "What is Holmes is Your Home?", SL, None, None, False,
-     "Holmes is Your Home is an event -> student life (checked before campus)"),
+    ("en", "What is Holmes is Your Home?", EVT, None, None, False,
+     "Holmes is Your Home is an event -> event route (checked before campus)"),
     ("en", "Where is the engineering building?", CAMPUS, None, None, False, "location -> campus"),
     ("en", "What is the ethics policy?", POL, None, None, False, "policy route"),
+    ("en", "What is FGCU's institutional ethics and compliance policy?", POL, None, None, False,
+     "'institutional' must not hijack to institute; policy wins"),
+    ("en", "What is the Dendritic Institute?", INST, None, None, False,
+     "pure institute query still routes to department"),
+    ("en", "What is the FERPA privacy policy?", POL, None, None, False, "legal/privacy term -> policy route"),
+    ("en", "What is the non-discrimination policy?", POL, None, None, False, "legal term -> policy route"),
     ("en", "Tell me about the computer science department.", DEPT, None, None, False, "department route"),
     ("en", "What graduate programs are offered?", PROG, None, None, False, "program route"),
-    ("en", "What student life events are there?", SL, None, None, False, "student life route"),
+    ("en", "What student life events are there?", EVT, None, None, False, "events query -> event route (filter includes student_life)"),
+    ("en", "Tell me about student life.", SL, None, None, False, "generic student-life route"),
     ("en", "Hello, how are you?", NONE, None, None, False, "greeting -> no route"),
     ("en", "What's the weather today?", NONE, None, None, False, "off-topic -> no route"),
 

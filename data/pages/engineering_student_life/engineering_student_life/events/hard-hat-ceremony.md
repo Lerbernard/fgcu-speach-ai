@@ -1,0 +1,2 @@
+**Hard Hat Ceremony | Fall & Spring Semesters**
+The Hard Hat Ceremony is a tradition celebrating construction management seniors as they transition from students to professionals. Graduates receive a personalized blue hard hat and Stock Development CM polo, presented by industry partners who have supported their journey. The event also includes awards, a catered reception, and recognition of each senior's achievements. 

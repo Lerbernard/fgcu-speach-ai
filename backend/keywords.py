@@ -9,7 +9,7 @@ LANGUAGE SCOPE (21) — bounded by ElevenLabs eleven_multilingual_v2 (TTS):
   en English  es Spanish  pt Portuguese  fr French  de German  it Italian
   ru Russian  uk Ukrainian  pl Polish  el Greek  nl Dutch  sv Swedish
   tr Turkish  zh Chinese  tl Tagalog  hi Hindi  ta Tamil  ko Korean
-  ja Japanese  ar Arabic  he Hebrew
+  ja Japanese  ar Arabic
 
 NOT supported by the voice pipeline (excluded): Haitian Creole, Gaelic,
 Vietnamese, Gujarati, Telugu, Urdu, Bengali, Punjabi, Thai, Lao, Hmong, Khmer,
@@ -20,7 +20,7 @@ English across all languages because they are not translated terms.
 """
 
 LANGS = ["en","es","pt","fr","de","it","ru","uk","pl","el","nl","sv",
-         "tr","zh","tl","hi","ta","ko","ja","ar","he"]
+         "tr","zh","tl","hi","ta","ko","ja","ar"]
 
 # ── Learning Hub / tutoring / academic help  →  learning_support ──
 HELP_WORDS = {
@@ -80,8 +80,6 @@ HELP_WORDS = {
     "ar": ["مركز التعلم", "مدرس خصوصي", "دروس خصوصية", "الحصول على مساعدة",
            "مساعدة في الفصول", "الدعم الأكاديمي", "مرشد", "زملاء",
            "مساعدة الدراسة"],
-    "he": ["מרכז למידה", "מרכז הלמידה", "מורה פרטי", "שיעור פרטי", "לקבל עזרה",
-           "עזרה בשיעורים", "תמיכה אקדמית", "מנטור", "עמיתים", "עזרה בלימודים"],
 }
 
 # Phrases that FORCE the learning-support route over everything else
@@ -106,7 +104,6 @@ LEARNING_HUB_OVERRIDE = {
     "ko": ["학습 센터", "러닝 허브"],
     "ja": ["学習センター", "ラーニングハブ"],
     "ar": ["مركز التعلم", "مركز التعليم"],
-    "he": ["מרכז למידה", "מרכז הלמידה"],
 }
 
 # ── Course schedule (who/when/what time)  →  course_offering ──
@@ -151,8 +148,6 @@ SCHEDULE_WORDS = {
            "講師", "crn", "時間割", "開講"],
     "ar": ["يدرّس", "من يدرّس", "في أي وقت", "متى", "يجتمع",
            "مدرب", "crn", "الجدول", "يُقدّم في"],
-    "he": ["מלמד", "מי מלמד", "באיזו שעה", "מתי", "נפגש",
-           "מדריך", "crn", "מערכת שעות", "מוצע ב"],
 }
 
 # ── Course description (what it covers)  →  course_description ──
@@ -197,8 +192,7 @@ DESCRIPTION_WORDS = {
            "学ぶ", "内容"],
     "ar": ["حول", "يغطي", "صف", "وصف", "ما هو", "مواضيع",
            "تتعلم في", "محتوى"],
-    "he": ["על מה", "מכסה", "תאר", "תיאור", "מה זה", "נושאים",
-           "לומדים ב", "תוכן"],
+\
 }
 
 # ── Curriculum / degree map  →  degree_map ──
@@ -283,10 +277,7 @@ CURRICULUM_WORDS = {
            "تخصص", "خريطة الدرجة", "ما الفصول", "ما المقررات",
            "المتطلبات", "المنهج", "درجة مشتركة", "bs/ms",
            "هل أحتاج", "سنة في"],
-    "he": ["שנה שלישית", "שנה רביעית", "שנה שנייה", "שנה ראשונה",
-           "התמחות", "מפת תואר", "אילו שיעורים", "אילו קורסים",
-           "דרישות", "תכנית לימודים", "תואר משולב", "bs/ms",
-           "אני צריך", "בשנה ה"],
+
 }
 
 # ── Faculty  →  faculty + faculty_reviews ──
@@ -311,7 +302,7 @@ FACULTY_WORDS = {
     "ko": ["교수", "교직원", "누가 있"],
     "ja": ["教授", "教員", "誰がいる"],
     "ar": ["أستاذ", "هيئة التدريس", "من هم"],
-    "he": ["פרופסור", "סגל", "מי הם"],
+
 }
 
 # ── Faculty reviews / ratings  →  faculty_reviews ──
@@ -357,8 +348,6 @@ RATING_WORDS = {
            "学生はどう", "どうですか"],
     "ar": ["الطلاب يقولون", "تقييمات", "تقييم", "أستاذ جيد",
            "ماذا يقول الطلاب", "كيف هو"],
-    "he": ["סטודנטים אומרים", "ביקורות", "דירוג", "מרצה טוב",
-           "מה הסטודנטים אומרים", "איך ה"],
 }
 
 # ── Clubs / organizations  →  club ──
@@ -382,8 +371,7 @@ CLUB_WORDS = {
     "ta": ["கழகம்", "அமைப்பு", "சங்கம்"],
     "ko": ["동아리", "조직", "학회"],
     "ja": ["クラブ", "組織", "サークル"],
-    "ar": ["نادي", "منظمة", "جمعية"],
-    "he": ["מועדון", "ארגון", "אגודה"],
+
     # Named FGCU engineering orgs (proper nouns / acronyms — identical in every
     # language, so listing them once covers all languages). The "…Society" names
     # already match the generic "society"/"club" words above; Women in STEM,
@@ -420,7 +408,6 @@ INSTITUTE_WORDS = {
     "ko": ["연구소"],
     "ja": ["研究所"],
     "ar": ["معهد"],
-    "he": ["מכון"],
 }
 
 # ── General (admissions, advising, research)  →  general + degree_map + research ──
@@ -445,7 +432,7 @@ GENERAL_WORDS = {
     "ko": ["지원", "입학", "어드바이저", "상담", "연구"],
     "ja": ["出願", "入学", "アドバイザー", "相談", "研究"],
     "ar": ["تقديم", "قبول", "مرشد", "إرشاد", "بحث"],
-    "he": ["להגיש", "קבלה", "יועץ", "ייעוץ", "מחקר"],
+
 }
 
 
@@ -462,7 +449,6 @@ PROGRAM_WORDS = {
         "tl": ["software engineering"], "hi": ["सॉफ्टवेयर इंजीनियरिंग"],
         "ta": ["மென்பொருள் பொறியியல்"], "ko": ["소프트웨어 공학"],
         "ja": ["ソフトウェア工学"], "ar": ["هندسة البرمجيات"],
-        "he": ["הנדסת תוכנה"],
     },
     "computer_science": {
         "en": ["computer science", " cs ", "in cs"],
@@ -476,7 +462,6 @@ PROGRAM_WORDS = {
         "tl": ["computer science"], "hi": ["कंप्यूटर विज्ञान"],
         "ta": ["கணினி அறிவியல்"], "ko": ["컴퓨터 과학"],
         "ja": ["コンピュータサイエンス"], "ar": ["علوم الحاسوب"],
-        "he": ["מדעי המחשב"],
     },
     "civil_engineering": {
         "en": ["civil"], "es": ["civil"], "pt": ["civil"], "fr": ["civil"],
@@ -485,7 +470,7 @@ PROGRAM_WORDS = {
         "nl": ["civiele"], "sv": ["bygg"], "tr": ["inşaat"],
         "zh": ["土木"], "tl": ["civil"], "hi": ["सिविल"],
         "ta": ["சிவில்"], "ko": ["토목"], "ja": ["土木"],
-        "ar": ["مدني"], "he": ["אזרחית"],
+        "ar": ["مدني"],
     },
     "bioengineering": {
         "en": ["bioengineering", "biomedical"], "es": ["bioingeniería"],
@@ -498,7 +483,7 @@ PROGRAM_WORDS = {
         "tl": ["bioengineering"], "hi": ["जैव अभियांत्रिकी"],
         "ta": ["உயிர் பொறியியல்"], "ko": ["생명공학"],
         "ja": ["生体工学"], "ar": ["الهندسة الحيوية"],
-        "he": ["ביו-הנדסה"],
+
     },
     "construction_management": {
         "en": ["construction"], "es": ["construcción"],
@@ -510,7 +495,6 @@ PROGRAM_WORDS = {
         "zh": ["建筑管理"], "tl": ["construction"],
         "hi": ["निर्माण"], "ta": ["கட்டுமானம்"],
         "ko": ["건설"], "ja": ["建設"], "ar": ["إدارة البناء"],
-        "he": ["בנייה"],
     },
     "environmental_engineering": {
         "en": ["environmental"], "es": ["ambiental"],
@@ -522,7 +506,6 @@ PROGRAM_WORDS = {
         "zh": ["环境"], "tl": ["environmental"],
         "hi": ["पर्यावरण"], "ta": ["சுற்றுச்சூழல்"],
         "ko": ["환경"], "ja": ["環境"], "ar": ["بيئي"],
-        "he": ["סביבתית"],
     },
 }
 
@@ -535,7 +518,7 @@ SEASON_WORDS = {
         "pl": ["jesień"], "el": ["φθινόπωρο"], "nl": ["herfst"],
         "sv": ["höst"], "tr": ["sonbahar", "güz"], "zh": ["秋季", "秋天"],
         "tl": ["taglagas"], "hi": ["पतझड़"], "ta": ["இலையுதிர்"],
-        "ko": ["가을"], "ja": ["秋"], "ar": ["خريف"], "he": ["סתיו"],
+        "ko": ["가을"], "ja": ["秋"], "ar": ["خريف"],
     },
     "spring": {
         "en": ["spring"], "es": ["primavera"], "pt": ["primavera"],
@@ -544,7 +527,7 @@ SEASON_WORDS = {
         "el": ["άνοιξη"], "nl": ["lente"], "sv": ["vår"],
         "tr": ["ilkbahar", "bahar"], "zh": ["春季", "春天"],
         "tl": ["tagsibol"], "hi": ["वसंत"], "ta": ["வசந்தம்"],
-        "ko": ["봄"], "ja": ["春"], "ar": ["ربيع"], "he": ["אביב"],
+        "ko": ["봄"], "ja": ["春"], "ar": ["ربيع"],
     },
     "summer": {
         "en": ["summer"], "es": ["verano"], "pt": ["verão"],
@@ -553,7 +536,7 @@ SEASON_WORDS = {
         "el": ["καλοκαίρι"], "nl": ["zomer"], "sv": ["sommar"],
         "tr": ["yaz"], "zh": ["夏季", "夏天"], "tl": ["tag-init"],
         "hi": ["गर्मी"], "ta": ["கோடை"], "ko": ["여름"],
-        "ja": ["夏"], "ar": ["صيف"], "he": ["קיץ"],
+        "ja": ["夏"], "ar": ["صيف"],
     },
 }
 
@@ -567,41 +550,181 @@ SEASON_WORDS = {
 ADMISSIONS_WORDS = {
     "en": ["apply", "application", "admission", "admissions", "enroll", "enrollment",
            "how do i get in", "get accepted", "admission requirement", "transfer student",
-           "international student", "deadline to apply", "freshman", "non-degree"],
-    "es": ["cómo me inscribo", "admisión", "inscripción", "solicitud de admisión"],
-    "fr": ["admission", "candidature", "comment s'inscrire"],
+           "international student", "deadline to apply", "freshman", "non-degree",
+           "admitted student", "orientation", "eagle access", "admission deposit"],
+    "es": ["admisión", "inscripción", "cómo me inscribo", "solicitud de admisión", "matrícula"],
+    "pt": ["admissão", "candidatura", "inscrição", "matrícula"],
+    "fr": ["admission", "candidature", "comment s'inscrire", "inscription"],
+    "de": ["zulassung", "bewerbung", "einschreibung", "immatrikulation"],
+    "it": ["ammissione", "iscrizione", "domanda di ammissione"],
+    "ru": ["поступление", "приём", "зачисление", "подать заявление"],
+    "uk": ["вступ", "прийом", "зарахування", "подати заяву"],
+    "pl": ["rekrutacja", "przyjęcie", "zapisać się", "wniosek o przyjęcie"],
+    "el": ["εισαγωγή", "αίτηση εισαγωγής", "εγγραφή"],
+    "nl": ["toelating", "aanmelding", "inschrijving"],
+    "sv": ["antagning", "ansökan", "anmälan"],
+    "tr": ["kabul", "başvuru", "kayıt"],
+    "zh": ["录取", "申请", "入学", "报名"],
+    "tl": ["pagpasok", "aplikasyon", "magpatala"],
+    "hi": ["प्रवेश", "आवेदन", "दाखिला"],
+    "ta": ["சேர்க்கை", "விண்ணப்பம்", "அனுமதி"],
+    "ko": ["입학", "지원", "등록"],
+    "ja": ["入学", "出願", "入学手続き"],
+    "ar": ["القبول", "التقديم", "التسجيل"],
 }
 STUDENT_LIFE_WORDS = {
     "en": ["student life", "student org", "student organization", "get involved",
-           "involvement", "student event", "campus event", "recreation", "wellness",
-           "dean of students", "holmes is your home", "hard hat ceremony", "traditions",
-           "club fair", "things to do", "student government", "trio",
+           "involvement", "recreation", "wellness", "dean of students", "traditions",
+           "things to do", "student government", "trio", "summer camp", "internship"],
+    "es": ["vida estudiantil", "organización estudiantil", "vida universitaria"],
+    "pt": ["vida estudantil", "vida no campus", "envolvimento estudantil"],
+    "fr": ["vie étudiante", "vie sur le campus", "s'impliquer"],
+    "de": ["studentenleben", "campusleben"],
+    "it": ["vita studentesca", "vita nel campus", "coinvolgimento"],
+    "ru": ["студенческая жизнь", "студенческая организация"],
+    "uk": ["студентське життя", "студентська організація"],
+    "pl": ["życie studenckie", "organizacja studencka"],
+    "el": ["φοιτητική ζωή", "φοιτητική οργάνωση"],
+    "nl": ["studentenleven", "studentenleven op de campus"],
+    "sv": ["studentliv", "studentliv på campus"],
+    "tr": ["öğrenci yaşamı", "öğrenci topluluğu"],
+    "zh": ["学生生活", "校园生活"],
+    "tl": ["buhay estudyante", "buhay sa campus"],
+    "hi": ["छात्र जीवन", "विद्यार्थी जीवन"],
+    "ta": ["மாணவர் வாழ்க்கை", "மாணவர் சங்கம்"],
+    "ko": ["학생 생활", "캔퍼스 생활"],
+    "ja": ["学生生活", "キャンパスライフ"],
+    "ar": ["الحياة الطلابية", "الحياة الجامعية"],
+}
+
+# Events are their own path: named happenings (student-life events AND admissions
+# events like Say Yes to the Nest) plus generic event-finding phrases. The event
+# route is checked before the club / admissions / student-life routes so a named
+# event lands in the bounded event pool instead of the unfiltered index.
+EVENT_WORDS = {
+    "en": ["events", "an event", "any event", "upcoming event", "campus event",
+           "student event", "community event", "study event", "calendar of events",
+           "what's happening", "whats happening", "happening on campus", "club fair",
+           "say yes to the nest", "holmes is your home", "hard hat ceremony",
            "eaglehacks", "hackathon", "e-week", "e week", "eagle game jam", "game jam",
            "capture the flag", "ctf night", "game night", "pc building workshop",
-           "speaker night", "study event", "summer camp", "internship", "community event"],
-    "es": ["vida estudiantil", "organización estudiantil"],
+           "speaker night"],
+    "es": ["evento", "eventos", "qué eventos", "actividades"],
+    "pt": ["evento", "eventos", "atividades"],
+    "fr": ["événement", "événements", "évènement", "activités"],
+    "de": ["veranstaltung", "veranstaltungen"],
+    "it": ["evento", "eventi", "attività"],
+    "ru": ["мероприятие", "мероприятия", "событие"],
+    "uk": ["захід", "заходи", "подія"],
+    "pl": ["wydarzenie", "wydarzenia"],
+    "el": ["εκδήλωση", "εκδηλώσεις"],
+    "nl": ["evenement", "evenementen"],
+    "sv": ["evenemang", "evenemanget"],
+    "tr": ["etkinlik", "etkinlikler"],
+    "zh": ["活动", "活動"],
+    "tl": ["kaganapan", "mga kaganapan", "okasyon"],
+    "hi": ["कार्यक्रम", "आयोजन"],
+    "ta": ["நிகழ்வு", "நிகழ்வுகள்", "நிகழ்ச்சி"],
+    "ko": ["행사", "이벤트"],
+    "ja": ["イベント", "行事"],
+    "ar": ["فعالية", "فعاليات", "حدث"],
 }
 POLICY_WORDS = {
-    "en": ["policy", "policies", "ethics", "compliance", "code of conduct",
-           "academic integrity", "state authorization", "government relations",
-           "title ix", "student conduct"],
+    "en": ["policy", "policies", "legal", "regulation", "ferpa", "privacy",
+           "ethics", "compliance", "code of conduct", "academic integrity",
+           "state authorization", "government relations", "title ix", "student conduct",
+           "non-discrimination", "consumer information", "accreditation"],
+    "es": ["política", "políticas", "ética", "normativa", "reglamento", "cumplimiento"],
+    "pt": ["política", "políticas", "ética", "conformidade", "regulamento"],
+    "fr": ["politique", "règlement", "éthique", "conformité", "confidentialité"],
+    "de": ["richtlinie", "richtlinien", "ethik", "vorschriften", "datenschutz"],
+    "it": ["politica", "regolamento", "etica", "conformità", "riservatezza"],
+    "ru": ["политика", "этика", "правила", "конфиденциальность"],
+    "uk": ["політика", "етика", "правила", "конфіденційність"],
+    "pl": ["polityka", "etyka", "przepisy", "zgodność"],
+    "el": ["πολιτική", "δεοντολογία", "κανονισμός"],
+    "nl": ["beleid", "regelgeving", "ethiek", "privacy"],
+    "sv": ["riktlinje", "regler", "etik", "integritet"],
+    "tr": ["politika", "etik", "yönetmelik", "uyum"],
+    "zh": ["政策", "规定", "合规", "道德"],
+    "tl": ["patakaran", "regulasyon", "etika"],
+    "hi": ["नीति", "नियम", "अनुपालन"],
+    "ta": ["கொள்கை", "விதிமுறை", "ஒழுக்கம்"],
+    "ko": ["정책", "규정", "윤리", "준수"],
+    "ja": ["方針", "規則", "倫理", "コンプライアンス"],
+    "ar": ["سياسة", "أخلاقيات", "لوائح", "امتثال"],
 }
 CAMPUS_WORDS = {
     "en": ["holmes", "holmes hall", "what building", "which building", "where is",
            "where can i find", "located", "location of", "address", "directions",
            "about fgcu", "about the college", "about the school", "whitaker", "wce",
            "campus map", "what is fgcu", "office of"],
-    "es": ["dónde está", "ubicación", "qué edificio"],
+    "es": ["dónde está", "ubicación", "qué edificio", "mapa del campus", "dirección"],
+    "pt": ["onde fica", "localização", "qual edifício", "mapa do campus"],
+    "fr": ["où se trouve", "emplacement", "quel bâtiment", "plan du campus"],
+    "de": ["wo ist", "standort", "welches gebäude", "campusplan"],
+    "it": ["dove si trova", "posizione", "quale edificio", "mappa del campus"],
+    "ru": ["где находится", "местоположение", "какое здание", "карта кампуса"],
+    "uk": ["де знаходиться", "розташування", "яка будівля", "карта кампусу"],
+    "pl": ["gdzie znajduje się", "lokalizacja", "który budynek", "mapa kampusu"],
+    "el": ["πού βρίσκεται", "τοποθεσία", "ποιο κτίριο"],
+    "nl": ["waar is", "locatie", "welk gebouw", "campusplattegrond"],
+    "sv": ["var ligger", "vilken byggnad", "campuskarta"],
+    "tr": ["nerede", "konum", "hangi bina", "kampüs haritası"],
+    "zh": ["在哪里", "位置", "哪栋楼", "校园地图"],
+    "tl": ["nasaan", "lokasyon", "anong gusali", "mapa ng campus"],
+    "hi": ["कहाँ है", "स्थान", "कौन सी इमारत"],
+    "ta": ["எங்கே உள்ளது", "இடம்", "எந்த கட்டிடம்"],
+    "ko": ["어디에 있나요", "위치", "어느 건물", "캠퍼스 지도"],
+    "ja": ["どこにありますか", "場所", "どの建物", "キャンパスマップ"],
+    "ar": ["أين يقع", "موقع", "أي مبنى", "خريطة الحرم"],
 }
 DEPARTMENT_WORDS = {
     "en": ["department", "departments", "school of", "which department",
            "what departments", "computing and software engineering"],
+    "es": ["departamento", "facultad"],
+    "pt": ["departamento", "faculdade"],
+    "fr": ["département", "faculté"],
+    "de": ["fachbereich", "abteilung", "fakultät"],
+    "it": ["dipartimento", "facoltà"],
+    "ru": ["кафедра", "факультет", "отделение"],
+    "uk": ["кафедра", "факультет", "відділення"],
+    "pl": ["wydział", "katedra"],
+    "el": ["τμήμα", "σχολή"],
+    "nl": ["afdeling", "faculteit"],
+    "sv": ["institutionen", "avdelning"],
+    "tr": ["bölüm", "fakülte"],
+    "zh": ["系", "学院", "部门"],
+    "tl": ["departamento", "kagawaran"],
+    "hi": ["विभाग"],
+    "ta": ["துறை", "பிரிவு"],
+    "ko": ["학과", "학부", "부서"],
+    "ja": ["学科", "学部", "部門"],
+    "ar": ["قسم", "كلية"],
 }
 PROGRAM_TOPIC_WORDS = {
     "en": ["program", "programs", "concentration", "graduate program", "phd",
            "doctoral", "what can i study", "graduate studies", "internship",
            "internships", "academics", "what programs", "bachelor of", "master of"],
-    "es": ["programa", "concentración"],
+    "es": ["programa", "concentración", "carrera", "especialidad", "posgrado", "qué puedo estudiar"],
+    "pt": ["programa", "curso", "graduação", "pós-graduação", "o que posso estudar"],
+    "fr": ["programme", "filière", "licence", "que puis-je étudier"],
+    "de": ["studiengang", "studienprogramm", "was kann ich studieren"],
+    "it": ["programma", "corso di laurea", "laurea magistrale"],
+    "ru": ["программа", "специальность", "магистратура", "что я могу изучать"],
+    "uk": ["програма", "спеціальність", "магістратура"],
+    "pl": ["program studiów", "kierunek studiów", "specjalność"],
+    "el": ["πρόγραμμα σπουδών", "πτυχίο", "μεταπτυχιακό"],
+    "nl": ["opleiding", "studieprogramma"],
+    "sv": ["utbildningsprogram", "kandidatprogram", "masterprogram"],
+    "tr": ["programı", "lisans programı", "yüksek lisans"],
+    "zh": ["专业", "课程项目", "研究生项目"],
+    "tl": ["programa", "kurso", "asignatura"],
+    "hi": ["कार्यक्रम", "पाठ्यक्रम", "स्नातक"],
+    "ta": ["திட்டம்", "பாடநெறி", "பட்டப்படிப்பு"],
+    "ko": ["프로그램", "전공", "학위 과정"],
+    "ja": ["プログラム", "専攻", "学位課程"],
+    "ar": ["برنامج", "تخصص", "دراسات عليا"],
 }
 
 
@@ -627,6 +750,7 @@ ALL_GENERAL      = flatten(GENERAL_WORDS)
 ALL_HUB_OVERRIDE = flatten(LEARNING_HUB_OVERRIDE)
 ALL_ADMISSIONS   = flatten(ADMISSIONS_WORDS)
 ALL_STUDENT_LIFE = flatten(STUDENT_LIFE_WORDS)
+ALL_EVENT        = flatten(EVENT_WORDS)
 ALL_POLICY       = flatten(POLICY_WORDS)
 ALL_CAMPUS       = flatten(CAMPUS_WORDS)
 ALL_DEPARTMENT   = flatten(DEPARTMENT_WORDS)
@@ -636,5 +760,4 @@ SUPPORTED_LANGUAGES = [
     "English", "Spanish", "Portuguese", "French", "German", "Italian",
     "Russian", "Ukrainian", "Polish", "Greek", "Dutch", "Swedish", "Turkish",
     "Chinese", "Tagalog", "Hindi", "Tamil", "Korean", "Japanese", "Arabic",
-    "Hebrew",
 ]

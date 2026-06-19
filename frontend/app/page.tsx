@@ -8,7 +8,7 @@ const SUPPORTED = [
   "English", "Español", "Português", "Français", "Deutsch", "Italiano",
   "Русский", "Українська", "Polski", "Ελληνικά", "Nederlands", "Svenska",
   "Türkçe", "中文", "Tagalog", "हिन्दी", "தமிழ்", "한국어", "日本語",
-  "العربية", "עברית",
+  "العربية",
 ];
 
 export default function Welcome() {

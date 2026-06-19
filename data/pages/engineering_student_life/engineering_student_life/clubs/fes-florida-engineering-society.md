@@ -1,0 +1,2 @@
+**Florida Engineering Society (FES)**
+The FES Student Chapter at FGCU provides social, professional, and educational networking opportunities. This organization will assist in introducing the students involved to professionals within the state of Florida. To achieve this mission, student members of the Florida Engineering Society at FGCU will host and participate in general student body meetings and events, as well as community outreach opportunities such as MATHCOUNTS, Adopt-A-Road, and more.

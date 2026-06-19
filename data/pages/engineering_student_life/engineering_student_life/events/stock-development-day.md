@@ -1,0 +1,2 @@
+**Stock Development Day | Fall Semester**
+Stock Development Day kicks off the semester for construction management students with a two-part event. First, the Associated Builders and Contractors (ABC) student chapter hosts a welcome back event. Later, executives from Stock Development share insights into the construction and development market in Southwest Florida, followed by an open Q&A where students can ask questions and connect directly with industry leaders. 

@@ -1,0 +1,2 @@
+**Florida Water Environment Association (FWEA)**
+The goal of the FWEA Student Chapter at FGCU is to enhance student opportunity for research and design, production of environmental-based technology, as well as advancement toward professional, career-based goals. They seek to unite those interested in the water profession and provide them with ample opportunities for networking, professional development, and learning.

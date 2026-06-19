@@ -18,7 +18,12 @@ print("=" * 60)
 def get_doc_type(path, filename):
     """Classify each document so retrieval can tell types apart."""
     f = filename.lower()
-    p = path.lower()
+    # Normalize Windows backslashes to forward slashes so path checks like
+    # "/events/" match on every OS. Without this, on Windows the events folder
+    # was missed and fell through to student_life (note "student_life" is a
+    # substring of "engineering_student_life"), so no chunk ever got labeled
+    # "event" and every event query failed.
+    p = path.lower().replace("\\", "/")
     # Course DESCRIPTIONS (what a course covers) — check before course_offering
     if "course_descriptions" in p or "_description" in f:
         return "course_description"
@@ -47,7 +52,10 @@ def get_doc_type(path, filename):
     if "policies_legal" in p or "ethics" in f or "stateauthorization" in f \
        or "governmentrelations" in f:
         return "policy"
-    if "student_life" in p or "student-involvement" in f or "student_involvement" in f:
+    if "student-involvement" in f or "student_involvement" in f \
+       or "/events/" in p or p.endswith("/events"):
+        return "event"
+    if "student_life" in p:
         return "student_life"
     if "engineering_departments" in p:
         return "department"
@@ -121,7 +129,12 @@ def get_course_code(filename):
 print("\n[1/5] Loading embedding model...")
 Settings.embed_model = HuggingFaceEmbedding(
     model_name="intfloat/multilingual-e5-large",
-    trust_remote_code=True
+    trust_remote_code=True,
+    # e5 is trained with asymmetric prefixes: queries get "query: ", documents
+    # get "passage: ". get_text_embedding_batch() below embeds passages, so the
+    # "passage: " prefix is applied here. MUST match main.py's query side.
+    query_instruction="query: ",
+    text_instruction="passage: ",
 )
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
@@ -192,18 +205,85 @@ if not documents:
     print("ERROR: No documents found. Check data\\ folder.")
     exit()
 
-# ── Split into chunks ──────────────────────────────────────
-print("\n[3/5] Splitting into chunks...")
-splitter = SentenceSplitter(chunk_size=400, chunk_overlap=50)
+# ── Split into chunks (header-aware) ───────────────────────
+# Fixed-size chunking buried named things (an event/org inside a 400-token slab),
+# which is why exact-name lookups missed. We instead split on markdown headers AND
+# on lines that are entirely **bold** (this data uses bold lines as headers), so
+# each event / org / section becomes its own chunk with its title attached. The
+# title is embedded with the body, which sharply improves exact-name retrieval.
+print("\n[3/5] Splitting into chunks (header-aware)...")
+import re as _re, hashlib as _hashlib
+from llama_index.core.schema import TextNode
+
+_HDR  = _re.compile(r'^\s{0,3}(#{1,6})\s+(\S.*?)\s*#*\s*$')
+_BOLD = _re.compile(r'^\s*\*\*(.+?)\*\*\s*$')
+
+def _sections(text):
+    sections, title, buf = [], "", []
+    for ln in text.splitlines():
+        h, b = _HDR.match(ln), _BOLD.match(ln)
+        if h:
+            if title or "".join(buf).strip(): sections.append((title, "\n".join(buf)))
+            title, buf = h.group(2).strip(), []
+        elif b:
+            if title or "".join(buf).strip(): sections.append((title, "\n".join(buf)))
+            title, buf = b.group(1).strip(), []
+        else:
+            buf.append(ln)
+    if title or "".join(buf).strip(): sections.append((title, "\n".join(buf)))
+    return sections
+
+def _window(body, max_chars=1400, overlap=100):
+    body = body.strip()
+    if not body: return []
+    pieces = []
+    for p in _re.split(r'\n\s*\n', body):
+        if len(p) <= max_chars:
+            pieces.append(p)
+        else:                                   # hard-cap a giant paragraph/table
+            s = 0
+            while s < len(p):
+                pieces.append(p[s:s + max_chars])
+                if s + max_chars >= len(p): break
+                s += max_chars - overlap
+    out, cur = [], ""
+    for p in pieces:
+        if cur and len(cur) + len(p) + 2 > max_chars:
+            out.append(cur); cur = p
+        else:
+            cur = (cur + "\n\n" + p) if cur else p
+    if cur: out.append(cur)
+    return out
+
+def header_chunks(text, max_chars=1400):
+    chunks = []
+    for title, body in _sections(text):
+        windows = _window(body, max_chars)
+        if not windows and title:
+            windows = [""]                       # keep a header-only section
+        for w in windows:
+            chunks.append((title, w))
+    return chunks
+
 nodes = []
 for doc in tqdm(documents, desc="      Chunking", unit="doc"):
-    nodes.extend(splitter.get_nodes_from_documents([doc]))
+    base = dict(doc.metadata)
+    src  = base.get("source") or base.get("path") or "doc"
+    for idx, (title, body) in enumerate(header_chunks(doc.get_content())):
+        content = (title + "\n" + body).strip() if title else body.strip()
+        if len(content) < 15:                    # drop empty/near-empty fragments
+            continue
+        md = dict(base); md["title"] = title
+        node = TextNode(text=content, metadata=md)
+        # deterministic id (source+section) so a re-run overwrites instead of duplicating
+        node.id_ = _hashlib.md5(f"{src}|{idx}|{title[:60]}".encode("utf-8")).hexdigest()
+        nodes.append(node)
 print(f"      Total chunks: {len(nodes)}")
 
 # ── Generate embeddings ────────────────────────────────────
 print("\n[4/5] Generating embeddings...")
 embed_model = Settings.embed_model
-texts       = [node.get_content() for node in nodes]
+texts       = [node.text for node in nodes]
 batch_size  = 32
 
 for i in tqdm(range(0, len(texts), batch_size),
@@ -221,6 +301,18 @@ print("\n[5/5] Uploading to Pinecone...")
 pc             = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 pinecone_index = pc.Index(os.getenv("PINECONE_INDEX_NAME"))
 
+# Wipe the index before repopulating. This script uses node.node_id (a fresh
+# random UUID per run) as the vector ID, so a re-ingest does NOT overwrite the
+# old vectors — without this clear it would pile a second full copy on top and
+# dilute the top-k. Comment this out ONLY if you intend to ADD to an existing
+# index rather than rebuild it from scratch.
+print("      Clearing existing vectors (full rebuild)...")
+try:
+    pinecone_index.delete(delete_all=True)
+except Exception as e:
+    # A brand-new/empty index can raise "namespace not found" — safe to ignore.
+    print(f"      (nothing to clear: {e})")
+
 for i in tqdm(range(0, len(nodes), 100),
               desc="      Uploading", unit="batch",
               bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} batches [{elapsed}<{remaining}]"):
@@ -229,7 +321,8 @@ for i in tqdm(range(0, len(nodes), 100),
         "id":     node.node_id,
         "values": node.embedding,
         "metadata": {
-            "text":      node.get_content()[:1000],
+            "text":      node.text[:1000],
+            "title":     node.metadata.get("title", ""),
             "source":    node.metadata.get("source", ""),
             "path":      node.metadata.get("path", ""),
             "folder":    node.metadata.get("folder", ""),

@@ -1,0 +1,2 @@
+**WCE Career Expo | Fall & Spring Semesters**
+The WCE Career Expo is the college's biggest event for internships and job opportunities in engineering, computing, and construction. Students can network with employers, explore different fields and career paths, and practice valuable professional skills. Students are encouraged to come prepared with copies of their resume and to wear professional attire. 

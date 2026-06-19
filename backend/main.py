@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Form, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
-from llama_index.core import VectorStoreIndex, Settings
+from llama_index.core import VectorStoreIndex, Settings, PromptTemplate
 from llama_index.core.vector_stores import MetadataFilters, MetadataFilter, FilterOperator
 from llama_index.vector_stores.pinecone import PineconeVectorStore
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -28,7 +28,13 @@ except Exception:
 print("Loading embedding model...")
 Settings.embed_model = HuggingFaceEmbedding(
     model_name="intfloat/multilingual-e5-large",
-    trust_remote_code=True
+    trust_remote_code=True,
+    # e5 is trained with asymmetric prefixes: queries get "query: ", documents
+    # get "passage: ". Omitting them measurably degrades ranking — worst for
+    # near-duplicates, cross-language queries, and entities buried in a chunk.
+    # These MUST match ingest.py, and changing them requires a re-ingest.
+    query_instruction="query: ",
+    text_instruction="passage: ",
 )
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
@@ -36,7 +42,7 @@ Settings.chunk_overlap = 50
 print("Connecting to Groq (llama-3.3-70b-versatile)...")
 Settings.llm = Groq(
     model="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
+    api_key=os.getenv("GROQ_API_KEY3")
 )
 
 print("Connecting to Pinecone...")
@@ -44,6 +50,27 @@ pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 pinecone_index = pc.Index(os.getenv("PINECONE_INDEX_NAME"))
 vector_store = PineconeVectorStore(pinecone_index=pinecone_index)
 index = VectorStoreIndex.from_vector_store(vector_store)
+
+# Cohere reranker: re-scores the 40 retrieved candidates against the question with
+# a cross-encoder and keeps the best 8. This is what fixes both cross-content bleed
+# (only the most relevant chunks reach the LLM) and exact-name/cross-language recall
+# (the multilingual model scores a Spanish query against English passages directly).
+# Optional by design: if the package or COHERE_API_KEY is missing, retrieval still
+# works, just without reranking.
+try:
+    from llama_index.postprocessor.cohere_rerank import CohereRerank
+    _reranker = (
+        CohereRerank(api_key=os.getenv("COHERE_API_KEY"), top_n=8,
+                     model="rerank-multilingual-v3.0")
+        if os.getenv("COHERE_API_KEY") else None
+    )
+    if _reranker:
+        print("[startup] Cohere reranker enabled (rerank-multilingual-v3.0, top_n=8).")
+    else:
+        print("[startup] COHERE_API_KEY not set - running without reranker.")
+except Exception as _e:
+    _reranker = None
+    print(f"[startup] Cohere reranker unavailable ({_e}); running without it.")
 
 # Load the set of known professor names once, so we can match a name mentioned
 # in a question (e.g. "Professor Paul Allen") to the stored metadata value
@@ -131,6 +158,7 @@ def route_query(question: str, routing_text: str = None):
     hub_override      = any(w in q for w in kw.ALL_HUB_OVERRIDE)
     admissions_words   = any(w in q for w in kw.ALL_ADMISSIONS)
     student_life_words = any(w in q for w in kw.ALL_STUDENT_LIFE)
+    event_words        = any(w in q for w in kw.ALL_EVENT)
     policy_words       = any(w in q for w in kw.ALL_POLICY)
     campus_words       = any(w in q for w in kw.ALL_CAMPUS)
     department_words   = any(w in q for w in kw.ALL_DEPARTMENT)
@@ -167,10 +195,21 @@ def route_query(question: str, routing_text: str = None):
         return ["learning_support"], None, None
     if rating_words:
         return ["faculty_reviews"], None, None
-    if institute_words:
+    # "institut" (fr/de/sv for institute) is a substring of English
+    # "institutional", so a policy question like "institutional ethics and
+    # compliance policy" would otherwise route here. If it also reads as policy,
+    # let the policy route (below) handle it.
+    if institute_words and not policy_words:
         return ["department", "general"], None, None
     if curriculum_words:
         return ["degree_map"], program, None
+    # Events live in the event-labeled involvement files, in admissions (Say Yes
+    # to the Nest), and in club write-ups (club events). We deliberately EXCLUDE
+    # student_life: those files (CAPS, dean of students, recreation, etc.) hold no
+    # events and only dilute the pool, pushing real event chunks past top_k. This
+    # keeps the pool ~42 chunks so top_k=40 covers nearly all of it.
+    if event_words:
+        return ["event", "admissions", "club", "general"], None, None
     if club_words:
         return ["club"], None, None
     # Faculty: either a faculty keyword, OR the question names a known professor
@@ -187,10 +226,11 @@ def route_query(question: str, routing_text: str = None):
         return ["admissions", "general"], None, None
     if policy_words:
         return ["policy", "general"], None, None
-    # Student-life is checked before campus so "Holmes is Your Home" (an event)
-    # routes to student life, while a bare "Holmes" / "where is..." → campus.
+    # Student-life is checked before campus so a general student-life question
+    # routes here (and still reaches the event-labeled involvement files via the
+    # "event" type below), while a bare "Holmes" / "where is..." → campus.
     if student_life_words:
-        return ["student_life", "club", "general"], None, None
+        return ["student_life", "club", "event", "general"], None, None
     if department_words:
         return ["department", "program", "general"], program, None
     if program_words:
@@ -265,7 +305,8 @@ def detect_professor(question: str):
     return best
 
 
-def make_engine(doc_types, program, term, course_code=None, professor=None):
+def make_engine(doc_types, program, term, course_code=None, professor=None,
+                qa_template=None, postprocessors=None):
     filter_list = []
     if doc_types:
         if len(doc_types) == 1:
@@ -295,10 +336,17 @@ def make_engine(doc_types, program, term, course_code=None, professor=None):
         else:
             filter_list.append(MetadataFilter(key="professor", value=professor,
                                               operator=FilterOperator.EQ))
+    # Retrieve a wide candidate set (40); the Cohere reranker (a node
+    # postprocessor) re-scores them against the question and keeps only the best
+    # handful, so the LLM sees tight, on-topic context instead of 20 diluted hits.
+    kwargs = {"similarity_top_k": 40}
+    if qa_template is not None:
+        kwargs["text_qa_template"] = qa_template
+    if postprocessors:
+        kwargs["node_postprocessors"] = postprocessors
     if filter_list:
-        filters = MetadataFilters(filters=filter_list, condition="and")
-        return index.as_query_engine(similarity_top_k=20, filters=filters)
-    return index.as_query_engine(similarity_top_k=20)
+        kwargs["filters"] = MetadataFilters(filters=filter_list, condition="and")
+    return index.as_query_engine(**kwargs)
 
 
 def detect_question_language(q: str) -> str:
@@ -385,7 +433,9 @@ def _markers_language(q: str):
                    " je ", " suis ", " très ", " merci ", " j'ai ", " besoin ", " aide ", " avec ", " pour "],
         "Portuguese": [" quem ", " qual ", " onde ", " você ", " obrigado ", " disciplina ", " ã ",
                        " estou ", " muito ", " sinto ", " preciso ", " olá ", " sou ", " quero ", " não ", " ajuda "],
-        "German": [" der ", " wer ", " ist ", " wie ", " wo ", " welche ", " kurs ", " danke ", " ß ",
+        "German": [" der ", " wer ", " ist ", " wie ", " wo ", " welche ", " welcher ", " welches ",
+                   " kurs ", " danke ", " ß ", " gibt ", " wann ", " warum ",
+                   " veranstaltung ", " veranstaltungen ",
                    " ich ", " bin ", " sehr ", " hallo ", " brauche ", " hilfe ", " und ", " nicht ", " für "],
         "Italian": [" il ", " chi ", " cosa ", " dove ", " professore ", " corso ", " grazie ",
                     " sono ", " molto ", " ciao ", " bisogno ", " aiuto ", " perché ", " sto "],
@@ -408,6 +458,25 @@ def _markers_language(q: str):
     return best
 
 
+_EN_MARKERS = [
+    " what ", "what is", "what's", "what are", "what does", " where ", "where is",
+    " when ", " who ", " how ", " why ", " which ", " whose ", "tell me", "do you",
+    "does ", " can i ", "can you", "could you", "how do i", " i need", " i want",
+    " i'm ", " is the ", " are the ", " of the ",
+]
+
+
+def _english_markers(q: str) -> bool:
+    """True if the question carries DISTINCTIVE English structure words (what /
+    where / when / tell me / how do i ...). These are sentence-frame words, not
+    the kind that appear inside an English proper noun, so a non-English question
+    that merely contains an English event name (e.g. "Holmes is Your Home") won't
+    trip them. Lets a short, clearly-English question ("What is Holmes Hall?")
+    resolve to English instead of inheriting the conversation's language."""
+    ql = " " + q.lower().strip() + " "
+    return any(m in ql for m in _EN_MARKERS)
+
+
 def _detected_language(q: str):
     """A POSITIVE language read for a single question, or None if nothing is
     reliable. Unlike guess_ui_language this does NOT default to English, so
@@ -415,7 +484,8 @@ def _detected_language(q: str):
     script_lang = detect_question_language(q)
     if script_lang:
         return "Russian" if script_lang.startswith("Russian") else script_lang
-    return detect_language_name(q) or _markers_language(q)
+    return (detect_language_name(q) or _markers_language(q)
+            or ("English" if _english_markers(q) else None))
 
 
 def _conversation_language(history):
@@ -436,6 +506,37 @@ def guess_ui_language(q: str) -> str:
     English. Drives only which language the interface displays, not how the
     model answers."""
     return _detected_language(q) or "English"
+
+
+_ANAPHORA = {"it", "its", "it's", "that", "this", "they", "them", "those", "these",
+             "he", "she", "him", "her", "his", "their", "theirs", "there", "one", "ones"}
+_BARE_Q = {"when", "where", "how", "why", "who", "what", "which", "whose", "whom"}
+_MORE = {"tell me more", "more", "go on", "and", "what else", "anything else",
+         "continue", "more info", "more details"}
+
+
+def _is_followup(q: str) -> bool:
+    """True only for questions that genuinely depend on the previous turn, so we
+    can safely fold in the prior question for retrieval. A question that names its
+    own subject (a capitalized proper noun or a quoted phrase) is self-contained
+    and must NOT be treated as a follow-up, even if it is short - otherwise the
+    previous topic bleeds into the answer (e.g. "What is Eagle X?" pulling in the
+    earlier "Say Yes to the Nest")."""
+    raw = q.strip()
+    ql = raw.lower().rstrip("?.! ").strip()
+    if not ql:
+        return False
+    if ql in _MORE:
+        return True
+    # A named/quoted subject means the question stands on its own.
+    if '"' in raw or "'" in raw:
+        return False
+    if any(w[:1].isupper() for w in raw.split()[1:]):   # capitalized token after word 1
+        return False
+    words = ql.split()
+    has_anaphor = bool(set(words) & _ANAPHORA)
+    bare_interrogative = len(words) <= 4 and words[0] in _BARE_Q
+    return has_anaphor or bare_interrogative
 
 
 def answer_question(question: str, history=None):
@@ -481,6 +582,7 @@ def answer_question(question: str, history=None):
         ui_lang = "Russian" if script_lang.startswith("Russian") else script_lang
     else:
         directive_lang = (detect_language_name(question) or _markers_language(question)
+                          or ("English" if _english_markers(question) else None)
                           or _conversation_language(history))
         ui_lang = directive_lang or "English"
 
@@ -517,11 +619,38 @@ def answer_question(question: str, history=None):
                 "\n\nConversation so far (for context, to resolve references "
                 "like 'he', 'she', 'that course'):\n" + "\n".join(lines)
             )
-    prompt = (SYSTEM_PROMPT + lang_directive + history_block
-              + "\n\nCurrent question: " + question)
+    # Retrieval query = the QUESTION only, NOT the system prompt. Embedding the
+    # whole system prompt pulled every query toward the same point and drowned out
+    # the actual question - the single biggest retrieval fix here.
+    #
+    # For GENUINE follow-ups ("when is it?", "tell me more") we prepend the previous
+    # question so references resolve. But we must NOT do this for self-contained
+    # questions that merely happen to be short ("What is Eagle X?"), or the previous
+    # topic bleeds into the answer. A question is a follow-up only if it leans on an
+    # anaphor or is a bare interrogative AND names no subject of its own.
+    retrieval_query = question
+    if history and _is_followup(question):
+        prev_q = history[-1].get("question", "").strip()
+        retrieval_query = (prev_q + " " + question).strip()
+
+    # System prompt + language directive + history go into the QA *template* (the
+    # LLM still sees all of it) instead of into the retrieval query. Braces in that
+    # text are escaped so PromptTemplate treats only {context_str}/{query_str} as
+    # variables.
+    _instr = (SYSTEM_PROMPT + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
+    qa_template = PromptTemplate(
+        _instr
+        + "\n\nContext information from FGCU Engineering pages is below.\n"
+          "---------------------\n{context_str}\n---------------------\n"
+          "Using that context, answer the student's question.\n"
+          "Question: {query_str}\nAnswer: "
+    )
+    _post = [_reranker] if _reranker else None
 
     def _run(dt, prog, trm, code, prof):
-        return make_engine(dt, prog, trm, code, prof).query(prompt)
+        return make_engine(dt, prog, trm, code, prof,
+                           qa_template=qa_template,
+                           postprocessors=_post).query(retrieval_query)
 
     def _no_match(r):
         # LlamaIndex returns the literal "Empty Response" (and no source nodes)
