@@ -192,7 +192,6 @@ DESCRIPTION_WORDS = {
            "学ぶ", "内容"],
     "ar": ["حول", "يغطي", "صف", "وصف", "ما هو", "مواضيع",
            "تتعلم في", "محتوى"],
-\
 }
 
 # ── Curriculum / degree map  →  degree_map ──
@@ -277,7 +276,6 @@ CURRICULUM_WORDS = {
            "تخصص", "خريطة الدرجة", "ما الفصول", "ما المقررات",
            "المتطلبات", "المنهج", "درجة مشتركة", "bs/ms",
            "هل أحتاج", "سنة في"],
-
 }
 
 # ── Faculty  →  faculty + faculty_reviews ──
@@ -302,7 +300,6 @@ FACULTY_WORDS = {
     "ko": ["교수", "교직원", "누가 있"],
     "ja": ["教授", "教員", "誰がいる"],
     "ar": ["أستاذ", "هيئة التدريس", "من هم"],
-
 }
 
 # ── Faculty reviews / ratings  →  faculty_reviews ──
@@ -371,7 +368,7 @@ CLUB_WORDS = {
     "ta": ["கழகம்", "அமைப்பு", "சங்கம்"],
     "ko": ["동아리", "조직", "학회"],
     "ja": ["クラブ", "組織", "サークル"],
-
+    "ar": ["نادي", "منظمة", "جمعية"],
     # Named FGCU engineering orgs (proper nouns / acronyms — identical in every
     # language, so listing them once covers all languages). The "…Society" names
     # already match the generic "society"/"club" words above; Women in STEM,
@@ -432,7 +429,6 @@ GENERAL_WORDS = {
     "ko": ["지원", "입학", "어드바이저", "상담", "연구"],
     "ja": ["出願", "入学", "アドバイザー", "相談", "研究"],
     "ar": ["تقديم", "قبول", "مرشد", "إرشاد", "بحث"],
-
 }
 
 
@@ -483,7 +479,6 @@ PROGRAM_WORDS = {
         "tl": ["bioengineering"], "hi": ["जैव अभियांत्रिकी"],
         "ta": ["உயிர் பொறியியல்"], "ko": ["생명공학"],
         "ja": ["生体工学"], "ar": ["الهندسة الحيوية"],
-
     },
     "construction_management": {
         "en": ["construction"], "es": ["construcción"],
@@ -572,6 +567,83 @@ ADMISSIONS_WORDS = {
     "ja": ["入学", "出願", "入学手続き"],
     "ar": ["القبول", "التقديم", "التسجيل"],
 }
+ADVISING_WORDS = {
+    "en": ["advisor", "adviser", "advising", "academic advisor", "my advisor",
+           "meet my advisor", "meet with my advisor", "see my advisor",
+           "talk to my advisor", "advising appointment", "advising office",
+           "advising hours", "advising team", "drop-in advising", "who is my advisor",
+           "wce advising", "schedule advising", "exploratory advising"],
+    "es": ["asesor", "asesora", "asesor académico", "mi asesor", "asesoría",
+           "cita de asesoría", "consejero académico", "reunirme con mi asesor"],
+    "pt": ["orientador", "orientação acadêmica", "meu orientador",
+           "atendimento de orientação", "consultor acadêmico"],
+    "fr": ["conseiller", "conseillère", "conseiller pédagogique", "mon conseiller",
+           "rendez-vous de conseil", "conseiller académique"],
+    "de": ["berater", "beraterin", "studienberatung", "mein berater",
+           "beratungstermin", "akademische beratung"],
+    "it": ["consulente accademico", "tutor accademico", "il mio tutor",
+           "orientamento", "appuntamento di consulenza"],
+    "ru": ["куратор", "консультант", "мой куратор", "академический консультант",
+           "консультация"],
+    "uk": ["куратор", "консультант", "мій куратор", "академічний консультант"],
+    "pl": ["doradca", "doradca akademicki", "mój doradca", "opiekun roku",
+           "konsultacje"],
+    "el": ["σύμβουλος", "ακαδημαϊκός σύμβουλος", "ο σύμβουλός μου", "συμβουλευτική"],
+    "nl": ["studieadviseur", "adviseur", "mijn adviseur", "studiebegeleider"],
+    "sv": ["studievägledare", "vägledare", "min studievägledare", "studievägledning"],
+    "tr": ["danışman", "akademik danışman", "danışmanım", "danışmanlık",
+           "danışmanımla görüşme"],
+    "zh": ["顾问", "学术顾问", "我的顾问", "辅导员", "咨询预约"],
+    "tl": ["tagapayo", "akademikong tagapayo", "aking tagapayo", "pagpapayo"],
+    "hi": ["सलाहकार", "शैक्षणिक सलाहकार", "मेरा सलाहकार", "परामर्श"],
+    "ta": ["ஆலோசகர்", "கல்வி ஆலோசகர்", "எனது ஆலோசகர்", "ஆலோசனை"],
+    "ko": ["지도교수", "어드바이저", "학업 상담", "상담"],
+    "ja": ["アドバイザー", "学業アドバイザー", "担当アドバイザー", "履修相談", "相談"],
+    "ar": ["المرشد", "المرشد الأكاديمي", "مرشدي", "الإرشاد الأكاديمي", "موعد إرشاد"],
+}
+CALENDAR_WORDS = {
+    "en": ["academic calendar", "when do classes start", "when does the semester start",
+           "when does the semester begin", "when does fall start", "when does spring start",
+           "when does summer start", "first day of class", "first day of classes",
+           "classes begin", "classes start", "last day to drop", "drop deadline",
+           "drop my class", "drop a class", "drop a course", "what time can i drop",
+           "semester start", "semester begins", "when does the semester",
+           "what semester is it", "what semester are we", "what term is it",
+           "which semester are we", "what semester is this",
+           "add/drop deadline", "add drop deadline", "when can i drop", "last day to add",
+           "withdrawal deadline", "last day to withdraw", "last day of classes",
+           "finals week", "final exam schedule", "commencement", "commencement date",
+           "graduation ceremony", "graduation date",
+           "registration deadline", "semester dates", "term dates", "winter break",
+           "spring break", "thanksgiving break", "when is the deadline to drop"],
+    "es": ["calendario académico", "cuándo empiezan las clases", "cuándo empieza el semestre",
+           "primer día de clases", "fecha límite para dar de baja", "último día para retirarse",
+           "semana de exámenes finales"],
+    "pt": ["calendário acadêmico", "quando começam as aulas", "primeiro dia de aula",
+           "prazo para trancar", "último dia de aula"],
+    "fr": ["calendrier universitaire", "début des cours", "premier jour de cours",
+           "date limite d'abandon", "dernier jour pour se retirer"],
+    "de": ["akademischer kalender", "wann beginnen die kurse", "erster vorlesungstag",
+           "frist zum abmelden", "letzter tag zum zurückziehen"],
+    "it": ["calendario accademico", "quando iniziano le lezioni", "primo giorno di lezione",
+           "scadenza per ritirarsi"],
+    "ru": ["академический календарь", "когда начинаются занятия", "первый день занятий",
+           "крайний срок отчисления"],
+    "uk": ["академічний календар", "коли починаються заняття", "перший день занять"],
+    "pl": ["kalendarz akademicki", "kiedy zaczynają się zajęcia", "termin wypisania się"],
+    "el": ["ακαδημαϊκό ημερολόγιο", "πότε αρχίζουν τα μαθήματα", "προθεσμία διαγραφής"],
+    "nl": ["academische kalender", "wanneer beginnen de lessen", "eerste lesdag",
+           "uitschrijfdeadline"],
+    "sv": ["akademisk kalender", "när börjar kurserna", "första kursdagen"],
+    "tr": ["akademik takvim", "dersler ne zaman başlıyor", "ders bırakma son tarihi"],
+    "zh": ["学术日历", "什么时候开学", "开学日期", "退课截止日期", "退课"],
+    "tl": ["akademikong kalendaryo", "kailan magsisimula ang klase", "deadline sa pag-drop"],
+    "hi": ["शैक्षणिक कैलेंडर", "कक्षाएं कब शुरू होती हैं", "ड्रॉप करने की समय सीमा"],
+    "ta": ["கல்வி நாட்காட்டி", "வகுப்புகள் எப்போது தொடங்கும்", "விலகல் கடைசி நாள்"],
+    "ko": ["학사 일정", "수업 언제 시작", "개강일", "수강 취소 기한"],
+    "ja": ["学年暦", "授業はいつ始まる", "学期開始日", "履修取り消し期限"],
+    "ar": ["التقويم الأكاديمي", "متى تبدأ الدراسة", "أول يوم دراسة", "آخر موعد للانسحاب"],
+}
 STUDENT_LIFE_WORDS = {
     "en": ["student life", "student org", "student organization", "get involved",
            "involvement", "recreation", "wellness", "dean of students", "traditions",
@@ -631,6 +703,8 @@ EVENT_WORDS = {
 }
 POLICY_WORDS = {
     "en": ["policy", "policies", "legal", "regulation", "ferpa", "privacy",
+           "complaint", "complaints", "appeal", "grievance", "file a complaint",
+           "ombuds", "title ix",
            "ethics", "compliance", "code of conduct", "academic integrity",
            "state authorization", "government relations", "title ix", "student conduct",
            "non-discrimination", "consumer information", "accreditation"],
@@ -752,6 +826,8 @@ ALL_ADMISSIONS   = flatten(ADMISSIONS_WORDS)
 ALL_STUDENT_LIFE = flatten(STUDENT_LIFE_WORDS)
 ALL_EVENT        = flatten(EVENT_WORDS)
 ALL_POLICY       = flatten(POLICY_WORDS)
+ALL_ADVISING     = flatten(ADVISING_WORDS)
+ALL_CALENDAR     = flatten(CALENDAR_WORDS)
 ALL_CAMPUS       = flatten(CAMPUS_WORDS)
 ALL_DEPARTMENT   = flatten(DEPARTMENT_WORDS)
 ALL_PROGRAM      = flatten(PROGRAM_TOPIC_WORDS)

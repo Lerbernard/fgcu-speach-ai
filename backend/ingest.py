@@ -30,6 +30,15 @@ def get_doc_type(path, filename):
     # Learning Hub / tutoring / academic support
     if "learning_support" in p or "learning_hub" in f or "service_learning" in f:
         return "learning_support"
+    # Academic advising: appointments, hours, who-is-my-advisor, change major,
+    # registration/transient FAQs. Checked early so the advising pages get their
+    # own category instead of falling through to "general".
+    if "advising" in p or "advising" in f or "advisor" in f:
+        return "advising"
+    # Academic calendar: term start dates, add/drop & withdrawal deadlines, finals.
+    if "academic_calendar" in p or "academiccalendar" in p \
+       or "academic_calendar" in f or f == "calendar.md":
+        return "calendar"
     # Course OFFERINGS (schedule: who teaches, when)
     # Anything under the courses/ tree is a course OFFERING — both the per-course
     # files (CES_…, COP_…) and the per-subject term rollups like
@@ -50,7 +59,7 @@ def get_doc_type(path, filename):
     if "admissions" in p:
         return "admissions"
     if "policies_legal" in p or "ethics" in f or "stateauthorization" in f \
-       or "governmentrelations" in f:
+       or "governmentrelations" in f or "studentcomplaints" in f or "complaint" in f:
         return "policy"
     if "student-involvement" in f or "student_involvement" in f \
        or "/events/" in p or p.endswith("/events"):

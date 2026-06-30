@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Form, Body
+from fastapi import FastAPI, UploadFile, File, Form, Body, Header, HTTPException, Depends, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from llama_index.core import VectorStoreIndex, Settings, PromptTemplate
@@ -8,13 +8,37 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 from pinecone import Pinecone
 from dotenv import load_dotenv
+
+# Date / academic-term awareness. Optional: if the module is missing the
+# assistant still runs, just without the "today / current term" directive.
+try:
+    from academic_calendar import calendar_directive
+except Exception:
+    def calendar_directive(*a, **k):
+        return ""
 import os
 import re
 import sys
+import json
+import time
+import hmac
+import hashlib
+import base64
+import asyncio
 import httpx
 import keywords as kw
+from fastapi import Request
+from fastapi.responses import JSONResponse
 
 load_dotenv()
+
+# Date/term awareness: gives the model today's date and the current/upcoming
+# FGCU term. Optional - if the module is missing, the app still runs.
+try:
+    from academic_calendar import calendar_directive
+except Exception:
+    def calendar_directive(today=None):
+        return ""
 
 # Windows consoles default to cp1252 and crash printing non-Latin scripts in
 # terminal chat mode. Force UTF-8 so any language prints correctly.
@@ -39,11 +63,52 @@ Settings.embed_model = HuggingFaceEmbedding(
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-print("Connecting to Groq (llama-3.3-70b-versatile)...")
-Settings.llm = Groq(
-    model="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY3")
-)
+# LLM with automatic fallback.
+#   PRIMARY: llama-3.3-70b-versatile  — preferred while it lasts. Groq is
+#            decommissioning it on 2026-08-16; after that the startup probe below
+#            fails and we use the backup automatically (no code change needed).
+#   BACKUP : openai/gpt-oss-120b      — used if Llama is unavailable at startup
+#            OR if it fails mid-run (see _run() in answer_question).
+# (Other tested option if you ever want it: qwen/qwen3.6-27b, reasoning_effort "none".)
+_GROQ_KEY = os.getenv("GROQ_API_KEY")
+_PRIMARY_MODEL = "llama-3.3-70b-versatile"
+_BACKUP_MODEL = "openai/gpt-oss-120b"
+
+def _make_groq(model, **extra):
+    return Groq(model=model, api_key=_GROQ_KEY, **extra)
+
+_LLM_PRIMARY = _make_groq(_PRIMARY_MODEL)
+# gpt-oss is a reasoning model; "low" keeps it snappy. If your installed
+# llama-index-llms-groq rejects additional_kwargs, delete that one line.
+_LLM_BACKUP = _make_groq(_BACKUP_MODEL, additional_kwargs={"reasoning_effort": "low"})
+_using_backup = False
+
+def _probe_llm(llm):
+    """Cheap liveness check — returns False if the model errors (e.g. decommissioned)."""
+    try:
+        llm.complete("ping")
+        return True
+    except Exception as e:
+        print(f"  probe failed: {type(e).__name__}: {str(e)[:160]}")
+        return False
+
+def _activate_backup(reason=""):
+    """Permanently switch to the backup model for the rest of this process."""
+    global _using_backup
+    if not _using_backup:
+        _using_backup = True
+        Settings.llm = _LLM_BACKUP
+        print(f"  !! switched to backup model {_BACKUP_MODEL}"
+              + (f" ({reason})" if reason else ""))
+
+print(f"Connecting to Groq (primary: {_PRIMARY_MODEL})...")
+if _probe_llm(_LLM_PRIMARY):
+    Settings.llm = _LLM_PRIMARY
+    print(f"  -> active model: {_PRIMARY_MODEL}")
+else:
+    Settings.llm = _LLM_BACKUP
+    _using_backup = True
+    print(f"  -> {_PRIMARY_MODEL} unavailable; using backup {_BACKUP_MODEL}")
 
 print("Connecting to Pinecone...")
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
@@ -64,12 +129,21 @@ try:
                      model="rerank-multilingual-v3.0")
         if os.getenv("COHERE_API_KEY") else None
     )
+    # Calendar questions usually want one term's dates. Keeping fewer chunks
+    # stops several terms (e.g. Spring 2026 + Spring 2027) from crowding the
+    # context and tempting the model to mention more than one.
+    _reranker_calendar = (
+        CohereRerank(api_key=os.getenv("COHERE_API_KEY"), top_n=4,
+                     model="rerank-multilingual-v3.0")
+        if os.getenv("COHERE_API_KEY") else None
+    )
     if _reranker:
-        print("[startup] Cohere reranker enabled (rerank-multilingual-v3.0, top_n=8).")
+        print("[startup] Cohere reranker enabled (rerank-multilingual-v3.0, top_n=8; calendar=4).")
     else:
         print("[startup] COHERE_API_KEY not set - running without reranker.")
 except Exception as _e:
     _reranker = None
+    _reranker_calendar = None
     print(f"[startup] Cohere reranker unavailable ({_e}); running without it.")
 
 # Load the set of known professor names once, so we can match a name mentioned
@@ -96,9 +170,13 @@ When answering:
 - Never mention links, "Learn More", "visit the page", or website navigation
 - Never say "based on the context" or "according to the provided information"
 - If you know the answer, just say it directly and naturally
+- Do not help with homework
+- Do not help with coding questions
+- Never answer with code
 - If you don't know, say so naturally, like "I'm not sure about that one"
 - Keep answers concise but complete, in plain language — no bullet points unless you are naturally listing several items
 - If a course is offered in multiple semesters, focus on the semester the student asked about
+- If the student is asking a follow-up, do NOT repeat what you already told them earlier in the conversation. Answer only the new question, and give just the new information they asked for - don't restate your previous answer.
 
 Language:
 - You are fully multilingual. Reply in the language of the student's QUESTION, never the language of the reference material (which is always English). The question's language is identified for you in the instruction that accompanies this prompt — follow it: write your ENTIRE answer in that language, and never refuse, drift, mix languages, or switch partway through. Do not comment on or apologize for the language; just answer naturally in it.
@@ -160,6 +238,8 @@ def route_query(question: str, routing_text: str = None):
     student_life_words = any(w in q for w in kw.ALL_STUDENT_LIFE)
     event_words        = any(w in q for w in kw.ALL_EVENT)
     policy_words       = any(w in q for w in kw.ALL_POLICY)
+    advising_words     = any(w in q for w in kw.ALL_ADVISING)
+    calendar_words     = any(w in q for w in kw.ALL_CALENDAR)
     campus_words       = any(w in q for w in kw.ALL_CAMPUS)
     department_words   = any(w in q for w in kw.ALL_DEPARTMENT)
     program_words      = any(w in q for w in kw.ALL_PROGRAM)
@@ -176,6 +256,11 @@ def route_query(question: str, routing_text: str = None):
         return ["course_offering"], None, term
     if has_course_code and description_words:
         return ["course_description"], None, None
+    # Academic calendar: "when do classes start", "last day to drop", withdrawal
+    # and finals dates. Must be checked before the schedule+term branch below, or
+    # "when do classes start in the fall" would be mistaken for a course schedule.
+    if calendar_words:
+        return ["calendar", "advising", "general"], None, None
     # "What classes does Professor X teach?" — no course code, but a professor
     # is named (here or earlier) plus a teaching/schedule word. Route to the
     # course offerings so we can filter by that instructor.
@@ -195,6 +280,13 @@ def route_query(question: str, routing_text: str = None):
         return ["learning_support"], None, None
     if rating_words:
         return ["faculty_reviews"], None, None
+
+    # Advising: "who/when can I meet my advisor", advising hours, appointments,
+    # change-major and registration FAQs all live in the advising pages. Checked
+    # before the faculty/department routes so "advisor" isn't mistaken for a
+    # professor lookup. Keeps department + general in the pool for spillover.
+    if advising_words:
+        return ["advising", "department", "general"], None, None
     # "institut" (fr/de/sv for institute) is a substring of English
     # "institutional", so a policy question like "institutional ethics and
     # compliance policy" would otherwise route here. If it also reads as policy,
@@ -275,20 +367,26 @@ def extract_course_code(question: str):
 
 def detect_professor(question: str):
     """Match a professor name mentioned in the question against the known list.
-    Stored names are 'lastname firstname' (lowercase). A student may say them in
-    either order ('Professor Paul Allen' or 'Allen'), so we check whether all the
-    significant name words in a known entry appear in the question."""
+    Stored names are 'lastname firstname' (lowercase), sometimes comma-formatted
+    like 'islam, md baharul'. A student may say them in either order ('Professor
+    Paul Allen' or 'Allen'). We normalise punctuation on BOTH sides so 'islam,'
+    still matches 'islam', then require every significant name word in a known
+    entry to appear in the question (a unique surname alone also counts)."""
     q = question.lower()
-    # strip common titles so they don't interfere
-    for title in ["professor", "prof", "dr.", "dr", "instructor", "teacher"]:
+    for ch in ",.;:()?!¿¡\"'":
+        q = q.replace(ch, " ")
+    # strip common titles (word-bounded, so 'dr' inside 'address' is untouched)
+    q = " " + q + " "
+    for title in (" professor ", " prof ", " dr ", " instructor ", " teacher "):
         q = q.replace(title, " ")
     best = None
     best_score = 0
     for prof in KNOWN_PROFESSORS:
-        parts = [p for p in prof.split() if len(p) > 2]
+        clean = prof.lower().replace(",", " ").replace(".", " ")
+        parts = [p for p in clean.split() if len(p) > 2]
         if not parts:
             continue
-        hits = sum(1 for p in parts if p in q)
+        hits = sum(1 for p in parts if (" " + p + " ") in q)
         # require every name part to be present (so "allen paul" needs both
         # 'allen' and 'paul'); a single distinctive surname also counts
         if hits == len(parts) and hits > best_score:
@@ -296,8 +394,9 @@ def detect_professor(question: str):
     # fall back: a unique surname match (first word of stored name)
     if not best:
         for prof in KNOWN_PROFESSORS:
-            surname = prof.split()[0] if prof.split() else ""
-            if len(surname) > 2 and surname in q:
+            clean = prof.lower().replace(",", " ").replace(".", " ").split()
+            surname = clean[0] if clean else ""
+            if len(surname) > 2 and (" " + surname + " ") in q:
                 if best is None:
                     best = prof
                 else:
@@ -365,7 +464,6 @@ def detect_question_language(q: str) -> str:
         if 0x4E00 <= o <= 0x9FFF: return "Chinese"
         if 0xAC00 <= o <= 0xD7AF: return "Korean"
         if 0x0600 <= o <= 0x06FF: return "Arabic"
-        if 0x0590 <= o <= 0x05FF: return "Hebrew"
         if 0x0900 <= o <= 0x097F: return "Hindi"
         if 0x0B80 <= o <= 0x0BFF: return "Tamil"
         if 0x0400 <= o <= 0x04FF: return "Russian or Ukrainian"
@@ -391,7 +489,7 @@ _ISO_TO_LANG = {
     "pl": "Polish", "el": "Greek", "nl": "Dutch", "sv": "Swedish",
     "tr": "Turkish", "zh": "Chinese", "zh-cn": "Chinese", "zh-tw": "Chinese",
     "tl": "Tagalog", "hi": "Hindi", "ta": "Tamil", "ko": "Korean",
-    "ja": "Japanese", "ar": "Arabic", "he": "Hebrew", "iw": "Hebrew",
+    "ja": "Japanese", "ar": "Arabic",
 }
 
 
@@ -422,11 +520,18 @@ def _markers_language(q: str):
     nothing clearly wins. (English has no markers; it's the default elsewhere.)
     Needs at least two distinctive hits so a stray word can't flip the language."""
     ql = " " + q.lower() + " "
+    # Detach sentence punctuation so a trailing "?" or leading "¿" doesn't fuse to a
+    # marker word ("hay?" != " hay "). Keep "¿"/"¡" as their own tokens since they are
+    # themselves Spanish markers.
+    for _ch in "?!.,;:()\"":
+        ql = ql.replace(_ch, " ")
+    ql = ql.replace("¿", " ¿ ").replace("¡", " ¡ ")
     # Distinctive function words per language. We deliberately avoid words that
     # look similar across languages (like "professor") to prevent an English
     # question from matching another language by accident.
     markers = {
         "Spanish": [" el ", " la ", " qué ", " quién ", " cómo ", " dónde ", " es ", " cuál ", " profesor ", "¿", "ñ",
+                    " hay ", " cuáles ", " cuándo ", " los ", " las ", " una ", " del ", " sobre ",
                     " estoy ", " estás ", " está ", " muy ", " mis ", " siento ", " tengo ", " necesito ",
                     " ayuda ", " gracias ", " hola ", " quiero ", " soy "],
         "French": [" le ", " qui ", " est ", " quel ", " quelle ", " où ", " quels ", " professeur ", " bonjour ", "ç",
@@ -440,6 +545,8 @@ def _markers_language(q: str):
         "Italian": [" il ", " chi ", " cosa ", " dove ", " professore ", " corso ", " grazie ",
                     " sono ", " molto ", " ciao ", " bisogno ", " aiuto ", " perché ", " sto "],
         "Dutch": [" het ", " wie ", " wat ", " waar ", " hoe ", " docent ", " bedankt ",
+                  " welke ", " biedt ", " aan ", " een ", " zijn ", " voor ", " heeft ",
+                  " jullie ", " kunnen ", " opleiding ", " opleidingen ", " hoeveel ", " aanbod ",
                   " ik ", " ben ", " heel ", " hallo ", " hulp ", " nodig ", " niet "],
         "Polish": [" kto ", " co ", " gdzie ", " jak ", " dziękuję ", " ł ",
                    " jestem ", " bardzo ", " cześć ", " pomocy ", " potrzebuję ", " nie ", " mam "],
@@ -477,13 +584,23 @@ def _english_markers(q: str) -> bool:
     return any(m in ql for m in _EN_MARKERS)
 
 
+_UK_LETTERS = set("іїєґ")
+
+def _cyrillic_name(q: str) -> str:
+    """Tell Ukrainian from Russian within the shared Cyrillic block. Ukrainian
+    uses i, ï, je, g-with-upturn (i ï є ґ) - letters Russian does not have - so
+    their presence labels the text Ukrainian; otherwise we call it Russian. Both
+    still answer fine; this only fixes the LABEL that drives the TTS voice and UI."""
+    return "Ukrainian" if any(ch in _UK_LETTERS for ch in q.lower()) else "Russian"
+
+
 def _detected_language(q: str):
     """A POSITIVE language read for a single question, or None if nothing is
     reliable. Unlike guess_ui_language this does NOT default to English, so
     callers can fall back to the conversation's language for short follow-ups."""
     script_lang = detect_question_language(q)
     if script_lang:
-        return "Russian" if script_lang.startswith("Russian") else script_lang
+        return _cyrillic_name(q) if script_lang.startswith("Russian") else script_lang
     return (detect_language_name(q) or _markers_language(q)
             or ("English" if _english_markers(q) else None))
 
@@ -509,34 +626,115 @@ def guess_ui_language(q: str) -> str:
 
 
 _ANAPHORA = {"it", "its", "it's", "that", "this", "they", "them", "those", "these",
-             "he", "she", "him", "her", "his", "their", "theirs", "there", "one", "ones"}
+             "he", "she", "him", "her", "his", "their", "theirs"}
 _BARE_Q = {"when", "where", "how", "why", "who", "what", "which", "whose", "whom"}
+_STOP = {"is", "are", "was", "were", "am", "be", "been", "being", "do", "does", "did",
+         "the", "a", "an", "of", "for", "to", "about", "in", "on", "at", "with", "by",
+         "and", "or", "please", "can", "could", "would", "there", "some", "any",
+         "me", "tell", "give", "show", "i", "my", "get"}
 _MORE = {"tell me more", "more", "go on", "and", "what else", "anything else",
          "continue", "more info", "more details"}
 
 
 def _is_followup(q: str) -> bool:
     """True only for questions that genuinely depend on the previous turn, so we
-    can safely fold in the prior question for retrieval. A question that names its
-    own subject (a capitalized proper noun or a quoted phrase) is self-contained
-    and must NOT be treated as a follow-up, even if it is short - otherwise the
-    previous topic bleeds into the answer (e.g. "What is Eagle X?" pulling in the
-    earlier "Say Yes to the Nest")."""
+    can safely fold in the prior question for retrieval.
+
+    The test is whether the question carries its own subject. "who is paul allen"
+    has content words (paul, allen) -> self-contained, even lowercased. "who is it"
+    or "when?" reduces to nothing but pronouns and question words -> it leans on the
+    previous turn. Relying on content words (not capitalization) means it also works
+    when the user types in lower case, which is what leaked the ASCE answer into the
+    Paul Allen question."""
     raw = q.strip()
     ql = raw.lower().rstrip("?.! ").strip()
     if not ql:
         return False
     if ql in _MORE:
         return True
-    # A named/quoted subject means the question stands on its own.
-    if '"' in raw or "'" in raw:
-        return False
-    if any(w[:1].isupper() for w in raw.split()[1:]):   # capitalized token after word 1
+    if '"' in raw:                       # a quoted subject stands on its own
         return False
     words = ql.split()
-    has_anaphor = bool(set(words) & _ANAPHORA)
-    bare_interrogative = len(words) <= 4 and words[0] in _BARE_Q
-    return has_anaphor or bare_interrogative
+    if set(words) & _ANAPHORA:           # leans on a pronoun referring to prior turn
+        return True
+    content = [w for w in words if w not in _STOP and w not in _BARE_Q]
+    return not content                   # only question/filler words left -> follow-up
+
+
+# Backstop for the "never answer with code" rule (see _strip_code below).
+_CODE_FENCE_RE = re.compile(r"```[\s\S]*?```")
+# Short refusal used only if an answer was essentially all code. Machine-assisted
+# translations - flag for native review. Keys match the names answer_question
+# resolves (Cyrillic maps to "Russian").
+_CODE_REFUSAL = {
+    "English": "I can help with questions about the college, its courses, and faculty, but I can't help with homework or coding.",
+    "Spanish": "Puedo ayudarte con preguntas sobre la universidad, sus cursos y el profesorado, pero no puedo ayudarte con tareas ni con programación.",
+    "Portuguese": "Posso ajudar com perguntas sobre a faculdade, os cursos e o corpo docente, mas não posso ajudar com tarefas ou programação.",
+    "French": "Je peux répondre aux questions sur le collège, les cours et le corps professoral, mais je ne peux pas aider avec les devoirs ni la programmation.",
+    "German": "Ich kann bei Fragen zum College, zu den Kursen und zum Lehrpersonal helfen, aber nicht bei Hausaufgaben oder beim Programmieren.",
+    "Italian": "Posso aiutarti con domande sul college, sui corsi e sui docenti, ma non posso aiutarti con i compiti o la programmazione.",
+    "Russian": "Я могу помочь с вопросами о колледже, его курсах и преподавателях, но не могу помочь с домашними заданиями или программированием.",
+    "Ukrainian": "Я можу допомогти з питаннями про коледж, його курси та викладачів, але не можу допомогти з домашніми завданнями чи програмуванням.",
+    "Polish": "Mogę pomóc w pytaniach o uczelnię, jej kursy i wykładowców, ale nie mogę pomóc w pracach domowych ani w programowaniu.",
+    "Greek": "Μπορώ να βοηθήσω με ερωτήσεις για τη σχολή, τα μαθήματα και το διδακτικό προσωπικό, αλλά δεν μπορώ να βοηθήσω με εργασίες ή προγραμματισμό.",
+    "Dutch": "Ik kan helpen met vragen over de opleiding, de vakken en de docenten, maar ik kan niet helpen met huiswerk of programmeren.",
+    "Swedish": "Jag kan hjälpa till med frågor om högskolan, kurserna och lärarna, men jag kan inte hjälpa till med läxor eller programmering.",
+    "Turkish": "Üniversite, dersler ve öğretim üyeleri hakkındaki sorularda yardımcı olabilirim, ancak ödev veya kodlama konusunda yardımcı olamam.",
+    "Chinese": "我可以回答有关学院、课程和教师的问题，但无法帮助完成作业或编程。",
+    "Tagalog": "Matutulungan kita sa mga tanong tungkol sa kolehiyo, mga kurso, at mga guro, ngunit hindi ako makakatulong sa homework o coding.",
+    "Hindi": "मैं कॉलेज, उसके पाठ्यक्रमों और शिक्षकों से जुड़े सवालों में मदद कर सकता हूँ, लेकिन होमवर्क या कोडिंग में मदद नहीं कर सकता।",
+    "Tamil": "கல்லூரி, அதன் பாடநெறிகள் மற்றும் ஆசிரியர்கள் பற்றிய கேள்விகளுக்கு உதவ முடியும், ஆனால் வீட்டுப்பாடம் அல்லது நிரலாக்கத்தில் உதவ முடியாது.",
+    "Korean": "대학, 강좌, 교수진에 대한 질문은 도와드릴 수 있지만, 숙제나 코딩은 도와드릴 수 없습니다.",
+    "Japanese": "大学やコース、教員に関する質問にはお答えできますが、宿題やコーディングのお手伝いはできません。",
+    "Arabic": "يمكنني المساعدة في الأسئلة المتعلقة بالكلية ومقرراتها وأعضاء هيئة التدريس، لكن لا يمكنني المساعدة في الواجبات أو البرمجة.",
+}
+
+
+def _strip_code(answer: str, lang: str = "English") -> str:
+    """Hard backstop for the 'never answer with code' rule. The system prompt
+    already tells the model to decline homework/coding, but if it ever returns
+    code anyway, we remove fenced code blocks before the answer reaches the user.
+    If stripping the code leaves nothing meaningful (the whole answer was code),
+    we substitute a short refusal in the user's language."""
+    if "```" not in answer:
+        return answer
+    cleaned = _CODE_FENCE_RE.sub("", answer)
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
+    if len(cleaned) < 25:                       # answer was essentially all code
+        return _CODE_REFUSAL.get(lang, _CODE_REFUSAL["English"])
+    return cleaned
+
+
+import difflib
+
+def _sentences(text: str):
+    parts = re.split(r"(?<=[.!?。！？])\s*", (text or "").strip())
+    return [p.strip() for p in parts if p.strip()]
+
+
+def _dedup_followup(answer: str, history) -> str:
+    """Deterministic backstop for the no-repeat rule. The prompt tells the model
+    not to restate earlier answers, but it still sometimes re-gives a person's
+    bio before answering a follow-up. Here we drop any LEADING answer sentences
+    that closely match a sentence from the previous answer, keeping only the new
+    content (and always keeping at least the final sentence)."""
+    if not history:
+        return answer
+    last = history[-1]
+    prev = (last.get("answer", "") if isinstance(last, dict) else "") or ""
+    prev_sents = _sentences(prev)
+    ans_sents = _sentences(answer)
+    if not prev_sents or len(ans_sents) <= 1:
+        return answer
+    i = 0
+    while i < len(ans_sents) - 1:          # never strip the last remaining sentence
+        s = ans_sents[i].lower()
+        if any(difflib.SequenceMatcher(None, s, p.lower()).ratio() > 0.8 for p in prev_sents):
+            i += 1
+        else:
+            break
+    trimmed = " ".join(ans_sents[i:]).strip()
+    return trimmed or answer
 
 
 def answer_question(question: str, history=None):
@@ -579,7 +777,7 @@ def answer_question(question: str, history=None):
     script_lang = detect_question_language(question)
     if script_lang:
         directive_lang = script_lang
-        ui_lang = "Russian" if script_lang.startswith("Russian") else script_lang
+        ui_lang = _cyrillic_name(question) if script_lang.startswith("Russian") else script_lang
     else:
         directive_lang = (detect_language_name(question) or _markers_language(question)
                           or ("English" if _english_markers(question) else None)
@@ -616,8 +814,17 @@ def answer_question(question: str, history=None):
                 lines.append(f"Assistant: {a}")
         if lines:
             history_block = (
-                "\n\nConversation so far (for context, to resolve references "
+                "\n\nConversation so far (for context only, to resolve references "
                 "like 'he', 'she', 'that course'):\n" + "\n".join(lines)
+                + "\n\nThis history is ONLY to help you understand the new "
+                  "question. Do not repeat information you already gave above - "
+                  "answer the student's new question directly with only the new "
+                  "information they are now asking for."
+                + "\n\nIMPORTANT: This history is ONLY for understanding what the "
+                "student is referring to. Do NOT repeat, restate, or re-summarize "
+                "anything you already told the student in an earlier turn. Do not "
+                "reintroduce a person, course, or topic you already described. "
+                "Answer ONLY the new question below, directly and on its own."
             )
     # Retrieval query = the QUESTION only, NOT the system prompt. Embedding the
     # whole system prompt pulled every query toward the same point and drowned out
@@ -629,7 +836,21 @@ def answer_question(question: str, history=None):
     # topic bleeds into the answer. A question is a follow-up only if it leans on an
     # anaphor or is a bare interrogative AND names no subject of its own.
     retrieval_query = question
-    if history and _is_followup(question):
+    followup = _is_followup(question)
+    # Language-agnostic follow-up: _is_followup only recognises English anaphora
+    # ("what does HE teach"), so a non-English teaching follow-up ("¿qué clases
+    # enseña?", "quali corsi insegna?") looked self-contained and dropped the
+    # subject, retrieving the wrong professor. If the current question is a
+    # schedule/teaching question that names no professor or course of its own,
+    # while the conversation already established one, treat it as a follow-up so
+    # the prior question (which named the professor) is folded into the search.
+    if history and not followup:
+        sched = any(w in question.lower() for w in kw.ALL_SCHEDULE)
+        own = detect_professor(question) or extract_course_code(question)
+        established = detect_professor(routing_text) or extract_course_code(routing_text)
+        if sched and established and not own:
+            followup = True
+    if history and followup:
         prev_q = history[-1].get("question", "").strip()
         retrieval_query = (prev_q + " " + question).strip()
 
@@ -637,7 +858,26 @@ def answer_question(question: str, history=None):
     # LLM still sees all of it) instead of into the retrieval query. Braces in that
     # text are escaped so PromptTemplate treats only {context_str}/{query_str} as
     # variables.
-    _instr = (SYSTEM_PROMPT + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
+    # Date + current/upcoming-term awareness, prepended so the model always
+    # knows "today" and which semester we're in.
+    date_directive = calendar_directive()
+    calendar_note = ""
+    if doc_types and "calendar" in doc_types:
+        calendar_note = (
+            "\n\nThis is an academic-calendar question. Answer directly and concisely "
+            "with only the date(s) the student asked about. If the student does not name "
+            "a term, answer for the CURRENT term from the today's-date line above. Use "
+            "full-term dates unless the student names a specific session (Session A, B, "
+            "I, II, or Summer A, B, C). Do NOT mention, compare, or list any term or "
+            "session other than the one being asked about, and do NOT narrate which term "
+            "you are choosing or show your reasoning - state the answer in one or two "
+            "sentences. When a term is named without a year (e.g. 'the spring semester'), "
+            "use the next upcoming occurrence of that term based on today's date, and do "
+            "not mention any past term that has already ended. 'Classes begin' means the "
+            "regular first day of classes, not 'Saturday Classes Begin' and not any "
+            "registration date."
+        )
+    _instr = (SYSTEM_PROMPT + date_directive + calendar_note + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
     qa_template = PromptTemplate(
         _instr
         + "\n\nContext information from FGCU Engineering pages is below.\n"
@@ -645,12 +885,24 @@ def answer_question(question: str, history=None):
           "Using that context, answer the student's question.\n"
           "Question: {query_str}\nAnswer: "
     )
-    _post = [_reranker] if _reranker else None
+    _is_calendar = bool(doc_types and "calendar" in doc_types)
+    _active_reranker = _reranker_calendar if (_is_calendar and _reranker_calendar) else _reranker
+    _post = [_active_reranker] if _active_reranker else None
 
     def _run(dt, prog, trm, code, prof):
-        return make_engine(dt, prog, trm, code, prof,
-                           qa_template=qa_template,
-                           postprocessors=_post).query(retrieval_query)
+        try:
+            return make_engine(dt, prog, trm, code, prof,
+                               qa_template=qa_template,
+                               postprocessors=_post).query(retrieval_query)
+        except Exception as e:
+            # If the primary model just died (e.g. Llama decommissioned mid-run),
+            # switch to the backup once and retry this query immediately.
+            if _using_backup:
+                raise
+            _activate_backup(type(e).__name__)
+            return make_engine(dt, prog, trm, code, prof,
+                               qa_template=qa_template,
+                               postprocessors=_post).query(retrieval_query)
 
     def _no_match(r):
         # LlamaIndex returns the literal "Empty Response" (and no source nodes)
@@ -684,7 +936,8 @@ def answer_question(question: str, history=None):
     if _no_match(response):
         response = _run(None, None, None, None, None)
 
-    return str(response), ui_lang
+    answer = _dedup_followup(_strip_code(str(response), ui_lang), history)
+    return answer, ui_lang
 
 
 # ── Terminal chat mode ─────────────────────────────────────
@@ -725,16 +978,242 @@ app.add_middleware(
 )
 
 
+# ─── Bot protection (Cloudflare Turnstile) ─────────────────────────────────
+# A human solves the Turnstile widget once; the frontend exchanges that token at
+# /verify for a short-lived signed session, then sends the session header with
+# each /ask, /transcribe and /speak call. Those endpoints reject anything without
+# a valid session, so bots can't hit the paid APIs (Groq / ElevenLabs) directly.
+# If TURNSTILE_SECRET is unset (e.g. local dev) the check is skipped entirely, so
+# nothing breaks while you develop without keys.
+TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET", "")
+SESSION_SECRET   = os.getenv("SESSION_SECRET", "dev-only-change-me")
+SESSION_TTL      = 2 * 60 * 60          # how long one verified session lasts (s)
+
+
+def _make_session() -> str:
+    """A signed, expiring session token: base64(payload).hmac_sig."""
+    exp = int(time.time()) + SESSION_TTL
+    payload = base64.urlsafe_b64encode(json.dumps({"exp": exp}).encode()).decode().rstrip("=")
+    sig = hmac.new(SESSION_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
+    return f"{payload}.{sig}"
+
+
+def _valid_session(token: str) -> bool:
+    if not token or "." not in token:
+        return False
+    payload, sig = token.rsplit(".", 1)
+    expected = hmac.new(SESSION_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(sig, expected):
+        return False
+    try:
+        data = json.loads(base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4)))
+    except Exception:
+        return False
+    return int(data.get("exp", 0)) > int(time.time())
+
+
+async def require_human(x_session: str = Header(default="")):
+    """Gate the costly endpoints: allow only requests carrying a valid session
+    (issued by /verify after a Turnstile solve). No-op when Turnstile is not
+    configured, so local development still works."""
+    if not TURNSTILE_SECRET:
+        return
+    if not _valid_session(x_session):
+        raise HTTPException(status_code=401, detail="Bot check required")
+
+
+# ─── Usage logging (Supabase) ──────────────────────────────────────────────
+# Every question is logged to a Supabase table (question, answer, language, the
+# per-device client id, and a timestamp the DB fills in). Writes happen in a
+# background task so they never slow down or break the user's answer, and the
+# whole thing is a no-op if Supabase isn't configured.
+SUPABASE_URL   = os.getenv("SUPABASE_URL", "").rstrip("/")
+SUPABASE_KEY   = os.getenv("SUPABASE_KEY", "")
+SUPABASE_TABLE = os.getenv("SUPABASE_TABLE", "ask_logs")
+SUPABASE_ISSUES_TABLE = os.getenv("SUPABASE_ISSUES_TABLE", "issue_reports")
+
+
+async def log_interaction(client_id: str, question: str, answer: str, language: str, message_id: str = ""):
+    """Best-effort insert of one row into Supabase. Never raises - logging must
+    not affect the user's request. No-op when Supabase isn't configured."""
+    if not (SUPABASE_URL and SUPABASE_KEY):
+        return
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            await client.post(
+                f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}",
+                headers={
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": f"Bearer {SUPABASE_KEY}",
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal",
+                },
+                json={
+                    "message_id": message_id or None,
+                    "client_id": client_id or None,
+                    "question": question,
+                    "answer": answer,
+                    "language": language,
+                },
+            )
+    except Exception:
+        pass  # logging is best-effort; swallow everything
+
+
+# ─── Friendly error handling ───────────────────────────────────────────────
+# If generation fails (e.g. a transient Groq/Pinecone/Cohere hiccup), the user
+# should get a short, polite message in their own language instead of a raw 500.
+_ERROR_TEXT = {
+    "English":    "Sorry, something went wrong on my end. Please try again in a moment.",
+    "Spanish":    "Lo siento, algo salió mal de mi lado. Inténtalo de nuevo en un momento.",
+    "Portuguese": "Desculpe, algo deu errado do meu lado. Tente novamente em instantes.",
+    "French":     "Désolé, un problème est survenu de mon côté. Veuillez réessayer dans un instant.",
+    "German":     "Entschuldigung, bei mir ist etwas schiefgelaufen. Bitte versuche es gleich noch einmal.",
+    "Italian":    "Scusa, qualcosa è andato storto da parte mia. Riprova tra un momento.",
+    "Russian":    "Извините, у меня произошла ошибка. Попробуйте ещё раз через мгновение.",
+    "Ukrainian":  "Вибачте, у мене сталася помилка. Спробуйте ще раз за мить.",
+    "Polish":     "Przepraszam, coś poszło nie tak po mojej stronie. Spróbuj ponownie za chwilę.",
+    "Greek":      "Συγγνώμη, κάτι πήγε στραβά από την πλευρά μου. Δοκιμάστε ξανά σε λίγο.",
+    "Dutch":      "Sorry, er ging iets mis aan mijn kant. Probeer het zo meteen opnieuw.",
+    "Swedish":    "Förlåt, något gick fel på min sida. Försök igen om en stund.",
+    "Turkish":    "Üzgünüm, bir şeyler ters gitti. Lütfen birazdan tekrar deneyin.",
+    "Chinese":    "抱歉，我这边出了点问题。请稍后再试。",
+    "Tagalog":    "Pasensya na, may nangyaring mali sa panig ko. Pakisubukan ulit mamaya.",
+    "Hindi":      "क्षमा करें, मेरी ओर से कुछ गलत हो गया। कृपया थोड़ी देर में फिर से प्रयास करें।",
+    "Tamil":      "மன்னிக்கவும், என் பக்கத்தில் ஏதோ தவறு நடந்தது. சிறிது நேரத்தில் மீண்டும் முயற்சிக்கவும்.",
+    "Korean":     "죄송합니다. 제 쪽에서 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+    "Japanese":   "申し訳ありません。こちらで問題が発生しました。少し待ってからもう一度お試しください。",
+    "Arabic":     "عذرًا، حدث خطأ من جانبي. يرجى المحاولة مرة أخرى بعد قليل.",
+}
+
+
+def _safe_ui_lang(question: str) -> str:
+    """Best-effort language of the question, for picking the error message.
+    Never raises; defaults to English."""
+    try:
+        sl = detect_question_language(question)
+        if sl:
+            return _cyrillic_name(question) if sl.startswith("Russian") else sl
+        return (detect_language_name(question) or _markers_language(question)
+                or ("English" if _english_markers(question) else "English"))
+    except Exception:
+        return "English"
+
+
+@app.exception_handler(Exception)
+async def _unhandled_exception(request: Request, exc: Exception):
+    """Catch-all so an unexpected error returns clean JSON, not an HTML stack
+    trace. (FastAPI's own HTTPException responses are unaffected.)"""
+    return JSONResponse(status_code=500, content={"error": "Something went wrong. Please try again."})
+
+
+@app.post("/report")
+async def report(body: dict = Body(default=None)):
+    """Store a user-submitted issue report in Supabase."""
+    data = body or {}
+    description = (data.get("description") or "").strip()
+    client_id = data.get("client_id") or ""
+    if not description:
+        raise HTTPException(status_code=400, detail="Empty description")
+    if len(description) > 4000:
+        description = description[:4000]
+    if not (SUPABASE_URL and SUPABASE_KEY):
+        return {"ok": True}                       # dev: nothing to write to
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            r = await client.post(
+                f"{SUPABASE_URL}/rest/v1/{SUPABASE_ISSUES_TABLE}",
+                headers={
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": f"Bearer {SUPABASE_KEY}",
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal",
+                },
+                json={"client_id": client_id or None, "description": description},
+            )
+        return {"ok": r.status_code in (200, 201, 204)}
+    except Exception:
+        return {"ok": False}
+
+
+@app.post("/verify")
+async def verify(body: dict = Body(default=None)):
+    """Exchange a Turnstile token for a session token."""
+    token = (body or {}).get("token", "")
+    if not TURNSTILE_SECRET:
+        return {"session": _make_session()}          # dev: Turnstile not configured
+    if not token:
+        raise HTTPException(status_code=400, detail="Missing Turnstile token")
+    async with httpx.AsyncClient(timeout=10) as client:
+        resp = await client.post(
+            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+            data={"secret": TURNSTILE_SECRET, "response": token},
+        )
+        result = resp.json()
+    if not result.get("success"):
+        raise HTTPException(status_code=403, detail="Bot check failed")
+    return {"session": _make_session()}
+
+
 @app.post("/ask")
-async def ask(question: str = "", body: dict = Body(default=None)):
+async def ask(background: BackgroundTasks, question: str = "", body: dict = Body(default=None), _human=Depends(require_human)):
     # Accept either a query param (?question=) for backward compatibility, or a
-    # JSON body {"question": ..., "history": [{"question":..,"answer":..}, ...]}.
+    # JSON body {"question": ..., "history": [...], "client_id": "...",
+    # "message_id": "..."}.
     history = []
+    client_id = ""
+    message_id = ""
     if body:
         question = body.get("question", question) or question
         history = body.get("history", []) or []
-    answer, language = answer_question(question, history)
+        client_id = body.get("client_id", "") or ""
+        message_id = body.get("message_id", "") or ""
+    # Generate the answer, retrying once on a transient failure (Groq/Pinecone/
+    # Cohere hiccup). If it still fails, return a short, polite message in the
+    # user's language instead of a raw 500.
+    answer = None
+    language = "English"
+    for attempt in range(2):
+        try:
+            answer, language = answer_question(question, history)
+            break
+        except Exception:
+            if attempt == 0:
+                await asyncio.sleep(0.8)
+                continue
+            language = _safe_ui_lang(question)
+            answer = _ERROR_TEXT.get(language, _ERROR_TEXT["English"])
+    # Log the interaction after the response is sent (non-blocking).
+    background.add_task(log_interaction, client_id, question, answer, language, message_id)
     return {"answer": answer, "language": language}
+
+
+@app.post("/feedback")
+async def feedback(body: dict = Body(default=None)):
+    """Record a thumbs up/down for a previously logged answer, matched by the
+    frontend's message_id. rating is 1 (up), -1 (down), or 0 (un-vote)."""
+    data = body or {}
+    message_id = (data.get("message_id") or "").strip()
+    rating = data.get("rating")
+    if not message_id or rating not in (1, -1, 0):
+        raise HTTPException(status_code=400, detail="Bad feedback")
+    if not (SUPABASE_URL and SUPABASE_KEY):
+        return {"ok": True}                        # dev: nothing to write to
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            r = await client.patch(
+                f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}?message_id=eq.{message_id}",
+                headers={
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": f"Bearer {SUPABASE_KEY}",
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal",
+                },
+                json={"rating": rating if rating in (1, -1) else None},
+            )
+        return {"ok": r.status_code in (200, 204)}
+    except Exception:
+        return {"ok": False}
 
 
 # Whisper language codes for the supported languages (used when the user turns
@@ -745,7 +1224,6 @@ LANG_CODES = {
     "Polish": "pl", "Greek": "el", "Dutch": "nl", "Swedish": "sv",
     "Turkish": "tr", "Chinese": "zh", "Tagalog": "tl", "Hindi": "hi",
     "Tamil": "ta", "Korean": "ko", "Japanese": "ja", "Arabic": "ar",
-    "Hebrew": "he",
 }
 
 # A vocabulary hint so Whisper spells our domain terms correctly even through
@@ -761,7 +1239,7 @@ WHISPER_PROMPT = (
 
 
 @app.post("/transcribe")
-async def transcribe(audio: UploadFile = File(...), language: str = Form("")):
+async def transcribe(audio: UploadFile = File(...), language: str = Form(""), _human=Depends(require_human)):
     audio_bytes = await audio.read()
     # The browser sends webm/opus from MediaRecorder. Give Whisper a filename
     # with a real extension so it detects the format correctly.
@@ -825,7 +1303,6 @@ EDGE_VOICE_BY_LANG = {
     "Tagalog": "fil-PH-BlessicaNeural",    "Hindi": "hi-IN-SwaraNeural",
     "Tamil": "ta-IN-PallaviNeural",        "Korean": "ko-KR-SunHiNeural",
     "Japanese": "ja-JP-NanamiNeural",      "Arabic": "ar-EG-SalmaNeural",
-    "Hebrew": "he-IL-HilaNeural",
 }
 EDGE_DEFAULT_VOICE = "en-US-AriaNeural"
 
@@ -869,7 +1346,7 @@ def _speakable(text: str) -> str:
 
 
 @app.post("/speak")
-async def speak(text: str):
+async def speak(text: str, _human=Depends(require_human)):
     global _elevenlabs_quota_hit
     text = (text or "").strip()
     if not text:
