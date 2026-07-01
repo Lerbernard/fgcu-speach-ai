@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { TOPIC_ICONS, TOPIC_TEXT } from "./topics-i18n";
 
-// Point this at your backend. Local dev = localhost:8080.
-const API_BASE = "http://localhost:8080";
+// Point this at your backend. Set NEXT_PUBLIC_API_BASE in Vercel; falls back to localhost for dev.
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8080";
 // Cloudflare Turnstile public site key. Leave empty for local dev (the bot check
 // is then skipped on both ends). Set NEXT_PUBLIC_TURNSTILE_SITEKEY in .env.local.
 const TURNSTILE_SITEKEY = process.env.NEXT_PUBLIC_TURNSTILE_SITEKEY || "";
