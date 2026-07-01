@@ -2,7 +2,7 @@ name: Sync backend to Hugging Face Space
 on:
   push:
     branches: [main]
-  workflow_dispatch:   # lets you also trigger it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -11,12 +11,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Sync backend/ to the Space
-        uses: nateraw/huggingface-sync-action@v0.0.5
+      - uses: huggingface/hub-sync@v0.1.0
         with:
-          github_repo_id: Lerbernard/fgcu-speach-ai
+          github_repo_id: ${{ github.repository }}
           huggingface_repo_id: TestFGCU/ask-the-eagle-backend
-          repo_type: space
-          space_sdk: docker
-          subdirectory: backend
           hf_token: ${{ secrets.HF_TOKEN }}
+          subdirectory: backend
