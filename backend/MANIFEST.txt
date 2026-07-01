@@ -1,0 +1,40 @@
+ASK THE EAGLE — Hugging Face Space upload bundle
+=================================================
+Upload EVERY file in this folder to the root of your Hugging Face Space
+(Docker SDK). Do NOT nest them inside a "backend/" subfolder — the Dockerfile
+and main.py must sit at the Space's top level.
+
+FILES IN THIS BUNDLE (upload all 8):
+  main.py               live API — includes today's env-driven CORS + the
+                        Llama-3.3-70b primary / gpt-oss-120b auto-fallback
+  keywords.py           routing keyword groups (imported by main.py)
+  academic_calendar.py  ingestion-time only; included for safety (harmless)
+  requirements.txt      matches your repo's current curated deps
+  Dockerfile            CPU-only torch, non-root user, serves on port 7860
+  .dockerignore         keeps .env and junk out of the image
+  README.md             Space config (YAML header: sdk=docker, app_port=7860)
+
+DO NOT UPLOAD / DO NOT COMMIT:
+  .env                  set these as Space SECRETS instead (see below)
+  data/  scraper/  ingest.py   not needed at runtime (RAG data is in Pinecone)
+
+SET THESE AS SPACE SECRETS  (Settings -> Variables and secrets):
+  GROQ_API_KEY
+  PINECONE_API_KEY
+  PINECONE_INDEX_NAME
+  COHERE_API_KEY
+  ELEVENLABS_API_KEY
+  SUPABASE_URL
+  SUPABASE_KEY            (service_role / secret key)
+  ALLOWED_ORIGINS        your Vercel URL, e.g. https://your-app.vercel.app
+  (optional) SUPABASE_TABLE, SUPABASE_ISSUES_TABLE, TURNSTILE_SECRET, SESSION_SECRET
+
+AFTER UPLOAD:
+  - Space builds the Docker image (first build takes a few minutes).
+  - When live, open  https://<you>-<space>.hf.space/docs  to confirm.
+  - Put that URL into Vercel as  NEXT_PUBLIC_API_BASE  for the frontend.
+
+NOTE ON VERSIONS:
+  main.py here is the authoritative copy with the CORS + model-fallback edits.
+  keywords.py / academic_calendar.py are your ~Jun 20 versions; if you've hand-
+  edited them locally since, use YOUR newer copies instead.

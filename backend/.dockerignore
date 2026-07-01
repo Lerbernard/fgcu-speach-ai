@@ -1,0 +1,13 @@
+# Never ship these to the Space / image
+.env
+.env.*
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+.DS_Store
+*.log
+node_modules/

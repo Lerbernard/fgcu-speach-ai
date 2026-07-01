@@ -970,9 +970,16 @@ def chat():
 
 # ── FastAPI app ────────────────────────────────────────────
 app = FastAPI()
+# CORS: set ALLOWED_ORIGINS in the environment to a comma-separated list of the
+# exact frontend origins allowed to call this API, e.g.
+#   ALLOWED_ORIGINS=https://ask-the-eagle.vercel.app,http://localhost:3000
+# If unset (local dev), it falls back to "*" so nothing breaks on your machine.
+_origins_env = os.getenv("ALLOWED_ORIGINS", "").strip()
+_allowed_origins = [o.strip() for o in _origins_env.split(",") if o.strip()] or ["*"]
+print(f"CORS allowed origins: {_allowed_origins}")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"]
 )

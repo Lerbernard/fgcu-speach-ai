@@ -836,4 +836,5 @@ SUPPORTED_LANGUAGES = [
     "English", "Spanish", "Portuguese", "French", "German", "Italian",
     "Russian", "Ukrainian", "Polish", "Greek", "Dutch", "Swedish", "Turkish",
     "Chinese", "Tagalog", "Hindi", "Tamil", "Korean", "Japanese", "Arabic",
+    "Hebrew",
 ]
