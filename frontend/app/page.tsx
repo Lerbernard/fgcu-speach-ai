@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Native names of the 20 supported languages, shown so visitors can see their
 // language is covered.
@@ -82,6 +82,74 @@ function ThemeToggle() {
   );
 }
 
+const TURNSTILE_SITEKEY = process.env.NEXT_PUBLIC_TURNSTILE_SITEKEY || "";
+const SESSION_KEY = "eagle_verify_session";
+
+// Silently runs Turnstile in the background while the visitor is on the welcome
+// page. On a clean pass it exchanges the token for a session and stores it, so
+// the assistant page finds a valid session and shows no popup at all. If Cloudflare
+// decides a real challenge is needed, this hidden widget just fails quietly and the
+// assistant page's visible overlay handles it. (Widget must be in Managed mode.)
+function BackgroundVerify() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!TURNSTILE_SITEKEY) return;
+    // Already have a valid, unexpired session? Nothing to do.
+    try {
+      const saved = localStorage.getItem(SESSION_KEY) || "";
+      if (saved) {
+        const exp = parseInt(saved.split(".")[0], 10);
+        if (exp && exp * 1000 > Date.now() + 5000) return;
+      }
+    } catch { /* ignore */ }
+
+    let cancelled = false;
+    async function verify(token: string) {
+      try {
+        const r = await fetch("/api/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        });
+        if (!r.ok) return;                       // silent — assistant page will fall back
+        const d = await r.json();
+        if (d.session) { try { localStorage.setItem(SESSION_KEY, d.session); } catch { /* ignore */ } }
+      } catch { /* silent */ }
+    }
+
+    function render() {
+      const w = (window as unknown as { turnstile?: { render?: (el: HTMLElement, o: Record<string, unknown>) => void } }).turnstile;
+      if (!w?.render || !ref.current || cancelled || ref.current.hasChildNodes()) return;
+      try {
+        w.render(ref.current, {
+          sitekey: TURNSTILE_SITEKEY,
+          appearance: "interaction-only",        // invisible unless a challenge is required
+          callback: (token: string) => verify(token),
+          "error-callback": () => {},            // stay silent; assistant page handles it
+          "timeout-callback": () => {},
+        });
+      } catch { /* ignore */ }
+    }
+
+    const existing = document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]');
+    if ((window as unknown as { turnstile?: unknown }).turnstile) {
+      render();
+    } else if (existing) {
+      existing.addEventListener("load", render, { once: true });
+    } else {
+      const s = document.createElement("script");
+      s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      s.async = true;
+      s.defer = true;
+      s.onload = render;
+      document.head.appendChild(s);
+    }
+    return () => { cancelled = true; };
+  }, []);
+
+  return <div ref={ref} aria-hidden="true" style={{ position: "fixed", width: 0, height: 0, overflow: "hidden", pointerEvents: "none", opacity: 0 }} />;
+}
+
 export default function Welcome() {
   const [typed, setTyped] = useState("");
 
@@ -123,6 +191,7 @@ export default function Welcome() {
   return (
     <main className="hero">
       <div className="hero-glow" aria-hidden="true" />
+      <BackgroundVerify />
 
       <div className="hero-top">
         <span className="hero-eyebrow">U.A. Whitaker College of Engineering</span>
