@@ -1166,15 +1166,28 @@ async def verify(body: dict = Body(default=None)):
         return {"session": _make_session()}          # dev: Turnstile not configured
     if not token:
         raise HTTPException(status_code=400, detail="Missing Turnstile token")
-    async with httpx.AsyncClient(timeout=10) as client:
-        resp = await client.post(
-            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-            data={"secret": TURNSTILE_SECRET, "response": token},
-        )
+    try:
+        # Force IPv4 (local_address="0.0.0.0"): HF Spaces has broken IPv6 egress,
+        # so httpx hangs connecting to Cloudflare over IPv6 -> ConnectTimeout.
+        transport = httpx.AsyncHTTPTransport(local_address="0.0.0.0")
+        async with httpx.AsyncClient(timeout=15, transport=transport) as client:
+            resp = await client.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data={"secret": TURNSTILE_SECRET, "response": token},
+            )
         result = resp.json()
+    except Exception as e:                            # network / DNS / timeout / bad JSON
+        print(f"[verify] siteverify request failed: {e!r}")
+        raise HTTPException(status_code=502, detail=f"Could not reach Turnstile: {e}")
     if not result.get("success"):
-        raise HTTPException(status_code=403, detail="Bot check failed")
-    return {"session": _make_session()}
+        codes = result.get("error-codes", [])
+        print(f"[verify] siteverify rejected: {codes}")
+        raise HTTPException(status_code=403, detail=f"Bot check failed: {codes}")
+    try:
+        return {"session": _make_session()}
+    except Exception as e:
+        print(f"[verify] make_session failed: {e!r}")
+        raise HTTPException(status_code=500, detail=f"Session error: {e}")
 
 
 @app.post("/ask")

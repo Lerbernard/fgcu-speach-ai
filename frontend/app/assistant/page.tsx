@@ -293,13 +293,10 @@ export default function Home() {
         body: JSON.stringify({ token }),
       });
       if (!r.ok) {
-        const detail = await r.text().catch(() => "");
+        let detail = "";
+        try { const j = await r.json(); detail = j.detail || ""; } catch { detail = await r.text().catch(() => ""); }
         console.error("verify failed", r.status, detail);
-        setVerifyError(
-          r.status === 403
-            ? "Bot check rejected the token (403). The site key and secret key must be from the same Turnstile widget, and this domain must be in its hostname list."
-            : `Verification failed (${r.status}). Please try again.`
-        );
+        setVerifyError(`Verification failed (${r.status})${detail ? ": " + detail : ""}`);
         resetTurnstile();
         return;
       }
