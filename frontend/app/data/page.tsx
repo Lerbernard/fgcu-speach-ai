@@ -335,8 +335,8 @@ export default function DataDashboard() {
         <Style />
         <form className="dash-login" onSubmit={submit}>
           <div className="dash-logo-badge">
-            <img className="dash-logo dash-logo-e-light" src="/elight.png" alt="Ask the Eagle" />
-            <img className="dash-logo dash-logo-e-dark" src="/edark.png" alt="Ask the Eagle" />
+            <img className="dash-logo dash-logo-e-light" src="/eLight.png" alt="Ask the Eagle" />
+            <img className="dash-logo dash-logo-e-dark" src="/eDark.png" alt="Ask the Eagle" />
           </div>
           <h1>Ask the Eagle</h1>
           <p className="dash-dim dash-login-sub">Usage dashboard — admin access</p>
