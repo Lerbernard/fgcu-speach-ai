@@ -732,10 +732,23 @@ def _dedup_followup(answer: str, history) -> str:
     ans_sents = _sentences(answer)
     if not prev_sents or len(ans_sents) <= 1:
         return answer
+
+    def _repeats(s: str) -> bool:
+        for p in prev_sents:
+            pl = p.lower()
+            sm = difflib.SequenceMatcher(None, s, pl)
+            if sm.ratio() > 0.8:
+                return True
+            # A shortened restatement: the whole answer sentence is essentially a
+            # substring of a previous one (symmetric ratio misses this when the
+            # prior sentence is much longer).
+            if len(s) > 20 and sm.find_longest_match(0, len(s), 0, len(pl)).size / len(s) > 0.85:
+                return True
+        return False
+
     i = 0
     while i < len(ans_sents) - 1:          # never strip the last remaining sentence
-        s = ans_sents[i].lower()
-        if any(difflib.SequenceMatcher(None, s, p.lower()).ratio() > 0.8 for p in prev_sents):
+        if _repeats(ans_sents[i].lower()):
             i += 1
         else:
             break
