@@ -88,7 +88,7 @@ a {
 .page .home-link {
   position: fixed;
   top: 20px;
-  left: max(16px, 50% - 356px);
+  left: 20px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -113,7 +113,7 @@ a {
 }
 .page .home-link:focus-visible { outline: 2px solid #7fd4b0; outline-offset: 3px; }
 .page .home-link svg { display: block; flex-shrink: 0; }
-.page[dir="rtl"] .home-link { left: auto; right: max(16px, 50% - 356px); }
+.page[dir="rtl"] .home-link { left: auto; right: 20px; }
 .page[dir="rtl"] .home-link svg { transform: scaleX(-1); }
 .page[dir="rtl"] .home-link:hover { transform: translateX(2px); }
 .page .aurora {
@@ -499,6 +499,10 @@ html, body { background: var(--bg); }
   margin-bottom: 8vh;
 }
 .hero-eyebrow {
+  position: fixed;
+  top: 26px;
+  left: 20px;
+  z-index: 50;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 10.5px;
@@ -845,8 +849,11 @@ html, body { background: var(--bg); }
 :root[data-theme="light"] .page .foot { color: var(--text-faint); }
 
 /* Theme toggle on the chat page: top-right, flips with Home in RTL. */
-.page .theme-toggle { position: fixed; top: 20px; right: max(16px, 50% - 356px); z-index: 50; }
-.page[dir="rtl"] .theme-toggle { right: auto; left: max(16px, 50% - 356px); }
+.page .theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 50; }
+.page[dir="rtl"] .theme-toggle { right: auto; left: 20px; }
+.hero .theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 50; }
+.hero[dir="rtl"] .theme-toggle { right: auto; left: 20px; }
+.hero[dir="rtl"] .hero-eyebrow { left: auto; right: 20px; }
 
 /* =================================================================
    "WHAT CAN I ASK?" — trigger + topics popup on the chat page.

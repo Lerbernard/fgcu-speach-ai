@@ -365,22 +365,22 @@ export default function DataDashboard() {
   return (
     <div className="dash-wrap">
       <Style />
+      <Link href="/" className="dash-back dash-back-fixed"><BackArrow />Back to website</Link>
+      <div className="dash-toggle-fixed">
+        <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label="Toggle light/dark">
+          <span className="theme-thumb">{theme === "dark" ? <MoonIcon /> : <SunIcon />}</span>
+        </button>
+        <button className="dash-btn dash-btn-ghost" onClick={() => load(password)} disabled={loading}>
+          {loading ? "…" : "Refresh"}
+        </button>
+        <button className="dash-btn dash-btn-ghost" onClick={exportCsv}>CSV</button>
+        <button className="dash-btn dash-btn-danger" onClick={logout}>Log out</button>
+      </div>
       <header className="dash-head">
         <div className="dash-head-left">
-          <Link href="/" className="dash-back"><BackArrow />Back to website</Link>
           <div>
             <h1>Ask the Eagle — Data</h1>
           </div>
-        </div>
-        <div className="dash-head-actions">
-          <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label="Toggle light/dark">
-            <span className="theme-thumb">{theme === "dark" ? <MoonIcon /> : <SunIcon />}</span>
-          </button>
-          <button className="dash-btn dash-btn-ghost" onClick={() => load(password)} disabled={loading}>
-            {loading ? "…" : "Refresh"}
-          </button>
-          <button className="dash-btn dash-btn-ghost" onClick={exportCsv}>CSV</button>
-          <button className="dash-btn dash-btn-danger" onClick={logout}>Log out</button>
         </div>
       </header>
 
@@ -524,7 +524,7 @@ export default function DataDashboard() {
 function Style() {
   return (
     <style>{`
-      .dash-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 18px 80px; min-height: 100vh; color: var(--text);
+      .dash-wrap { max-width: 1100px; margin: 0 auto; padding: 64px 18px 80px; min-height: 100vh; color: var(--text);
         font-family: var(--font-space-mono), ui-monospace, SFMono-Regular, Menlo, "Courier New", monospace; }
       .dash-center { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
 
@@ -534,8 +534,8 @@ function Style() {
         backdrop-filter: blur(8px); transition: color .2s, border-color .2s, background .2s, transform .15s; }
       .dash-back svg { display: block; flex-shrink: 0; }
       .dash-back:hover { color: var(--text); border-color: var(--accent); transform: translateX(-2px); }
-      .dash-back-fixed { position: fixed; top: 20px; left: max(16px, 50% - 356px); z-index: 50; }
-      .dash-toggle-fixed { position: fixed; top: 20px; right: max(16px, 50% - 356px); z-index: 50; }
+      .dash-back-fixed { position: fixed; top: 20px; left: 20px; z-index: 50; }
+      .dash-toggle-fixed { position: fixed; top: 20px; right: 20px; z-index: 50; display: flex; align-items: center; gap: 8px; }
 
       .dash-login { background: var(--panel); border: 1px solid var(--panel-brd); border-radius: 18px; padding: 34px 30px;
         width: 340px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
