@@ -70,7 +70,7 @@ Settings.chunk_overlap = 50
 #   BACKUP : openai/gpt-oss-120b      — used if Llama is unavailable at startup
 #            OR if it fails mid-run (see _run() in answer_question).
 # (Other tested option if you ever want it: qwen/qwen3.6-27b, reasoning_effort "none".)
-_GROQ_KEY = os.getenv("GROQ_API_KEY")
+_GROQ_KEY = os.getenv("GROQ_API_KEY2")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -1039,8 +1039,20 @@ SUPABASE_KEY   = os.getenv("SUPABASE_KEY", "")
 SUPABASE_TABLE = os.getenv("SUPABASE_TABLE", "ask_logs")
 SUPABASE_ISSUES_TABLE = os.getenv("SUPABASE_ISSUES_TABLE", "issue_reports")
 
+# Password for the /data admin dashboard. If unset, the admin endpoints are
+# DISABLED (deny all) rather than open — safer default.
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
 
-async def log_interaction(client_id: str, question: str, answer: str, language: str, message_id: str = ""):
+def _check_admin(password: str) -> bool:
+    """Constant-time password check for the admin dashboard endpoints."""
+    if not ADMIN_PASSWORD:
+        return False
+    return hmac.compare_digest(str(password or ""), ADMIN_PASSWORD)
+
+
+async def log_interaction(client_id: str, question: str, answer: str, language: str,
+                          message_id: str = "", platform: str = "", browser: str = "",
+                          user_agent: str = ""):
     """Best-effort insert of one row into Supabase. Never raises - logging must
     not affect the user's request. No-op when Supabase isn't configured."""
     if not (SUPABASE_URL and SUPABASE_KEY):
@@ -1061,6 +1073,9 @@ async def log_interaction(client_id: str, question: str, answer: str, language: 
                     "question": question,
                     "answer": answer,
                     "language": language,
+                    "platform": platform or None,
+                    "browser": browser or None,
+                    "user_agent": (user_agent or "")[:500] or None,
                 },
             )
     except Exception:
@@ -1163,18 +1178,23 @@ async def verify(body: dict = Body(default=None)):
 
 
 @app.post("/ask")
-async def ask(background: BackgroundTasks, question: str = "", body: dict = Body(default=None), _human=Depends(require_human)):
+async def ask(request: Request, background: BackgroundTasks, question: str = "", body: dict = Body(default=None), _human=Depends(require_human)):
     # Accept either a query param (?question=) for backward compatibility, or a
     # JSON body {"question": ..., "history": [...], "client_id": "...",
-    # "message_id": "..."}.
+    # "message_id": "...", "platform": "...", "browser": "..."}.
     history = []
     client_id = ""
     message_id = ""
+    platform = ""
+    browser = ""
     if body:
         question = body.get("question", question) or question
         history = body.get("history", []) or []
         client_id = body.get("client_id", "") or ""
         message_id = body.get("message_id", "") or ""
+        platform = (body.get("platform", "") or "")[:40]
+        browser = (body.get("browser", "") or "")[:40]
+    user_agent = request.headers.get("user-agent", "") if request else ""
     # Generate the answer, retrying once on a transient failure (Groq/Pinecone/
     # Cohere hiccup). If it still fails, return a short, polite message in the
     # user's language instead of a raw 500.
@@ -1191,7 +1211,8 @@ async def ask(background: BackgroundTasks, question: str = "", body: dict = Body
             language = _safe_ui_lang(question)
             answer = _ERROR_TEXT.get(language, _ERROR_TEXT["English"])
     # Log the interaction after the response is sent (non-blocking).
-    background.add_task(log_interaction, client_id, question, answer, language, message_id)
+    background.add_task(log_interaction, client_id, question, answer, language,
+                        message_id, platform, browser, user_agent)
     return {"answer": answer, "language": language}
 
 
@@ -1221,6 +1242,65 @@ async def feedback(body: dict = Body(default=None)):
         return {"ok": r.status_code in (200, 204)}
     except Exception:
         return {"ok": False}
+
+
+# ─── Admin dashboard (/data) endpoints ─────────────────────────────────────
+# Password-protected read-only access to the Supabase logs for the /data page.
+# The password is checked server-side, so the data is never exposed without it.
+async def _sb_get(table: str, params: dict):
+    """Read rows from a Supabase table via the REST API (service-role key)."""
+    if not (SUPABASE_URL and SUPABASE_KEY):
+        return []
+    async with httpx.AsyncClient(timeout=15) as client:
+        r = await client.get(
+            f"{SUPABASE_URL}/rest/v1/{table}",
+            headers={"apikey": SUPABASE_KEY, "Authorization": f"Bearer {SUPABASE_KEY}"},
+            params=params,
+        )
+        if r.status_code == 200:
+            return r.json()
+        return []
+
+
+@app.post("/admin/logs")
+async def admin_logs(body: dict = Body(default=None)):
+    """Return recent ask_logs rows for the dashboard. Requires the admin
+    password. Filtering is done client-side in the dashboard; here we just
+    return the most recent N rows."""
+    data = body or {}
+    if not _check_admin(data.get("password")):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    try:
+        limit = int(data.get("limit", 3000))
+    except (TypeError, ValueError):
+        limit = 3000
+    limit = max(1, min(limit, 10000))
+    rows = await _sb_get(SUPABASE_TABLE, {
+        "select": "created_at,client_id,message_id,question,answer,language,rating,platform,browser",
+        "order": "created_at.desc",
+        "limit": str(limit),
+    })
+    return {"ok": True, "rows": rows}
+
+
+@app.post("/admin/issues")
+async def admin_issues(body: dict = Body(default=None)):
+    """Return recent issue_reports rows for the dashboard. Requires the admin
+    password."""
+    data = body or {}
+    if not _check_admin(data.get("password")):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    try:
+        limit = int(data.get("limit", 1000))
+    except (TypeError, ValueError):
+        limit = 1000
+    limit = max(1, min(limit, 5000))
+    rows = await _sb_get(SUPABASE_ISSUES_TABLE, {
+        "select": "created_at,client_id,description",
+        "order": "created_at.desc",
+        "limit": str(limit),
+    })
+    return {"ok": True, "rows": rows}
 
 
 # Whisper language codes for the supported languages (used when the user turns

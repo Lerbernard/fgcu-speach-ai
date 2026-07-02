@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { TOPIC_ICONS, TOPIC_TEXT } from "./topics-i18n";
 
-// Point this at your backend. Set NEXT_PUBLIC_API_BASE in Vercel; falls back to localhost for dev.
+// Point this at your backend. Set NEXT_PUBLIC_API_BASE in Vercel (e.g.
+// https://your-space.hf.space). Falls back to localhost:8080 for local dev.
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8080";
 // Cloudflare Turnstile public site key. Leave empty for local dev (the bot check
 // is then skipped on both ends). Set NEXT_PUBLIC_TURNSTILE_SITEKEY in .env.local.
@@ -31,6 +32,30 @@ function getClientId(): string {
   } catch {
     return "";
   }
+}
+
+// Detect the visitor's platform + browser from the user agent, for the usage
+// dashboard. Best-effort and coarse (no fingerprinting) — just enough to label
+// devices like "Windows" / "iPhone" and browsers like "Chrome" / "Safari".
+function getDeviceInfo(): { platform: string; browser: string } {
+  if (typeof navigator === "undefined") return { platform: "Unknown", browser: "Unknown" };
+  const ua = navigator.userAgent || "";
+  let platform = "Unknown";
+  if (/iPhone/i.test(ua)) platform = "iPhone";
+  else if (/iPad/i.test(ua)) platform = "iPad";
+  else if (/Android/i.test(ua)) platform = "Android";
+  else if (/Windows/i.test(ua)) platform = "Windows";
+  else if (/Macintosh|Mac OS X/i.test(ua)) platform = "Mac";
+  else if (/CrOS/i.test(ua)) platform = "ChromeOS";
+  else if (/Linux/i.test(ua)) platform = "Linux";
+  let browser = "Unknown";
+  if (/Edg\//i.test(ua)) browser = "Edge";
+  else if (/OPR\/|Opera/i.test(ua)) browser = "Opera";
+  else if (/SamsungBrowser/i.test(ua)) browser = "Samsung";
+  else if (/Firefox\//i.test(ua)) browser = "Firefox";
+  else if (/Chrome\//i.test(ua)) browser = "Chrome";
+  else if (/Safari\//i.test(ua)) browser = "Safari";
+  return { platform, browser };
 }
 
 type Phase = "idle" | "arming" | "recording" | "transcribing" | "thinking" | "speaking";
@@ -425,10 +450,11 @@ export default function Home() {
     try {
       setPhase("thinking");
       const messageId = newId();
+      const dev = getDeviceInfo();
       const aRes = await fetch(`${API_BASE}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-Session": session },
-        body: JSON.stringify({ question, history: messages.slice(-6), client_id: getClientId(), message_id: messageId }),
+        body: JSON.stringify({ question, history: messages.slice(-6), client_id: getClientId(), message_id: messageId, platform: dev.platform, browser: dev.browser }),
       });
       if (aRes.status === 401) { setSession(""); throw new Error("expired"); }
       if (!aRes.ok) throw new Error("ask");
