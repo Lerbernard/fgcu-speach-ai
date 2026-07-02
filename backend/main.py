@@ -756,8 +756,35 @@ def _dedup_followup(answer: str, history) -> str:
     return trimmed or answer
 
 
-def answer_question(question: str, history=None):
+def _correct_typos(question: str) -> str:
+    """Fix obvious typos before retrieval, so a misspelled word ('homlmes') still
+    embeds near the right chunk. Works in any of the 20 languages because the LLM
+    corrects in place. Best-effort: falls back to the ORIGINAL on any error or a
+    suspicious result (empty, or far longer -> the model rambled/answered instead
+    of just correcting)."""
+    q = (question or "").strip()
+    if len(q) < 4:
+        return question
+    prompt = (
+        "You fix typos. Correct only obvious spelling and typing mistakes in the "
+        "question below. Keep the SAME language, meaning, names and word order. Do "
+        "not answer it, translate it, add or remove words, or change proper nouns. "
+        "If nothing is misspelled, return it unchanged. Reply with ONLY the "
+        "corrected question - no quotes, no explanation.\n\nQuestion: " + q
+    )
+    try:
+        out = str(Settings.llm.complete(prompt)).strip().strip('"').strip()
+    except Exception:
+        return question                          # never break the main flow
+    if not out or len(out) > len(q) * 2 + 20:
+        return question
+    return out
+
+
+def answer_question(question: str, history=None, correct=True):
     history = history or []
+    if correct:                                  # text mode only; voice transcripts are clean
+        question = _correct_typos(question)      # typo-tolerant retrieval (any language)
     # For routing and entity detection, a follow-up ("what does he teach?")
     # may rely on a name mentioned earlier. We build a small context string of
     # recent turns and use it to help detect the course/professor when the
@@ -1254,6 +1281,7 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
     message_id = ""
     platform = ""
     browser = ""
+    mode = "text"
     if body:
         question = body.get("question", question) or question
         history = body.get("history", []) or []
@@ -1261,6 +1289,7 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
         message_id = body.get("message_id", "") or ""
         platform = (body.get("platform", "") or "")[:40]
         browser = (body.get("browser", "") or "")[:40]
+        mode = (body.get("mode", "text") or "text")
     user_agent = request.headers.get("user-agent", "") if request else ""
     # Generate the answer, retrying once on a transient failure (Groq/Pinecone/
     # Cohere hiccup). If it still fails, return a short, polite message in the
@@ -1269,7 +1298,7 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
     language = "English"
     for attempt in range(2):
         try:
-            answer, language = answer_question(question, history)
+            answer, language = answer_question(question, history, correct=(mode != "voice"))
             break
         except Exception:
             if attempt == 0:

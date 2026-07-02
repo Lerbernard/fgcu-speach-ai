@@ -504,7 +504,7 @@ export default function Home() {
       const aRes = await fetch(`${API_BASE}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-Session": session },
-        body: JSON.stringify({ question, history: messages.slice(-6), client_id: getClientId(), message_id: messageId, platform: dev.platform, browser: dev.browser }),
+        body: JSON.stringify({ question, history: messages.slice(-6), client_id: getClientId(), message_id: messageId, platform: dev.platform, browser: dev.browser, mode: speak ? "voice" : "text" }),
       });
       if (aRes.status === 401) { clearSession(); throw new Error("expired"); }
       if (aRes.status === 429) { setError(t.slowDown); setPhase("idle"); return; }
