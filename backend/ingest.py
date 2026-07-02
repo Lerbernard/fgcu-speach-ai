@@ -156,6 +156,58 @@ documents = []
 skipped_short = 0
 skipped_dupe  = 0
 
+_MONTHS = ["", "January", "February", "March", "April", "May", "June", "July",
+           "August", "September", "October", "November", "December"]
+
+
+def normalize_event_dates(text: str) -> str:
+    """Rewrite calendar-grid rows like
+        | AI Day | ...img... | 02 | 11 | 2026 | 1 | 3 | A panelist... |
+    into a readable, retrieval-friendly line:
+        AI Day — November 2, 2026. A panelist...
+    Dates in these grids are stored as raw DD | MM | YYYY columns, which embed
+    poorly for "when is X" queries and are ambiguous for the LLM. Spelling out
+    the month (and keeping day-first order, the source convention) fixes both.
+    Non-grid text is returned unchanged."""
+    out = []
+    for line in text.split("\n"):
+        s = line.strip()
+        if not (s.startswith("|") and s.count("|") >= 5):
+            out.append(line)
+            continue
+        cells = [c.strip() for c in s.strip("|").split("|")]
+        date_str = None
+        di = -1
+        for i in range(len(cells) - 2):
+            a, b, c = cells[i], cells[i + 1], cells[i + 2]
+            if a.isdigit() and b.isdigit() and c.isdigit():
+                d, m, y = int(a), int(b), int(c)
+                if 1 <= d <= 31 and 1 <= m <= 12 and 2000 <= y <= 2100:
+                    date_str = f"{_MONTHS[m]} {d}, {y}"
+                    di = i
+                    break
+        if date_str is None:
+            out.append(line)
+            continue
+        title = cells[0] if cells and cells[0] else "Event"
+        time_str = ""
+        for c in cells:
+            if re.search(r"\d{1,2}:\d{2}\s*(am|pm)", c, re.I):
+                time_str = c
+                break
+        skip = {title, cells[di], cells[di + 1], cells[di + 2], time_str}
+        desc = [c for c in cells if c and c not in skip and not c.isdigit()
+                and not c.lower().endswith((".jpg", ".png", ".jpeg")) and not c.startswith("/")]
+        line_out = f"{title} — {date_str}"
+        if time_str:
+            line_out += f" ({time_str})"
+        line_out += "."
+        if desc:
+            line_out += " " + ". ".join(desc)
+        out.append(line_out)
+    return "\n".join(out)
+
+
 all_files = []
 for root, dirs, files in os.walk(data_dir):
     dirs[:] = [d for d in dirs if not d.startswith(".")]
@@ -192,13 +244,17 @@ for filepath in tqdm(all_files, desc="      Reading", unit="file"):
         if len(content) < 50:
             skipped_short += 1
             continue
+        doc_type = get_doc_type(rel_path, filename)
+        # Spell out dates in event/calendar grids so "when is X" retrieves + reads them.
+        if doc_type in ("event", "calendar", "admissions"):
+            content = normalize_event_dates(content)
         documents.append(Document(
             text=content,
             metadata={
                 "source":    filename,
                 "path":      rel_path,
                 "folder":    os.path.basename(os.path.dirname(filepath)),
-                "doc_type":  get_doc_type(rel_path, filename),
+                "doc_type":  doc_type,
                 "program":   get_program(rel_path, filename),
                 "professor": get_professor(rel_path, filename, content),
                 "term":      get_term(filename),

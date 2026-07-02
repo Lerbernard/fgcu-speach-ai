@@ -634,6 +634,12 @@ _STOP = {"is", "are", "was", "were", "am", "be", "been", "being", "do", "does", 
          "me", "tell", "give", "show", "i", "my", "get"}
 _MORE = {"tell me more", "more", "go on", "and", "what else", "anything else",
          "continue", "more info", "more details"}
+# Relative words that refer back to a subject from the previous turn rather than
+# naming a new one. "when is the next one" / "which one" / "the first one" carry no
+# subject of their own, so they must be folded in with the prior question for
+# retrieval (otherwise "the next one" matches any random upcoming item).
+_RELATIVE = {"next", "one", "ones", "last", "first", "other", "another",
+             "previous", "same", "upcoming"}
 
 
 def _is_followup(q: str) -> bool:
@@ -657,8 +663,8 @@ def _is_followup(q: str) -> bool:
     words = ql.split()
     if set(words) & _ANAPHORA:           # leans on a pronoun referring to prior turn
         return True
-    content = [w for w in words if w not in _STOP and w not in _BARE_Q]
-    return not content                   # only question/filler words left -> follow-up
+    content = [w for w in words if w not in _STOP and w not in _BARE_Q and w not in _RELATIVE]
+    return not content                   # only question/filler/relative words left -> follow-up
 
 
 # Backstop for the "never answer with code" rule (see _strip_code below).
