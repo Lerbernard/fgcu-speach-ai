@@ -998,31 +998,62 @@ SESSION_TTL      = 2 * 60 * 60          # how long one verified session lasts (s
 
 
 def _make_session() -> str:
-    """A signed, expiring session token: base64(payload).hmac_sig."""
-    exp = int(time.time()) + SESSION_TTL
-    payload = base64.urlsafe_b64encode(json.dumps({"exp": exp}).encode()).decode().rstrip("=")
-    sig = hmac.new(SESSION_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
-    return f"{payload}.{sig}"
+    """Signed, expiring token '<exp>.<hmac>'. Simple format (no JSON/base64) so a
+    Vercel serverless function can mint the exact same token: Cloudflare is
+    unreachable from this Space, so Turnstile is verified on Vercel and this
+    backend only validates the resulting HMAC."""
+    exp = str(int(time.time()) + SESSION_TTL)
+    sig = hmac.new(SESSION_SECRET.encode(), exp.encode(), hashlib.sha256).hexdigest()
+    return f"{exp}.{sig}"
 
 
 def _valid_session(token: str) -> bool:
     if not token or "." not in token:
         return False
-    payload, sig = token.rsplit(".", 1)
-    expected = hmac.new(SESSION_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
+    exp, sig = token.rsplit(".", 1)
+    expected = hmac.new(SESSION_SECRET.encode(), exp.encode(), hashlib.sha256).hexdigest()
     if not hmac.compare_digest(sig, expected):
         return False
     try:
-        data = json.loads(base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4)))
-    except Exception:
+        return int(exp) > int(time.time())
+    except ValueError:
         return False
-    return int(data.get("exp", 0)) > int(time.time())
 
 
-async def require_human(x_session: str = Header(default="")):
-    """Gate the costly endpoints: allow only requests carrying a valid session
-    (issued by /verify after a Turnstile solve). No-op when Turnstile is not
-    configured, so local development still works."""
+# Per-IP rate limiting (in-memory sliding window). Needs no external calls, so it
+# protects the paid endpoints even where Turnstile can't verify. Tune with the
+# RATE_LIMIT_PER_MIN env var (counts every /ask, /transcribe and /speak call; one
+# voice question is ~3 calls, so 40/min ≈ 13 questions/min per IP).
+from collections import defaultdict, deque
+_RL_WINDOW = 60
+_RL_MAX = int(os.getenv("RATE_LIMIT_PER_MIN", "40"))
+_rl_hits: "dict[str, deque]" = defaultdict(deque)
+
+
+def _client_ip(request: Request) -> str:
+    xff = request.headers.get("x-forwarded-for", "")
+    if xff:
+        return xff.split(",")[0].strip()          # first hop = real client (behind proxies)
+    return request.client.host if request.client else "unknown"
+
+
+def _rate_limited(ip: str) -> bool:
+    now = time.time()
+    dq = _rl_hits[ip]
+    while dq and dq[0] < now - _RL_WINDOW:
+        dq.popleft()
+    if len(dq) >= _RL_MAX:
+        return True
+    dq.append(now)
+    return False
+
+
+async def require_human(request: Request, x_session: str = Header(default="")):
+    """Gate the costly endpoints. Two layers: (1) a per-IP rate limit that always
+    applies, and (2) a Turnstile session check when Turnstile is configured (no-op
+    for local dev without TURNSTILE_SECRET)."""
+    if _rate_limited(_client_ip(request)):
+        raise HTTPException(status_code=429, detail="Too many requests — please slow down.")
     if not TURNSTILE_SECRET:
         return
     if not _valid_session(x_session):
@@ -1177,8 +1208,12 @@ async def verify(body: dict = Body(default=None)):
             )
         result = resp.json()
     except Exception as e:                            # network / DNS / timeout / bad JSON
-        print(f"[verify] siteverify request failed: {e!r}")
-        raise HTTPException(status_code=502, detail=f"Could not reach Turnstile: {e}")
+        # This HF Space can't reach challenges.cloudflare.com. Rather than break the
+        # whole assistant, fail OPEN (issue a session) and rely on the per-IP rate
+        # limiter for abuse protection. If the backend later runs where Cloudflare
+        # IS reachable, this path simply stops triggering and real checks resume.
+        print(f"[verify] siteverify unreachable, failing open: {e!r}")
+        return {"session": _make_session()}
     if not result.get("success"):
         codes = result.get("error-codes", [])
         print(f"[verify] siteverify rejected: {codes}")

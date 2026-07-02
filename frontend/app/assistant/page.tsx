@@ -287,7 +287,9 @@ export default function Home() {
   async function verifyToken(token: string) {
     setVerifyError("");
     try {
-      const r = await fetch(`${API_BASE}/verify`, {
+      // Verify via the Vercel serverless route (/api/verify) — it can reach
+      // Cloudflare, unlike the HF Space. It returns a session the backend accepts.
+      const r = await fetch(`/api/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
