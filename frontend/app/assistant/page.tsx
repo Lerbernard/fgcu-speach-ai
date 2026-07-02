@@ -256,6 +256,28 @@ export default function Home() {
   const [verifyError, setVerifyError] = useState("");
   const langRef = useRef<HTMLDivElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
+
+  // Persist the verify session so we don't re-challenge on every visit. The token
+  // is "<exp>.<sig>" so we can check expiry locally before reusing it.
+  function saveSession(s: string) {
+    try { localStorage.setItem("eagle_verify_session", s); } catch { /* ignore */ }
+    setSession(s);
+  }
+  function clearSession() {
+    try { localStorage.removeItem("eagle_verify_session"); } catch { /* ignore */ }
+    setSession("");
+  }
+  useEffect(() => {
+    if (!TURNSTILE_SITEKEY) return;                 // dev: no gate
+    try {
+      const saved = localStorage.getItem("eagle_verify_session") || "";
+      if (saved) {
+        const exp = parseInt(saved.split(".")[0], 10);
+        if (exp && exp * 1000 > Date.now() + 5000) { setSession(saved); return; } // still valid
+        localStorage.removeItem("eagle_verify_session");                          // expired
+      }
+    } catch { /* ignore */ }
+  }, []);
   const composerRef = useRef<HTMLTextAreaElement | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -303,7 +325,7 @@ export default function Home() {
         return;
       }
       const d = await r.json();
-      if (d.session) { setSession(d.session); setVerifyError(""); }
+      if (d.session) { saveSession(d.session); setVerifyError(""); }
       else { setVerifyError("No session was returned. Please try again."); resetTurnstile(); }
     } catch (e) {
       console.error("verify error", e);
@@ -446,7 +468,7 @@ export default function Home() {
       form.append("audio", blob, "question.webm");
       if (!autoDetect) form.append("language", selectedLang);
       const tRes = await fetch(`${API_BASE}/transcribe`, { method: "POST", body: form, headers: { "X-Session": session } });
-      if (tRes.status === 401) { setSession(""); throw new Error("expired"); }
+      if (tRes.status === 401) { clearSession(); throw new Error("expired"); }
       if (!tRes.ok) throw new Error("transcribe");
       const tdata = await tRes.json();
       const question = (tdata.text || "").trim();
@@ -475,7 +497,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json", "X-Session": session },
         body: JSON.stringify({ question, history: messages.slice(-6), client_id: getClientId(), message_id: messageId, platform: dev.platform, browser: dev.browser }),
       });
-      if (aRes.status === 401) { setSession(""); throw new Error("expired"); }
+      if (aRes.status === 401) { clearSession(); throw new Error("expired"); }
       if (!aRes.ok) throw new Error("ask");
       const aData = await aRes.json();
       const replyText = aData.answer || "";
@@ -512,7 +534,7 @@ export default function Home() {
       setIsPaused(false);
       setPhase("speaking");
       const sRes = await fetch(`${API_BASE}/speak?text=${encodeURIComponent(text)}`, { method: "POST", headers: { "X-Session": session } });
-      if (sRes.status === 401) setSession("");
+      if (sRes.status === 401) clearSession();
       const ttsType = sRes.headers.get("content-type") || "";
       if (!sRes.ok || !ttsType.includes("audio")) {
         setError(t.voiceUnavailable);
