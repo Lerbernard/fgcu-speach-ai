@@ -253,6 +253,7 @@ export default function Home() {
   const [reportText, setReportText] = useState("");
   const [reportStatus, setReportStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [session, setSession] = useState(TURNSTILE_SITEKEY ? "" : "dev-session"); // bot-check session token
+  const [verifyError, setVerifyError] = useState("");
   const langRef = useRef<HTMLDivElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
   const composerRef = useRef<HTMLTextAreaElement | null>(null);
@@ -284,18 +285,37 @@ export default function Home() {
   // key is configured (local dev), get a dev session immediately so nothing is
   // blocked.
   async function verifyToken(token: string) {
+    setVerifyError("");
     try {
       const r = await fetch(`${API_BASE}/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
       });
-      if (!r.ok) return;
+      if (!r.ok) {
+        const detail = await r.text().catch(() => "");
+        console.error("verify failed", r.status, detail);
+        setVerifyError(
+          r.status === 403
+            ? "Bot check rejected the token (403). The site key and secret key must be from the same Turnstile widget, and this domain must be in its hostname list."
+            : `Verification failed (${r.status}). Please try again.`
+        );
+        resetTurnstile();
+        return;
+      }
       const d = await r.json();
-      if (d.session) setSession(d.session);
-    } catch {
-      /* leave the gate up; the user can retry */
+      if (d.session) { setSession(d.session); setVerifyError(""); }
+      else { setVerifyError("No session was returned. Please try again."); resetTurnstile(); }
+    } catch (e) {
+      console.error("verify error", e);
+      setVerifyError(`Couldn't reach the server at ${API_BASE}. Check NEXT_PUBLIC_API_BASE and CORS, then try again.`);
+      resetTurnstile();
     }
+  }
+
+  function resetTurnstile() {
+    const w = (window as unknown as { turnstile?: { reset?: (id?: string) => void } }).turnstile;
+    try { w?.reset?.(); } catch { /* ignore */ }
   }
 
   useEffect(() => {
@@ -638,6 +658,9 @@ export default function Home() {
             <p className="verify-title">Just checking you&apos;re human</p>
             <p className="verify-sub">This keeps the assistant available for everyone.</p>
             <div ref={turnstileRef} className="verify-widget" />
+            {verifyError && (
+              <p style={{ color: "#e5534b", fontSize: 13, lineHeight: 1.5, marginTop: 12, maxWidth: 320 }}>{verifyError}</p>
+            )}
           </div>
         </div>
       )}
