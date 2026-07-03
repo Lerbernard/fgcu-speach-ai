@@ -1416,7 +1416,7 @@ async def admin_logs(body: dict = Body(default=None)):
         limit = 3000
     limit = max(1, min(limit, 10000))
     rows = await _sb_get(SUPABASE_TABLE, {
-        "select": "created_at,client_id,message_id,question,answer,language,rating,platform,browser",
+        "select": "created_at,client_id,message_id,question,answer,language,rating,platform,browser,mode,corrected_question",
         "order": "created_at.desc",
         "limit": str(limit),
     })
@@ -1436,7 +1436,7 @@ async def admin_issues(body: dict = Body(default=None)):
         limit = 1000
     limit = max(1, min(limit, 5000))
     rows = await _sb_get(SUPABASE_ISSUES_TABLE, {
-        "select": "created_at,client_id,description",
+        "select": "created_at,client_id,description,mode,platform,browser",
         "order": "created_at.desc",
         "limit": str(limit),
     })
