@@ -146,6 +146,79 @@ function MultiFilter({ title, options, selected, onToggle }: {
   );
 }
 
+const CAL_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const CAL_WD = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+const pad2 = (n: number) => String(n).padStart(2, "0");
+const fmtDay = (ymd: string) => { const [y, m, d] = ymd.split("-").map(Number); return `${CAL_MONTHS[m - 1]} ${d}, ${y}`; };
+
+function DateRangeFilter({ start, end, onChange }: {
+  start: string; end: string; onChange: (s: string, e: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [view, setView] = useState(() => {
+    const b = start ? new Date(start + "T12:00:00") : new Date();
+    return { y: b.getFullYear(), m: b.getMonth() };
+  });
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    function onDoc(e: MouseEvent) { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  const label = !start ? "All dates"
+    : (!end || end === start) ? fmtDay(start)
+    : `${fmtDay(start)} → ${fmtDay(end)}`;
+
+  function pick(d: string) {
+    if (!start || (start && end)) onChange(d, "");     // begin a new selection
+    else if (d < start) onChange(d, start);            // second click before start -> swap
+    else onChange(start, d);                            // second click (same day -> single day)
+  }
+
+  const lead = new Date(view.y, view.m, 1).getDay();
+  const days = new Date(view.y, view.m + 1, 0).getDate();
+  const cells: (string | null)[] = [];
+  for (let i = 0; i < lead; i++) cells.push(null);
+  for (let d = 1; d <= days; d++) cells.push(`${view.y}-${pad2(view.m + 1)}-${pad2(d)}`);
+  const lo = start && end ? (start < end ? start : end) : start;
+  const hi = start && end ? (start < end ? end : start) : start;
+
+  return (
+    <div className="dash-mf" ref={ref}>
+      <button type="button" className={`dash-mf-btn${start ? " on" : ""}`} onClick={() => setOpen((o) => !o)}>
+        {label}<span className="dash-mf-caret">▾</span>
+      </button>
+      {open && (
+        <div className="dash-mf-panel dash-cal-panel">
+          <div className="dash-cal-head">
+            <button type="button" onClick={() => setView((v) => ({ y: v.y - 1, m: v.m }))} aria-label="Previous year">«</button>
+            <button type="button" onClick={() => setView((v) => { const d = new Date(v.y, v.m - 1, 1); return { y: d.getFullYear(), m: d.getMonth() }; })} aria-label="Previous month">‹</button>
+            <span className="dash-cal-title">{CAL_MONTHS[view.m]} {view.y}</span>
+            <button type="button" onClick={() => setView((v) => { const d = new Date(v.y, v.m + 1, 1); return { y: d.getFullYear(), m: d.getMonth() }; })} aria-label="Next month">›</button>
+            <button type="button" onClick={() => setView((v) => ({ y: v.y + 1, m: v.m }))} aria-label="Next year">»</button>
+          </div>
+          <div className="dash-cal-grid">
+            {CAL_WD.map((w) => <span key={w} className="dash-cal-wd">{w}</span>)}
+            {cells.map((c, i) => c === null
+              ? <span key={`b${i}`} />
+              : (
+                <button type="button" key={c}
+                  className={`dash-cal-day${lo && hi && c >= lo && c <= hi ? " in" : ""}${c === start || c === end ? " sel" : ""}`}
+                  onClick={() => pick(c)}>{Number(c.slice(-2))}</button>
+              ))}
+          </div>
+          <div className="dash-cal-foot">
+            <button type="button" className="dash-fchip dash-fchip-clear" onClick={() => onChange("", "")}>Clear</button>
+            <button type="button" className="dash-fchip" onClick={() => setOpen(false)}>Done</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DataDashboard() {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
@@ -161,6 +234,8 @@ export default function DataDashboard() {
   const [fBrowsers, setFBrowsers] = useState<string[]>([]);
   const [fRatings, setFRatings] = useState<string[]>([]);
   const [fModes, setFModes] = useState<string[]>([]);
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
   const [fDevices, setFDevices] = useState<string[]>([]);
   const [expanded, setExpanded] = useState<number | null>(null);
   const [page, setPage] = useState(0);
@@ -262,11 +337,18 @@ export default function DataDashboard() {
       if (fDevices.length && !fDevices.includes(deviceNames.get(r.client_id || "unknown") || "")) return false;
       if (fRatings.length && !fRatings.includes(rk(r))) return false;
       if (fModes.length && !fModes.includes(r.mode || "unknown")) return false;
+      if (dateStart || dateEnd) {
+        const d = (r.created_at || "").slice(0, 10);
+        const lo = dateStart && dateEnd ? (dateStart < dateEnd ? dateStart : dateEnd) : (dateStart || dateEnd);
+        const hi = dateStart && dateEnd ? (dateStart < dateEnd ? dateEnd : dateStart) : (dateStart || dateEnd);
+        if (lo && d < lo) return false;
+        if (hi && d > hi) return false;
+      }
       if (q && !(`${r.question || ""}`.toLowerCase().includes(q) || `${r.answer || ""}`.toLowerCase().includes(q) || `${r.corrected_question || ""}`.toLowerCase().includes(q)))
         return false;
       return true;
     });
-  }, [rows, search, fLangs, fPlatforms, fBrowsers, fDevices, fRatings, fModes, deviceNames]);
+  }, [rows, search, fLangs, fPlatforms, fBrowsers, fDevices, fRatings, fModes, dateStart, dateEnd, deviceNames]);
 
   const stats = useMemo(() => {
     const up = rows.filter((r) => r.rating === 1).length;
@@ -286,6 +368,7 @@ export default function DataDashboard() {
 
   function resetFilters() {
     setSearch(""); setFLangs([]); setFPlatforms([]); setFBrowsers([]); setFRatings([]); setFDevices([]); setFModes([]);
+    setDateStart(""); setDateEnd("");
     setPage(0);
   }
   function toggleIn(setter: (updater: (prev: string[]) => string[]) => void, v: string) {
@@ -429,6 +512,7 @@ export default function DataDashboard() {
         <>
           <section className="dash-filters">
             <input className="dash-search" placeholder="Search question or answer…" value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} />
+            <DateRangeFilter start={dateStart} end={dateEnd} onChange={(s, e) => { setDateStart(s); setDateEnd(e); setPage(0); }} />
             <MultiFilter title="Devices" options={devices} selected={fDevices} onToggle={(v) => toggleIn(setFDevices, v)} />
             <MultiFilter title="Platforms" options={platforms} selected={fPlatforms} onToggle={(v) => toggleIn(setFPlatforms, v)} />
             <MultiFilter title="Browsers" options={browsers} selected={fBrowsers} onToggle={(v) => toggleIn(setFBrowsers, v)} />
@@ -447,6 +531,7 @@ export default function DataDashboard() {
             fLangs.forEach((v) => chips.push({ label: `Lang: ${v}`, clear: () => toggleIn(setFLangs, v) }));
             fRatings.forEach((v) => chips.push({ label: `Rating: ${v}`, clear: () => toggleIn(setFRatings, v) }));
             fModes.forEach((v) => chips.push({ label: `Type: ${v}`, clear: () => toggleIn(setFModes, v) }));
+            if (dateStart) chips.push({ label: `Dates: ${fmtDay(dateStart)}${dateEnd && dateEnd !== dateStart ? " → " + fmtDay(dateEnd) : ""}`, clear: () => { setDateStart(""); setDateEnd(""); setPage(0); } });
             if (chips.length === 0) return null;
             return (
               <div className="dash-active-filters">
@@ -617,6 +702,18 @@ function Style() {
       .dash-mf-opt:hover { background: var(--bg); }
       .dash-mf-opt input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
       .dash-mf-empty { padding: 8px; color: var(--text-dim); font-size: 12px; }
+      .dash-cal-panel { min-width: 244px; }
+      .dash-cal-head { display: flex; align-items: center; gap: 4px; padding: 0 2px 8px; }
+      .dash-cal-head button { background: transparent; border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 13px; line-height: 1; flex-shrink: 0; }
+      .dash-cal-head button:hover { border-color: var(--accent); }
+      .dash-cal-title { flex: 1; text-align: center; font-size: 13px; }
+      .dash-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+      .dash-cal-wd { font-size: 10px; color: var(--text-dim); text-align: center; padding: 2px 0; }
+      .dash-cal-day { background: transparent; border: none; color: var(--text); border-radius: 6px; height: 28px; cursor: pointer; font: inherit; font-size: 12px; }
+      .dash-cal-day:hover { background: var(--bg); }
+      .dash-cal-day.in { background: var(--accent-soft, rgba(15,155,99,.16)); }
+      .dash-cal-day.sel { background: var(--accent); color: var(--cta-ink); font-weight: 700; }
+      .dash-cal-foot { display: flex; justify-content: space-between; gap: 6px; margin-top: 8px; }
       .dash-active-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: -2px 0 14px; font-size: 12px; }
       .dash-fchip { display: inline-flex; align-items: center; gap: 6px; background: var(--panel); border: 1px solid var(--panel-brd);
         color: var(--text); border-radius: 999px; padding: 4px 11px; font: inherit; font-size: 12px; cursor: pointer; }
