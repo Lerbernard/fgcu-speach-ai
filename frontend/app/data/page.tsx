@@ -146,6 +146,33 @@ function MultiFilter({ title, options, selected, onToggle }: {
   );
 }
 
+function VolumeChart({ data }: { data: [string, number][] }) {
+  const max = Math.max(1, ...data.map((d) => d[1]));
+  const bw = 16, gap = 5, H = 78, pad = 6;
+  const W = data.length * bw + pad * 2;
+  const step = Math.ceil(data.length / 10);       // sparse x labels so they don't crowd
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="dash-chart-svg" role="img" aria-label="Questions per day">
+      {data.map(([day, count], i) => {
+        const h = Math.max(1.5, (count / max) * (H - 22));
+        const x = pad + i * bw;
+        return (
+          <g key={day}>
+            <rect x={x} y={H - 16 - h} width={bw - gap} height={h} rx={2} fill="var(--accent)">
+              <title>{`${day}: ${count}`}</title>
+            </rect>
+            {i % step === 0 && (
+              <text x={x + (bw - gap) / 2} y={H - 5} textAnchor="middle" fontSize="6.5" fill="var(--text-dim)">
+                {day.slice(5)}
+              </text>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
 export default function DataDashboard() {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
@@ -271,11 +298,20 @@ export default function DataDashboard() {
   const stats = useMemo(() => {
     const up = rows.filter((r) => r.rating === 1).length;
     const down = rows.filter((r) => r.rating === -1).length;
+    const voice = rows.filter((r) => r.mode === "voice").length;
+    const text = rows.filter((r) => r.mode === "text").length;
+    const corrected = rows.filter((r) => r.corrected_question && r.corrected_question !== r.question).length;
+    // Daily volume: count questions per calendar day, last 30 days present in data.
+    const byDay = new Map<string, number>();
+    for (const r of rows) {
+      const d = (r.created_at || "").slice(0, 10);
+      if (d) byDay.set(d, (byDay.get(d) || 0) + 1);
+    }
+    const daily = [...byDay.entries()].sort((a, b) => a[0].localeCompare(b[0])).slice(-30);
     return {
       total: rows.length,
       devices: new Set(rows.map((r) => r.client_id || "unknown")).size,
-      up,
-      down,
+      up, down, voice, text, corrected, daily,
       byLang: countBy(rows, (r) => r.language || "Unknown").slice(0, 8),
       byPlatform: countBy(rows, (r) => r.platform || "Unknown"),
       byBrowser: countBy(rows, (r) => r.browser || "Unknown"),
@@ -394,6 +430,8 @@ export default function DataDashboard() {
           <div className="dash-card"><span className="dash-num">{stats.devices}</span><span className="dash-label">Devices</span></div>
           <div className="dash-card"><span className="dash-num dash-up">{stats.up}</span><span className="dash-label dash-label-ico"><ThumbUp /> Helpful</span></div>
           <div className="dash-card"><span className="dash-num dash-down">{stats.down}</span><span className="dash-label dash-label-ico"><ThumbDown /> Not helpful</span></div>
+          <div className="dash-card"><span className="dash-num">{stats.voice}<span className="dash-split">/{stats.text}</span></span><span className="dash-label">Voice / Text</span></div>
+          <div className="dash-card"><span className="dash-num">{stats.corrected}</span><span className="dash-label">Typos fixed</span></div>
         </div>
         <div className="dash-wides">
           <div className="dash-card dash-card-wide">
@@ -416,6 +454,13 @@ export default function DataDashboard() {
           </div>
         </div>
       </section>
+
+      {stats.daily.length > 1 && (
+        <section className="dash-chart">
+          <span className="dash-label">Questions per day</span>
+          <VolumeChart data={stats.daily} />
+        </section>
+      )}
 
       <div className="dash-tabs">
         <button className={tab === "logs" ? "on" : ""} onClick={() => setTab("logs")}>Questions ({rows.length})</button>
@@ -589,6 +634,9 @@ function Style() {
       .dash-card { background: var(--panel); border: 1px solid var(--panel-brd); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: row; align-items: center; gap: 12px; }
       .dash-card-wide { min-width: 180px; flex: 1 1 180px; flex-direction: column; align-items: flex-start; gap: 6px; }
       .dash-num { font-size: 24px; font-weight: 700; line-height: 1; flex-shrink: 0; }
+      .dash-split { color: var(--text-dim); font-weight: 700; }
+      .dash-chart { background: var(--panel); border: 1px solid var(--panel-brd); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 8px; }
+      .dash-chart-svg { width: 100%; height: 96px; display: block; }
       .dash-label-ico { display: inline-flex; align-items: center; gap: 5px; }
       .dash-label-ico svg { flex-shrink: 0; }
       .dash-up { color: var(--accent); } .dash-down { color: #e5534b; }

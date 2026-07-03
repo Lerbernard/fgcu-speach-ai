@@ -215,6 +215,36 @@ INFO_DOC_TYPES = ["general", "campus", "program", "department", "student_life",
                   "admissions", "policy", "degree_map", "research"]
 
 
+# For broad "what events are coming up" queries, float chunks that actually
+# contain a date to the top of the reranked set, so dated events (AI Day —
+# November 2) beat dateless descriptions (Senate meets Tuesdays). Applied ONLY
+# to event-listing queries, and only to the handful the reranker already kept.
+_DATE_RX = re.compile(
+    r"\b(January|February|March|April|May|June|July|August|September|October|"
+    r"November|December)\b", re.I)
+try:
+    from llama_index.core.postprocessor.types import BaseNodePostprocessor
+
+    class _DateBoost(BaseNodePostprocessor):
+        def _postprocess_nodes(self, nodes, query_bundle=None):
+            dated, undated = [], []
+            for n in nodes:
+                (dated if _DATE_RX.search(n.node.get_content() or "") else undated).append(n)
+            return dated + undated
+
+    _DATE_BOOST = _DateBoost()
+except Exception:
+    _DATE_BOOST = None
+
+
+def _wants_event_list(q: str) -> bool:
+    ql = (q or "").lower()
+    if "event" not in ql:
+        return False
+    return any(c in ql for c in ("upcoming", "coming up", "what", "which",
+                                 "happening", "any", "list", "other"))
+
+
 def route_query(question: str, routing_text: str = None):
     """Return (doc_types, program, term). Keywords come from keywords.py.
     routing_text (question + recent history) lets follow-ups resolve a professor
@@ -933,7 +963,10 @@ def answer_question(question: str, history=None, correct=True):
     )
     _is_calendar = bool(doc_types and "calendar" in doc_types)
     _active_reranker = _reranker_calendar if (_is_calendar and _reranker_calendar) else _reranker
-    _post = [_active_reranker] if _active_reranker else None
+    _post = [_active_reranker] if _active_reranker else []
+    if _DATE_BOOST is not None and _wants_event_list(question):
+        _post.append(_DATE_BOOST)                 # dated events first for "what's coming up"
+    _post = _post or None
 
     def _run(dt, prog, trm, code, prof):
         try:
