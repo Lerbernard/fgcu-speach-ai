@@ -146,24 +146,6 @@ function MultiFilter({ title, options, selected, onToggle }: {
   );
 }
 
-function VolumeChart({ data }: { data: [string, number][] }) {
-  const max = Math.max(1, ...data.map((d) => d[1]));
-  const step = Math.ceil(data.length / 14);       // sparse x labels so they don't crowd
-  return (
-    <div className="dash-chart-bars">
-      {data.map(([day, count], i) => (
-        <div key={day} className="dash-bar-col" title={`${day}: ${count}`}>
-          <div className="dash-bar-area">
-            <span className="dash-bar-val">{count}</span>
-            <div className="dash-bar-fill" style={{ height: `${Math.max(3, (count / max) * 100)}%` }} />
-          </div>
-          <span className="dash-bar-lbl">{i % step === 0 ? day.slice(5) : ""}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default function DataDashboard() {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
@@ -292,17 +274,10 @@ export default function DataDashboard() {
     const voice = rows.filter((r) => r.mode === "voice").length;
     const text = rows.filter((r) => r.mode === "text").length;
     const corrected = rows.filter((r) => r.corrected_question && r.corrected_question !== r.question).length;
-    // Daily volume: count questions per calendar day, last 30 days present in data.
-    const byDay = new Map<string, number>();
-    for (const r of rows) {
-      const d = (r.created_at || "").slice(0, 10);
-      if (d) byDay.set(d, (byDay.get(d) || 0) + 1);
-    }
-    const daily = [...byDay.entries()].sort((a, b) => a[0].localeCompare(b[0])).slice(-30);
     return {
       total: rows.length,
       devices: new Set(rows.map((r) => r.client_id || "unknown")).size,
-      up, down, voice, text, corrected, daily,
+      up, down, voice, text, corrected,
       byLang: countBy(rows, (r) => r.language || "Unknown").slice(0, 8),
       byPlatform: countBy(rows, (r) => r.platform || "Unknown"),
       byBrowser: countBy(rows, (r) => r.browser || "Unknown"),
@@ -444,13 +419,6 @@ export default function DataDashboard() {
           </div>
         </div>
       </section>
-
-      {stats.daily.length > 1 && (
-        <section className="dash-chart">
-          <span className="dash-label">Questions per day</span>
-          <VolumeChart data={stats.daily} />
-        </section>
-      )}
 
       <div className="dash-tabs">
         <button className={tab === "logs" ? "on" : ""} onClick={() => setTab("logs")}>Questions ({rows.length})</button>
@@ -625,14 +593,6 @@ function Style() {
       .dash-card-wide { min-width: 180px; flex: 1 1 180px; flex-direction: column; align-items: flex-start; gap: 6px; }
       .dash-num { font-size: 24px; font-weight: 700; line-height: 1; flex-shrink: 0; }
       .dash-split { color: var(--text-dim); font-weight: 700; }
-      .dash-chart { background: var(--panel); border: 1px solid var(--panel-brd); border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 12px; }
-      .dash-chart-bars { display: flex; align-items: flex-end; gap: 5px; height: 170px; }
-      .dash-bar-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; height: 100%; }
-      .dash-bar-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-height: 0; }
-      .dash-bar-val { font-size: 10px; color: var(--text-dim); margin-bottom: 3px; }
-      .dash-bar-fill { width: min(72%, 30px); background: var(--accent); border-radius: 4px 4px 0 0; min-height: 2px; }
-      .dash-bar-col:hover .dash-bar-fill { filter: brightness(1.12); }
-      .dash-bar-lbl { font-size: 10px; color: var(--text-dim); margin-top: 6px; text-align: center; white-space: nowrap; height: 13px; overflow: hidden; }
       .dash-label-ico { display: inline-flex; align-items: center; gap: 5px; }
       .dash-label-ico svg { flex-shrink: 0; }
       .dash-up { color: var(--accent); } .dash-down { color: #e5534b; }
