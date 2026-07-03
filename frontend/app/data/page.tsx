@@ -468,8 +468,9 @@ export default function DataDashboard() {
             />
           </div>
           <button type="submit" disabled={loading || !password.trim()}>
-            {loading ? "Checking…" : "Unlock"}
+            {loading ? "Checking…" : "Sign in"}
           </button>
+          <Link href="/" className="dash-login-back">← Back to website</Link>
           {error && <p className="dash-error">{error}</p>}
         </form>
       </div>
@@ -695,6 +696,8 @@ function Style() {
       .dash-btn-danger { background: #e5534b; color: #fff; border: 1px solid #e5534b; font-weight: 700; }
       .dash-btn-danger:hover { background: #d0463e; border-color: #d0463e; }
       .dash-login button:disabled { opacity: .5; cursor: default; }
+      .dash-login-back { display: block; text-align: center; text-decoration: none; color: var(--text-dim); font-size: 13px; margin-top: 2px; }
+      .dash-login-back:hover { color: var(--accent); }
       .dash-error { color: #e5534b; font-size: 13px; margin: 0; }
       .dash-dim { color: var(--text-dim); }
 
