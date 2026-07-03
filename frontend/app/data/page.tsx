@@ -470,7 +470,7 @@ export default function DataDashboard() {
           <button type="submit" disabled={loading || !password.trim()}>
             {loading ? "Checking…" : "Sign in"}
           </button>
-          <Link href="/" className="dash-login-back">← Back to website</Link>
+          <Link href="/" className="dash-login-back">Back to website</Link>
           {error && <p className="dash-error">{error}</p>}
         </form>
       </div>
