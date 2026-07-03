@@ -356,6 +356,26 @@ export default function DataDashboard() {
     });
   }, [rows, search, fLangs, fPlatforms, fBrowsers, fDevices, fRatings, fModes, dateStart, dateEnd, deviceNames]);
 
+  // Reports use only the filters that make sense for them: search (description),
+  // date range, device, platform, browser — no language / rating / voice-text type.
+  const filteredIssues = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    const lo = dateStart && dateEnd ? (dateStart < dateEnd ? dateStart : dateEnd) : (dateStart || dateEnd);
+    const hi = dateStart && dateEnd ? (dateStart < dateEnd ? dateEnd : dateStart) : (dateStart || dateEnd);
+    return issues.filter((r) => {
+      if (fDevices.length && !fDevices.includes(deviceNames.get(r.client_id || "unknown") || "")) return false;
+      if (fPlatforms.length && !fPlatforms.includes(r.platform || "Unknown")) return false;
+      if (fBrowsers.length && !fBrowsers.includes(r.browser || "Unknown")) return false;
+      if (lo || hi) {
+        const d = (r.created_at || "").slice(0, 10);
+        if (lo && d < lo) return false;
+        if (hi && d > hi) return false;
+      }
+      if (q && !`${r.description || ""}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+  }, [issues, search, fDevices, fPlatforms, fBrowsers, dateStart, dateEnd, deviceNames]);
+
   const stats = useMemo(() => {
     const up = rows.filter((r) => r.rating === 1).length;
     const down = rows.filter((r) => r.rating === -1).length;
@@ -514,42 +534,48 @@ export default function DataDashboard() {
         <button className={tab === "issues" ? "on" : ""} onClick={() => setTab("issues")}>Reports ({issues.length})</button>
       </div>
 
-      {tab === "logs" && (
-        <>
-          <section className="dash-filters">
-            <input className="dash-search" placeholder="Search question or answer…" value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} />
-            <DateRangeFilter start={dateStart} end={dateEnd} onChange={(s, e) => { setDateStart(s); setDateEnd(e); setPage(0); }} />
-            <MultiFilter title="Devices" options={devices} selected={fDevices} onToggle={(v) => toggleIn(setFDevices, v)} />
-            <MultiFilter title="Platforms" options={platforms} selected={fPlatforms} onToggle={(v) => toggleIn(setFPlatforms, v)} />
-            <MultiFilter title="Browsers" options={browsers} selected={fBrowsers} onToggle={(v) => toggleIn(setFBrowsers, v)} />
+      <section className="dash-filters">
+        <input className="dash-search" placeholder={tab === "logs" ? "Search question or answer…" : "Search reports…"} value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} />
+        <DateRangeFilter start={dateStart} end={dateEnd} onChange={(s, e) => { setDateStart(s); setDateEnd(e); setPage(0); }} />
+        <MultiFilter title="Devices" options={devices} selected={fDevices} onToggle={(v) => toggleIn(setFDevices, v)} />
+        <MultiFilter title="Platforms" options={platforms} selected={fPlatforms} onToggle={(v) => toggleIn(setFPlatforms, v)} />
+        <MultiFilter title="Browsers" options={browsers} selected={fBrowsers} onToggle={(v) => toggleIn(setFBrowsers, v)} />
+        {tab === "logs" && (
+          <>
             <MultiFilter title="Languages" options={langs} selected={fLangs} onToggle={(v) => toggleIn(setFLangs, v)} />
             <MultiFilter title="Rating" options={["up", "down", "none"]} selected={fRatings} onToggle={(v) => toggleIn(setFRatings, v)} />
             <MultiFilter title="Type" options={["voice", "text"]} selected={fModes} onToggle={(v) => toggleIn(setFModes, v)} />
-            <span className="dash-dim dash-count">{filtered.length} shown</span>
-          </section>
+          </>
+        )}
+        <span className="dash-dim dash-count">{(tab === "logs" ? filtered.length : filteredIssues.length)} shown</span>
+      </section>
 
-          {(() => {
-            const chips: { label: string; clear: () => void }[] = [];
-            if (search) chips.push({ label: `Search: "${search}"`, clear: () => { setSearch(""); setPage(0); } });
-            fDevices.forEach((v) => chips.push({ label: `Device: ${v}`, clear: () => toggleIn(setFDevices, v) }));
-            fPlatforms.forEach((v) => chips.push({ label: `Platform: ${v}`, clear: () => toggleIn(setFPlatforms, v) }));
-            fBrowsers.forEach((v) => chips.push({ label: `Browser: ${v}`, clear: () => toggleIn(setFBrowsers, v) }));
-            fLangs.forEach((v) => chips.push({ label: `Lang: ${v}`, clear: () => toggleIn(setFLangs, v) }));
-            fRatings.forEach((v) => chips.push({ label: `Rating: ${v}`, clear: () => toggleIn(setFRatings, v) }));
-            fModes.forEach((v) => chips.push({ label: `Type: ${v}`, clear: () => toggleIn(setFModes, v) }));
-            if (dateStart) chips.push({ label: `Dates: ${fmtDay(dateStart)}${dateEnd && dateEnd !== dateStart ? " → " + fmtDay(dateEnd) : ""}`, clear: () => { setDateStart(""); setDateEnd(""); setPage(0); } });
-            if (chips.length === 0) return null;
-            return (
-              <div className="dash-active-filters">
-                <span className="dash-dim">Active:</span>
-                {chips.map((f, i) => (
-                  <button key={i} className="dash-fchip" onClick={f.clear}>{f.label} ✕</button>
-                ))}
-                <button className="dash-fchip dash-fchip-clear" onClick={resetFilters}>Clear all</button>
-              </div>
-            );
-          })()}
+      {(() => {
+        const chips: { label: string; clear: () => void }[] = [];
+        if (search) chips.push({ label: `Search: "${search}"`, clear: () => { setSearch(""); setPage(0); } });
+        fDevices.forEach((v) => chips.push({ label: `Device: ${v}`, clear: () => toggleIn(setFDevices, v) }));
+        fPlatforms.forEach((v) => chips.push({ label: `Platform: ${v}`, clear: () => toggleIn(setFPlatforms, v) }));
+        fBrowsers.forEach((v) => chips.push({ label: `Browser: ${v}`, clear: () => toggleIn(setFBrowsers, v) }));
+        if (tab === "logs") {
+          fLangs.forEach((v) => chips.push({ label: `Lang: ${v}`, clear: () => toggleIn(setFLangs, v) }));
+          fRatings.forEach((v) => chips.push({ label: `Rating: ${v}`, clear: () => toggleIn(setFRatings, v) }));
+          fModes.forEach((v) => chips.push({ label: `Type: ${v}`, clear: () => toggleIn(setFModes, v) }));
+        }
+        if (dateStart) chips.push({ label: `Dates: ${fmtDay(dateStart)}${dateEnd && dateEnd !== dateStart ? " → " + fmtDay(dateEnd) : ""}`, clear: () => { setDateStart(""); setDateEnd(""); setPage(0); } });
+        if (chips.length === 0) return null;
+        return (
+          <div className="dash-active-filters">
+            <span className="dash-dim">Active:</span>
+            {chips.map((f, i) => (
+              <button key={i} className="dash-fchip" onClick={f.clear}>{f.label} ✕</button>
+            ))}
+            <button className="dash-fchip dash-fchip-clear" onClick={resetFilters}>Clear all</button>
+          </div>
+        );
+      })()}
 
+      {tab === "logs" && (
+        <>
           <div className="dash-tablewrap">
             <table className="dash-table">
               <thead>
@@ -604,19 +630,18 @@ export default function DataDashboard() {
       {tab === "issues" && (
         <div className="dash-tablewrap">
           <table className="dash-table">
-            <thead><tr><th>Time</th><th>Device</th><th>Platform</th><th>Browser</th><th>Type</th><th>Report</th></tr></thead>
+            <thead><tr><th>Time</th><th>Device</th><th>Platform</th><th>Browser</th><th>Report</th></tr></thead>
             <tbody>
-              {issues.map((r, i) => (
+              {filteredIssues.map((r, i) => (
                 <tr key={i}>
                   <td className="dash-nowrap dash-dim">{fmt(r.created_at)}</td>
                   <td className="dash-nowrap">{deviceNames.get(r.client_id || "unknown") || "—"}</td>
                   <td className="dash-nowrap dash-dim">{r.platform || "—"}</td>
                   <td className="dash-nowrap dash-dim">{r.browser || "—"}</td>
-                  <td className="dash-nowrap dash-dim">{r.mode || "—"}</td>
                   <td>{r.description}</td>
                 </tr>
               ))}
-              {issues.length === 0 && <tr><td colSpan={6} className="dash-empty">No reports yet.</td></tr>}
+              {filteredIssues.length === 0 && <tr><td colSpan={5} className="dash-empty">{issues.length ? "No matching reports." : "No reports yet."}</td></tr>}
             </tbody>
           </table>
         </div>
