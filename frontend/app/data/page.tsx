@@ -158,7 +158,7 @@ function DateRangeFilter({ start, end, onChange }: {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState(() => {
     const b = start ? new Date(start + "T12:00:00") : new Date();
-    return { y: b.getFullYear(), m: b.getMonth() };
+    return { y: Math.max(2026, b.getFullYear()), m: b.getMonth() };
   });
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -185,9 +185,6 @@ function DateRangeFilter({ start, end, onChange }: {
   for (let d = 1; d <= days; d++) cells.push(`${view.y}-${pad2(view.m + 1)}-${pad2(d)}`);
   const lo = start && end ? (start < end ? start : end) : start;
   const hi = start && end ? (start < end ? end : start) : start;
-  const nowY = new Date().getFullYear();
-  const years: number[] = [];
-  for (let y = nowY - 6; y <= nowY + 2; y++) years.push(y);
 
   return (
     <div className="dash-mf" ref={ref}>
@@ -197,14 +194,16 @@ function DateRangeFilter({ start, end, onChange }: {
       {open && (
         <div className="dash-mf-panel dash-cal-panel">
           <div className="dash-cal-head">
-            <button type="button" onClick={() => setView((v) => { const d = new Date(v.y, v.m - 1, 1); return { y: d.getFullYear(), m: d.getMonth() }; })} aria-label="Previous month">‹</button>
-            <select className="dash-cal-sel" value={view.m} onChange={(e) => setView((v) => ({ ...v, m: Number(e.target.value) }))}>
-              {CAL_MONTHS.map((mn, i) => <option key={mn} value={i}>{mn}</option>)}
-            </select>
-            <select className="dash-cal-sel dash-cal-year" value={view.y} onChange={(e) => setView((v) => ({ ...v, y: Number(e.target.value) }))}>
-              {years.map((y) => <option key={y} value={y}>{y}</option>)}
-            </select>
-            <button type="button" onClick={() => setView((v) => { const d = new Date(v.y, v.m + 1, 1); return { y: d.getFullYear(), m: d.getMonth() }; })} aria-label="Next month">›</button>
+            <div className="dash-cal-row">
+              <button type="button" className="dash-cal-arrow" disabled={view.y <= 2026} onClick={() => setView((v) => ({ ...v, y: Math.max(2026, v.y - 1) }))} aria-label="Previous year">‹</button>
+              <span className="dash-cal-lbl">{view.y}</span>
+              <button type="button" className="dash-cal-arrow" onClick={() => setView((v) => ({ ...v, y: v.y + 1 }))} aria-label="Next year">›</button>
+            </div>
+            <div className="dash-cal-row">
+              <button type="button" className="dash-cal-arrow" disabled={view.y <= 2026 && view.m === 0} onClick={() => setView((v) => v.m > 0 ? { ...v, m: v.m - 1 } : (v.y > 2026 ? { y: v.y - 1, m: 11 } : v))} aria-label="Previous month">‹</button>
+              <span className="dash-cal-lbl">{CAL_MONTHS[view.m]}</span>
+              <button type="button" className="dash-cal-arrow" onClick={() => setView((v) => v.m < 11 ? { ...v, m: v.m + 1 } : { y: v.y + 1, m: 0 })} aria-label="Next month">›</button>
+            </div>
           </div>
           <div className="dash-cal-grid">
             {CAL_WD.map((w) => <span key={w} className="dash-cal-wd">{w}</span>)}
@@ -710,11 +709,12 @@ function Style() {
       .dash-mf-opt input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
       .dash-mf-empty { padding: 8px; color: var(--text-dim); font-size: 12px; }
       .dash-cal-panel { min-width: 258px; max-height: none; overflow: visible; }
-      .dash-cal-head { display: flex; align-items: center; gap: 6px; padding: 0 2px 8px; }
-      .dash-cal-head button { background: transparent; border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; width: 26px; height: 28px; cursor: pointer; font-size: 13px; line-height: 1; flex-shrink: 0; }
-      .dash-cal-head button:hover { border-color: var(--accent); }
-      .dash-cal-sel { flex: 1; min-width: 0; background: var(--bg); border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; padding: 5px 6px; font: inherit; font-size: 12px; cursor: pointer; }
-      .dash-cal-year { flex: 0 0 70px; }
+      .dash-cal-head { display: flex; flex-direction: column; gap: 5px; padding: 0 2px 8px; }
+      .dash-cal-row { display: flex; align-items: center; gap: 6px; }
+      .dash-cal-arrow { background: transparent; border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; width: 30px; height: 28px; cursor: pointer; font-size: 15px; line-height: 1; flex-shrink: 0; }
+      .dash-cal-arrow:hover:not(:disabled) { border-color: var(--accent); }
+      .dash-cal-arrow:disabled { opacity: .3; cursor: default; }
+      .dash-cal-lbl { flex: 1; text-align: center; font-size: 14px; font-weight: 700; }
       .dash-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
       .dash-cal-wd { font-size: 10px; color: var(--text-dim); text-align: center; padding: 2px 0; }
       .dash-cal-day { background: transparent; border: none; color: var(--text); border-radius: 6px; height: 28px; cursor: pointer; font: inherit; font-size: 12px; }
