@@ -620,11 +620,12 @@ export default function Home() {
     const description = reportText.trim();
     if (!description || reportStatus === "sending") return;
     setReportStatus("sending");
+    const dev = getDeviceInfo();
     try {
       const r = await fetch(`${API_BASE}/report`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description, client_id: getClientId() }),
+        body: JSON.stringify({ description, client_id: getClientId(), mode, platform: dev.platform, browser: dev.browser }),
       });
       const d = await r.json().catch(() => ({}));
       setReportStatus(r.ok && d.ok !== false ? "sent" : "error");

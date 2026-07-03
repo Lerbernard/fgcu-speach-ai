@@ -1129,7 +1129,7 @@ def _check_admin(password: str) -> bool:
 
 async def log_interaction(client_id: str, question: str, answer: str, language: str,
                           message_id: str = "", platform: str = "", browser: str = "",
-                          user_agent: str = ""):
+                          user_agent: str = "", mode: str = "", corrected_question: str = ""):
     """Best-effort insert of one row into Supabase. Never raises - logging must
     not affect the user's request. No-op when Supabase isn't configured."""
     if not (SUPABASE_URL and SUPABASE_KEY):
@@ -1153,6 +1153,8 @@ async def log_interaction(client_id: str, question: str, answer: str, language: 
                     "platform": platform or None,
                     "browser": browser or None,
                     "user_agent": (user_agent or "")[:500] or None,
+                    "mode": mode or None,
+                    "corrected_question": corrected_question or None,
                 },
             )
     except Exception:
@@ -1207,11 +1209,15 @@ async def _unhandled_exception(request: Request, exc: Exception):
 
 
 @app.post("/report")
-async def report(body: dict = Body(default=None)):
+async def report(request: Request, body: dict = Body(default=None)):
     """Store a user-submitted issue report in Supabase."""
     data = body or {}
     description = (data.get("description") or "").strip()
     client_id = data.get("client_id") or ""
+    mode = (data.get("mode") or "")
+    platform = (data.get("platform", "") or "")[:40]
+    browser = (data.get("browser", "") or "")[:40]
+    user_agent = (request.headers.get("user-agent", "") if request else "")[:500]
     if not description:
         raise HTTPException(status_code=400, detail="Empty description")
     if len(description) > 4000:
@@ -1228,7 +1234,8 @@ async def report(body: dict = Body(default=None)):
                     "Content-Type": "application/json",
                     "Prefer": "return=minimal",
                 },
-                json={"client_id": client_id or None, "description": description},
+                json={"client_id": client_id or None, "description": description, "mode": mode or None,
+                      "platform": platform or None, "browser": browser or None, "user_agent": user_agent or None},
             )
         return {"ok": r.status_code in (200, 201, 204)}
     except Exception:
@@ -1291,6 +1298,8 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
         browser = (body.get("browser", "") or "")[:40]
         mode = (body.get("mode", "text") or "text")
     user_agent = request.headers.get("user-agent", "") if request else ""
+    # Text mode: fix typos up front so we retrieve on AND can log the corrected text.
+    corrected_q = question if mode == "voice" else _correct_typos(question)
     # Generate the answer, retrying once on a transient failure (Groq/Pinecone/
     # Cohere hiccup). If it still fails, return a short, polite message in the
     # user's language instead of a raw 500.
@@ -1298,7 +1307,7 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
     language = "English"
     for attempt in range(2):
         try:
-            answer, language = answer_question(question, history, correct=(mode != "voice"))
+            answer, language = answer_question(corrected_q, history, correct=False)
             break
         except Exception:
             if attempt == 0:
@@ -1306,9 +1315,11 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
                 continue
             language = _safe_ui_lang(question)
             answer = _ERROR_TEXT.get(language, _ERROR_TEXT["English"])
-    # Log the interaction after the response is sent (non-blocking).
+    # Log after responding (non-blocking). corrected_question is only stored when
+    # the typo-fixer actually changed the text.
     background.add_task(log_interaction, client_id, question, answer, language,
-                        message_id, platform, browser, user_agent)
+                        message_id, platform, browser, user_agent,
+                        mode, corrected_q if corrected_q != question else "")
     return {"answer": answer, "language": language}
 
 

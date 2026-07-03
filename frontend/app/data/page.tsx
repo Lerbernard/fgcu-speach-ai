@@ -21,8 +21,10 @@ type LogRow = {
   rating?: number | null;
   platform?: string;
   browser?: string;
+  mode?: string;
+  corrected_question?: string;
 };
-type IssueRow = { created_at: string; client_id: string; description: string };
+type IssueRow = { created_at: string; client_id: string; description: string; mode?: string; platform?: string; browser?: string };
 
 // Give each anonymous device a friendly label like "Windows 1" / "iPhone 2":
 // group distinct client_ids by platform and number them by first-seen order.
@@ -158,6 +160,7 @@ export default function DataDashboard() {
   const [fPlatforms, setFPlatforms] = useState<string[]>([]);
   const [fBrowsers, setFBrowsers] = useState<string[]>([]);
   const [fRatings, setFRatings] = useState<string[]>([]);
+  const [fModes, setFModes] = useState<string[]>([]);
   const [fDevices, setFDevices] = useState<string[]>([]);
   const [expanded, setExpanded] = useState<number | null>(null);
   const [page, setPage] = useState(0);
@@ -258,11 +261,12 @@ export default function DataDashboard() {
       if (fBrowsers.length && !fBrowsers.includes(r.browser || "Unknown")) return false;
       if (fDevices.length && !fDevices.includes(deviceNames.get(r.client_id || "unknown") || "")) return false;
       if (fRatings.length && !fRatings.includes(rk(r))) return false;
+      if (fModes.length && !fModes.includes(r.mode || "unknown")) return false;
       if (q && !(`${r.question || ""}`.toLowerCase().includes(q) || `${r.answer || ""}`.toLowerCase().includes(q)))
         return false;
       return true;
     });
-  }, [rows, search, fLangs, fPlatforms, fBrowsers, fDevices, fRatings, deviceNames]);
+  }, [rows, search, fLangs, fPlatforms, fBrowsers, fDevices, fRatings, fModes, deviceNames]);
 
   const stats = useMemo(() => {
     const up = rows.filter((r) => r.rating === 1).length;
@@ -279,7 +283,7 @@ export default function DataDashboard() {
   }, [rows]);
 
   function resetFilters() {
-    setSearch(""); setFLangs([]); setFPlatforms([]); setFBrowsers([]); setFRatings([]); setFDevices([]);
+    setSearch(""); setFLangs([]); setFPlatforms([]); setFBrowsers([]); setFRatings([]); setFDevices([]); setFModes([]);
     setPage(0);
   }
   function toggleIn(setter: (updater: (prev: string[]) => string[]) => void, v: string) {
@@ -427,6 +431,7 @@ export default function DataDashboard() {
             <MultiFilter title="Browsers" options={browsers} selected={fBrowsers} onToggle={(v) => toggleIn(setFBrowsers, v)} />
             <MultiFilter title="Languages" options={langs} selected={fLangs} onToggle={(v) => toggleIn(setFLangs, v)} />
             <MultiFilter title="Rating" options={["up", "down", "none"]} selected={fRatings} onToggle={(v) => toggleIn(setFRatings, v)} />
+            <MultiFilter title="Type" options={["voice", "text"]} selected={fModes} onToggle={(v) => toggleIn(setFModes, v)} />
             <span className="dash-dim dash-count">{filtered.length} shown</span>
           </section>
 
@@ -438,6 +443,7 @@ export default function DataDashboard() {
             fBrowsers.forEach((v) => chips.push({ label: `Browser: ${v}`, clear: () => toggleIn(setFBrowsers, v) }));
             fLangs.forEach((v) => chips.push({ label: `Lang: ${v}`, clear: () => toggleIn(setFLangs, v) }));
             fRatings.forEach((v) => chips.push({ label: `Rating: ${v}`, clear: () => toggleIn(setFRatings, v) }));
+            fModes.forEach((v) => chips.push({ label: `Type: ${v}`, clear: () => toggleIn(setFModes, v) }));
             if (chips.length === 0) return null;
             return (
               <div className="dash-active-filters">
@@ -472,8 +478,9 @@ export default function DataDashboard() {
                       <tr className="dash-detail">
                         <td colSpan={6}>
                           <div><b>Q:</b> {r.question}</div>
+                          {r.corrected_question && <div><b>Corrected:</b> {r.corrected_question}</div>}
                           <div><b>A:</b> {r.answer}</div>
-                          <div className="dash-dim dash-meta">{r.platform || "?"} · {r.browser || "?"} · {r.language} · {fmt(r.created_at)}</div>
+                          <div className="dash-dim dash-meta">{r.mode || "?"} · {r.platform || "?"} · {r.browser || "?"} · {r.language} · {fmt(r.created_at)}</div>
                         </td>
                       </tr>
                     )}
@@ -503,16 +510,19 @@ export default function DataDashboard() {
       {tab === "issues" && (
         <div className="dash-tablewrap">
           <table className="dash-table">
-            <thead><tr><th>Time</th><th>Device</th><th>Report</th></tr></thead>
+            <thead><tr><th>Time</th><th>Device</th><th>Platform</th><th>Browser</th><th>Type</th><th>Report</th></tr></thead>
             <tbody>
               {issues.map((r, i) => (
                 <tr key={i}>
                   <td className="dash-nowrap dash-dim">{fmt(r.created_at)}</td>
                   <td className="dash-nowrap">{deviceNames.get(r.client_id || "unknown") || "—"}</td>
+                  <td className="dash-nowrap dash-dim">{r.platform || "—"}</td>
+                  <td className="dash-nowrap dash-dim">{r.browser || "—"}</td>
+                  <td className="dash-nowrap dash-dim">{r.mode || "—"}</td>
                   <td>{r.description}</td>
                 </tr>
               ))}
-              {issues.length === 0 && <tr><td colSpan={3} className="dash-empty">No reports yet.</td></tr>}
+              {issues.length === 0 && <tr><td colSpan={6} className="dash-empty">No reports yet.</td></tr>}
             </tbody>
           </table>
         </div>
