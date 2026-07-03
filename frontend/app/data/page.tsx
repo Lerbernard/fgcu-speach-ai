@@ -146,7 +146,8 @@ function MultiFilter({ title, options, selected, onToggle }: {
   );
 }
 
-const CAL_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const CAL_MONTHS = ["January", "February", "March", "April", "May", "June", "July",
+  "August", "September", "October", "November", "December"];
 const CAL_WD = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const pad2 = (n: number) => String(n).padStart(2, "0");
 const fmtDay = (ymd: string) => { const [y, m, d] = ymd.split("-").map(Number); return `${CAL_MONTHS[m - 1]} ${d}, ${y}`; };
@@ -184,6 +185,9 @@ function DateRangeFilter({ start, end, onChange }: {
   for (let d = 1; d <= days; d++) cells.push(`${view.y}-${pad2(view.m + 1)}-${pad2(d)}`);
   const lo = start && end ? (start < end ? start : end) : start;
   const hi = start && end ? (start < end ? end : start) : start;
+  const nowY = new Date().getFullYear();
+  const years: number[] = [];
+  for (let y = nowY - 6; y <= nowY + 2; y++) years.push(y);
 
   return (
     <div className="dash-mf" ref={ref}>
@@ -193,11 +197,14 @@ function DateRangeFilter({ start, end, onChange }: {
       {open && (
         <div className="dash-mf-panel dash-cal-panel">
           <div className="dash-cal-head">
-            <button type="button" onClick={() => setView((v) => ({ y: v.y - 1, m: v.m }))} aria-label="Previous year">«</button>
             <button type="button" onClick={() => setView((v) => { const d = new Date(v.y, v.m - 1, 1); return { y: d.getFullYear(), m: d.getMonth() }; })} aria-label="Previous month">‹</button>
-            <span className="dash-cal-title">{CAL_MONTHS[view.m]} {view.y}</span>
+            <select className="dash-cal-sel" value={view.m} onChange={(e) => setView((v) => ({ ...v, m: Number(e.target.value) }))}>
+              {CAL_MONTHS.map((mn, i) => <option key={mn} value={i}>{mn}</option>)}
+            </select>
+            <select className="dash-cal-sel dash-cal-year" value={view.y} onChange={(e) => setView((v) => ({ ...v, y: Number(e.target.value) }))}>
+              {years.map((y) => <option key={y} value={y}>{y}</option>)}
+            </select>
             <button type="button" onClick={() => setView((v) => { const d = new Date(v.y, v.m + 1, 1); return { y: d.getFullYear(), m: d.getMonth() }; })} aria-label="Next month">›</button>
-            <button type="button" onClick={() => setView((v) => ({ y: v.y + 1, m: v.m }))} aria-label="Next year">»</button>
           </div>
           <div className="dash-cal-grid">
             {CAL_WD.map((w) => <span key={w} className="dash-cal-wd">{w}</span>)}
@@ -702,11 +709,12 @@ function Style() {
       .dash-mf-opt:hover { background: var(--bg); }
       .dash-mf-opt input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
       .dash-mf-empty { padding: 8px; color: var(--text-dim); font-size: 12px; }
-      .dash-cal-panel { min-width: 244px; }
-      .dash-cal-head { display: flex; align-items: center; gap: 4px; padding: 0 2px 8px; }
-      .dash-cal-head button { background: transparent; border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 13px; line-height: 1; flex-shrink: 0; }
+      .dash-cal-panel { min-width: 258px; max-height: none; overflow: visible; }
+      .dash-cal-head { display: flex; align-items: center; gap: 6px; padding: 0 2px 8px; }
+      .dash-cal-head button { background: transparent; border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; width: 26px; height: 28px; cursor: pointer; font-size: 13px; line-height: 1; flex-shrink: 0; }
       .dash-cal-head button:hover { border-color: var(--accent); }
-      .dash-cal-title { flex: 1; text-align: center; font-size: 13px; }
+      .dash-cal-sel { flex: 1; min-width: 0; background: var(--bg); border: 1px solid var(--panel-brd); color: var(--text); border-radius: 6px; padding: 5px 6px; font: inherit; font-size: 12px; cursor: pointer; }
+      .dash-cal-year { flex: 0 0 70px; }
       .dash-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
       .dash-cal-wd { font-size: 10px; color: var(--text-dim); text-align: center; padding: 2px 0; }
       .dash-cal-day { background: transparent; border: none; color: var(--text); border-radius: 6px; height: 28px; cursor: pointer; font: inherit; font-size: 12px; }
