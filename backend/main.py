@@ -927,8 +927,20 @@ def answer_question(question: str, history=None, correct=True):
         if sched and established and not own:
             followup = True
     if history and followup:
+        # Chained follow-ups: "what about COP 2006" -> "when is it offered" ->
+        # "who teaches it". Condensing with only the immediately-previous question
+        # breaks on the third turn (the previous question is itself a follow-up
+        # carrying no subject, so the course code drops out of retrieval). Walk
+        # back to the most recent question that stands on its own — one that names
+        # a course/professor or has content words — and anchor retrieval on it.
         prev_q = history[-1].get("question", "").strip()
-        retrieval_query = (prev_q + " " + question).strip()
+        anchor = prev_q
+        for h in reversed(history):
+            hq = (h.get("question", "") or "").strip()
+            if hq and (detect_professor(hq) or extract_course_code(hq) or not _is_followup(hq)):
+                anchor = hq
+                break
+        retrieval_query = (anchor + " " + question).strip()
 
     # System prompt + language directive + history go into the QA *template* (the
     # LLM still sees all of it) instead of into the retrieval query. Braces in that
