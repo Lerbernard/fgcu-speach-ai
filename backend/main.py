@@ -856,9 +856,11 @@ def _condense_query(question: str, history) -> str:
         "You rewrite the student's latest question into ONE standalone search "
         "query that makes sense on its own. Resolve every reference (it, that, the "
         "exams, each section, the next one, the professor) to the specific course "
-        "code, professor, or event from the conversation. Keep the SAME language. "
-        "Do not answer it, add facts, or explain. If it is already standalone, "
-        "return it unchanged. Reply with ONLY the query.\n\n"
+        "code, professor, or event from the conversation. When the conversation "
+        "mentions more than one course or professor, resolve references to the MOST "
+        "RECENT one the student was asking about, not an earlier one. Keep the SAME "
+        "language. Do not answer it, add facts, or explain. If it is already "
+        "standalone, return it unchanged. Reply with ONLY the query.\n\n"
         f"Conversation:\n{convo}\n\nLatest question: {question}\n\nStandalone query:"
     )
     try:
