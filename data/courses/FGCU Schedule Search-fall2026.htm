@@ -1,0 +1,2511 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>FGCU Schedule Search</title>
+		<meta content="True" name="vs_showGrid">
+		<meta content="Microsoft Visual Studio.NET 7.0" name="GENERATOR">
+		<meta content="Visual Basic 7.0" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<script language="javascript">
+		<!--
+		function uncheckleast()
+		{
+			Form1.Monday2.checked = false
+			Form1.Tuesday2.checked = false
+			Form1.Wednesday2.checked = false
+			Form1.Thursday2.checked = false
+			Form1.Friday2.checked = false
+			Form1.Saturday2.checked = false
+			Form1.Sunday2.checked = false
+		}
+		function uncheckonly()
+		{
+			Form1.Monday.checked = false
+			Form1.Tuesday.checked = false
+			Form1.Wednesday.checked = false
+			Form1.Thursday.checked = false
+			Form1.Friday.checked = false
+			Form1.Saturday.checked = false
+			Form1.Sunday.checked = false
+		}
+		function MM_jumpMenu(targ,selObj,restore)
+		{ //v3.0
+		  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+		  if (restore) selObj.selectedIndex=0;
+		}
+		function Form_Validator(theForm)
+		{
+			if (theForm.Termcode.value == "")
+			{
+				alert("Please select a term.");
+				theForm.Termcode.focus();
+				return (false);
+			}
+		    return (true);
+		}
+		//-->
+		</script>
+	<style type="text/css">:root, :host {
+  --fa-font-solid: normal 900 1em/1 "Font Awesome 7 Free";
+  --fa-font-regular: normal 400 1em/1 "Font Awesome 7 Free";
+  --fa-font-light: normal 300 1em/1 "Font Awesome 7 Pro";
+  --fa-font-thin: normal 100 1em/1 "Font Awesome 7 Pro";
+  --fa-font-duotone: normal 900 1em/1 "Font Awesome 7 Duotone";
+  --fa-font-duotone-regular: normal 400 1em/1 "Font Awesome 7 Duotone";
+  --fa-font-duotone-light: normal 300 1em/1 "Font Awesome 7 Duotone";
+  --fa-font-duotone-thin: normal 100 1em/1 "Font Awesome 7 Duotone";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 7 Brands";
+  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 7 Sharp";
+  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 7 Sharp";
+  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 7 Sharp";
+  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 7 Sharp";
+  --fa-font-sharp-duotone-solid: normal 900 1em/1 "Font Awesome 7 Sharp Duotone";
+  --fa-font-sharp-duotone-regular: normal 400 1em/1 "Font Awesome 7 Sharp Duotone";
+  --fa-font-sharp-duotone-light: normal 300 1em/1 "Font Awesome 7 Sharp Duotone";
+  --fa-font-sharp-duotone-thin: normal 100 1em/1 "Font Awesome 7 Sharp Duotone";
+  --fa-font-slab-regular: normal 400 1em/1 "Font Awesome 7 Slab";
+  --fa-font-slab-press-regular: normal 400 1em/1 "Font Awesome 7 Slab Press";
+  --fa-font-whiteboard-semibold: normal 600 1em/1 "Font Awesome 7 Whiteboard";
+  --fa-font-thumbprint-light: normal 300 1em/1 "Font Awesome 7 Thumbprint";
+  --fa-font-notdog-solid: normal 900 1em/1 "Font Awesome 7 Notdog";
+  --fa-font-notdog-duo-solid: normal 900 1em/1 "Font Awesome 7 Notdog Duo";
+  --fa-font-etch-solid: normal 900 1em/1 "Font Awesome 7 Etch";
+  --fa-font-jelly-regular: normal 400 1em/1 "Font Awesome 7 Jelly";
+  --fa-font-jelly-fill-regular: normal 400 1em/1 "Font Awesome 7 Jelly Fill";
+  --fa-font-jelly-duo-regular: normal 400 1em/1 "Font Awesome 7 Jelly Duo";
+  --fa-font-chisel-regular: normal 400 1em/1 "Font Awesome 7 Chisel";
+  --fa-font-utility-semibold: normal 600 1em/1 "Font Awesome 7 Utility";
+  --fa-font-utility-duo-semibold: normal 600 1em/1 "Font Awesome 7 Utility Duo";
+  --fa-font-utility-fill-semibold: normal 600 1em/1 "Font Awesome 7 Utility Fill";
+}
+
+.svg-inline--fa {
+  box-sizing: content-box;
+  display: var(--fa-display, inline-block);
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+  width: var(--fa-width, 1.25em);
+}
+.svg-inline--fa.fa-2xs {
+  vertical-align: 0.1em;
+}
+.svg-inline--fa.fa-xs {
+  vertical-align: 0em;
+}
+.svg-inline--fa.fa-sm {
+  vertical-align: -0.0714285714em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.2em;
+}
+.svg-inline--fa.fa-xl {
+  vertical-align: -0.25em;
+}
+.svg-inline--fa.fa-2xl {
+  vertical-align: -0.3125em;
+}
+.svg-inline--fa.fa-pull-left,
+.svg-inline--fa .fa-pull-start {
+  float: inline-start;
+  margin-inline-end: var(--fa-pull-margin, 0.3em);
+}
+.svg-inline--fa.fa-pull-right,
+.svg-inline--fa .fa-pull-end {
+  float: inline-end;
+  margin-inline-start: var(--fa-pull-margin, 0.3em);
+}
+.svg-inline--fa.fa-li {
+  width: var(--fa-li-width, 2em);
+  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));
+  inset-block-start: 0.25em; /* syncing vertical alignment with Web Font rendering */
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: var(--fa-width, 1.25em);
+}
+.fa-layers .svg-inline--fa {
+  inset: 0;
+  margin: auto;
+  position: absolute;
+  transform-origin: center center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: var(--fa-counter-background-color, #ff253a);
+  border-radius: var(--fa-counter-border-radius, 1em);
+  box-sizing: border-box;
+  color: var(--fa-inverse, #fff);
+  line-height: var(--fa-counter-line-height, 1);
+  max-width: var(--fa-counter-max-width, 5em);
+  min-width: var(--fa-counter-min-width, 1.5em);
+  overflow: hidden;
+  padding: var(--fa-counter-padding, 0.25em 0.5em);
+  right: var(--fa-right, 0);
+  text-overflow: ellipsis;
+  top: var(--fa-top, 0);
+  transform: scale(var(--fa-counter-scale, 0.25));
+  transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: var(--fa-bottom, 0);
+  right: var(--fa-right, 0);
+  top: auto;
+  transform: scale(var(--fa-layers-scale, 0.25));
+  transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: var(--fa-bottom, 0);
+  left: var(--fa-left, 0);
+  right: auto;
+  top: auto;
+  transform: scale(var(--fa-layers-scale, 0.25));
+  transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  top: var(--fa-top, 0);
+  right: var(--fa-right, 0);
+  transform: scale(var(--fa-layers-scale, 0.25));
+  transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: var(--fa-left, 0);
+  right: auto;
+  top: var(--fa-top, 0);
+  transform: scale(var(--fa-layers-scale, 0.25));
+  transform-origin: top left;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-2xs {
+  font-size: calc(10 / 16 * 1em); /* converts a 10px size into an em-based value that's relative to the scale's 16px base */
+  line-height: calc(1 / 10 * 1em); /* sets the line-height of the icon back to that of it's parent */
+  vertical-align: calc((6 / 10 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
+}
+
+.fa-xs {
+  font-size: calc(12 / 16 * 1em); /* converts a 12px size into an em-based value that's relative to the scale's 16px base */
+  line-height: calc(1 / 12 * 1em); /* sets the line-height of the icon back to that of it's parent */
+  vertical-align: calc((6 / 12 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
+}
+
+.fa-sm {
+  font-size: calc(14 / 16 * 1em); /* converts a 14px size into an em-based value that's relative to the scale's 16px base */
+  line-height: calc(1 / 14 * 1em); /* sets the line-height of the icon back to that of it's parent */
+  vertical-align: calc((6 / 14 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
+}
+
+.fa-lg {
+  font-size: calc(20 / 16 * 1em); /* converts a 20px size into an em-based value that's relative to the scale's 16px base */
+  line-height: calc(1 / 20 * 1em); /* sets the line-height of the icon back to that of it's parent */
+  vertical-align: calc((6 / 20 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
+}
+
+.fa-xl {
+  font-size: calc(24 / 16 * 1em); /* converts a 24px size into an em-based value that's relative to the scale's 16px base */
+  line-height: calc(1 / 24 * 1em); /* sets the line-height of the icon back to that of it's parent */
+  vertical-align: calc((6 / 24 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
+}
+
+.fa-2xl {
+  font-size: calc(32 / 16 * 1em); /* converts a 32px size into an em-based value that's relative to the scale's 16px base */
+  line-height: calc(1 / 32 * 1em); /* sets the line-height of the icon back to that of it's parent */
+  vertical-align: calc((6 / 32 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
+}
+
+.fa-width-auto {
+  --fa-width: auto;
+}
+
+.fa-fw,
+.fa-width-fixed {
+  --fa-width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-inline-start: var(--fa-li-margin, 2.5em);
+  padding-inline-start: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));
+  position: absolute;
+  text-align: center;
+  width: var(--fa-li-width, 2em);
+  line-height: inherit;
+}
+
+/* Heads Up: Bordered Icons will not be supported in the future!
+  - This feature will be deprecated in the next major release of Font Awesome (v8)!
+  - You may continue to use it in this version *v7), but it will not be supported in Font Awesome v8.
+*/
+/* Notes:
+* --@{v.$css-prefix}-border-width = 1/16 by default (to render as ~1px based on a 16px default font-size)
+* --@{v.$css-prefix}-border-padding =
+  ** 3/16 for vertical padding (to give ~2px of vertical whitespace around an icon considering it's vertical alignment)
+  ** 4/16 for horizontal padding (to give ~4px of horizontal whitespace around an icon)
+*/
+.fa-border {
+  border-color: var(--fa-border-color, #eee);
+  border-radius: var(--fa-border-radius, 0.1em);
+  border-style: var(--fa-border-style, solid);
+  border-width: var(--fa-border-width, 0.0625em);
+  box-sizing: var(--fa-border-box-sizing, content-box);
+  padding: var(--fa-border-padding, 0.1875em 0.25em);
+}
+
+.fa-pull-left,
+.fa-pull-start {
+  float: inline-start;
+  margin-inline-end: var(--fa-pull-margin, 0.3em);
+}
+
+.fa-pull-right,
+.fa-pull-end {
+  float: inline-end;
+  margin-inline-start: var(--fa-pull-margin, 0.3em);
+}
+
+.fa-beat {
+  animation-name: fa-beat;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, ease-in-out);
+}
+
+.fa-bounce {
+  animation-name: fa-bounce;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
+}
+
+.fa-fade {
+  animation-name: fa-fade;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+}
+
+.fa-beat-fade {
+  animation-name: fa-beat-fade;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+}
+
+.fa-flip {
+  animation-name: fa-flip;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, ease-in-out);
+}
+
+.fa-shake {
+  animation-name: fa-shake;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, linear);
+}
+
+.fa-spin {
+  animation-name: fa-spin;
+  animation-delay: var(--fa-animation-delay, 0s);
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 2s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, linear);
+}
+
+.fa-spin-reverse {
+  --fa-animation-direction: reverse;
+}
+
+.fa-pulse,
+.fa-spin-pulse {
+  animation-name: fa-spin;
+  animation-direction: var(--fa-animation-direction, normal);
+  animation-duration: var(--fa-animation-duration, 1s);
+  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  animation-timing-function: var(--fa-animation-timing, steps(8));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fa-beat,
+  .fa-bounce,
+  .fa-fade,
+  .fa-beat-fade,
+  .fa-flip,
+  .fa-pulse,
+  .fa-shake,
+  .fa-spin,
+  .fa-spin-pulse {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@keyframes fa-beat {
+  0%, 90% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(var(--fa-beat-scale, 1.25));
+  }
+}
+@keyframes fa-bounce {
+  0% {
+    transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+  }
+  30% {
+    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+  }
+  50% {
+    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+  }
+  57% {
+    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+  }
+  64% {
+    transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+}
+@keyframes fa-fade {
+  50% {
+    opacity: var(--fa-fade-opacity, 0.4);
+  }
+}
+@keyframes fa-beat-fade {
+  0%, 100% {
+    opacity: var(--fa-beat-fade-opacity, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(var(--fa-beat-fade-scale, 1.125));
+  }
+}
+@keyframes fa-flip {
+  50% {
+    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+  }
+}
+@keyframes fa-shake {
+  0% {
+    transform: rotate(-15deg);
+  }
+  4% {
+    transform: rotate(15deg);
+  }
+  8%, 24% {
+    transform: rotate(-18deg);
+  }
+  12%, 28% {
+    transform: rotate(18deg);
+  }
+  16% {
+    transform: rotate(-22deg);
+  }
+  20% {
+    transform: rotate(22deg);
+  }
+  32% {
+    transform: rotate(-12deg);
+  }
+  36% {
+    transform: rotate(12deg);
+  }
+  40%, 100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  transform: scale(1, -1);
+}
+
+.fa-flip-both,
+.fa-flip-horizontal.fa-flip-vertical {
+  transform: scale(-1, -1);
+}
+
+.fa-rotate-by {
+  transform: rotate(var(--fa-rotate-angle, 0));
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.svg-inline--fa.fa-inverse {
+  fill: var(--fa-inverse, #fff);
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  position: relative;
+  vertical-align: middle;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: var(--fa-inverse, #fff);
+}
+
+.svg-inline--fa.fa-stack-1x {
+  --fa-width: 1.25em;
+  height: 1em;
+  width: var(--fa-width);
+}
+.svg-inline--fa.fa-stack-2x {
+  --fa-width: 2.5em;
+  height: 2em;
+  width: var(--fa-width);
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  inset: 0;
+  margin: auto;
+  position: absolute;
+  z-index: var(--fa-stack-z-index, auto);
+}</style><link rel="stylesheet" type="text/css" href="FGCU%20Schedule%20Search-fall2026_files/main-redesign_SllU.css" id="fgcumaincss"><script id="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript" src="FGCU%20Schedule%20Search-fall2026_files/jquery.min_SllU.js"></script><script id="https://fgcucdn.fgcu.edu/_external_includes/jquery.matchHeight-min.js" type="text/javascript" src="FGCU%20Schedule%20Search-fall2026_files/jquery.matchheight-min_SllU.js"></script><script id="https://fgcucdn.fgcu.edu/_external_includes/main-redesign.min.js" type="text/javascript" src="FGCU%20Schedule%20Search-fall2026_files/main-redesign.min_SllU.js"></script></head>
+	<body bgcolor="#ffffff" leftmargin="0" topmargin="0">
+<fgcuinclude-header id="fgcuinclude-header"><!-- replace href="https://www.fgcu.edu/ and action="/ with www AND src="/ with fgcucdn -->
+<link rel="stylesheet" type="text/css" media="all" href="FGCU%20Schedule%20Search-fall2026_files/header-5_SllU.css">
+<link rel="stylesheet" href="FGCU%20Schedule%20Search-fall2026_files/cos0ghr_SllU.css">
+<!-- file="/_template-includes/cachedincludeheader.html"-->
+
+<fgcuheader id="incfgcu-masthead" role="banner" class="incfgcu-redesign-fgcuheader">
+   <div class="incfgcu-redesign-desktop">
+      <div class="incfgcu-top-nav incfgcu-col-sm-24">
+         <div class="incfgcu-top-nav-container"><a class="incfgcu-logo" href="https://www.fgcu.edu/"><img alt="FGCU Logo" src="FGCU%20Schedule%20Search-fall2026_files/fgcu-ribbon-fullcolor-logo_SllU.svg"></a>
+         </div>
+      </div>
+      
+   </div>
+   <div class="incfgcu-redesign-mobile"><a class="incfgcu-logo" href="https://www.fgcu.edu/"><img alt="FGCU Logo" src="FGCU%20Schedule%20Search-fall2026_files/fgcu-lettermark-fullcolor-logo_SllU.svg"></a>
+   </div>
+</fgcuheader></fgcuinclude-header>
+<script src="FGCU%20Schedule%20Search-fall2026_files/fgcu-include-lib-redesign.min_SllU.js"></script>
+<div>
+<table style="width:70%; margin:0px auto; margin-top:20px;" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td colspan="4">
+						<p align="center">
+							</p>
+						<table id="Panel1" align="Center" cellpadding="0" cellspacing="0" border="0" width="100%"><tbody><tr><td align="Center">
+							<p align="center">&nbsp;
+								<span id="TermDesc"><b><font face="Verdana" size="3">Fall 2026</font></b></span><br>
+								<font face="Verdana" size="1">Click the CRN to view more information about a 
+									course. </font>
+							</p>
+							<p align="center"></p>
+							<p></p>
+							<p></p>
+							<hr width="100%" color="#00287a" size="2">
+							<p align="center">
+								<table id="Table4" cellspacing="0" cellpadding="2" rules="all" bordercolor="#00287A" border="1" width="100%">
+		<tbody><tr>
+			<td><font face="Verdana" size="1"><b>Status</b></font></td><td id="MaxSeats"><font face="Verdana" size="1"><b>Max Seats</b></font></td><td><font face="Verdana" size="1"><b>Seats Avail.</b></font></td><td><font face="Verdana" size="1"><b>WL Avail.</b></font></td><td><font face="Verdana" size="1"><b>CRN</b></font></td><td><font face="Verdana" size="1"><b>Course</b></font></td><td><font face="Verdana" size="1"><b>Title</b></font></td><td><font face="Verdana" size="1"><b>Credit Hrs.</b></font></td><td><font face="Verdana" size="1"><b>Comments</b></font></td><td><font face="Verdana" size="1"><b>Meet Times<br> Days -- Times -- Location         </b></font></td><td><font face="Verdana" size="1"><b>Instructor</b></font></td><td><font face="Verdana" size="1"><b>Part of Term</b></font></td>
+		</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86052', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86052</a></font></td><td><font face="Verdana" size="1">BCN 1210C</font></td><td><font face="Verdana" size="1">Construction Materials</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 01:30pm - 05:15pm -- Holmes Engineering 100</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 01:30pm - 05:15pm -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Wao, Joel
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84554', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84554</a></font></td><td><font face="Verdana" size="1">BCN 1251C</font></td><td><font face="Verdana" size="1">Construction Drawing</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 07:30am - 10:15am -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 07:30am - 09:45am -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+Figueiredo Muller, Marina
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87926', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87926</a></font></td><td><font face="Verdana" size="1">BCN 1251C</font></td><td><font face="Verdana" size="1">Construction Drawing</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 10:30am - 01:15pm -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+Figueiredo Muller, Marina
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=83911', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">83911</a></font></td><td><font face="Verdana" size="1">BCN 1251C</font></td><td><font face="Verdana" size="1">Construction Drawing</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>    R    -- 01:30pm - 04:15pm -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 12:30pm - 02:45pm -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+Tayeh, Amelia
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=83912', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">83912</a></font></td><td><font face="Verdana" size="1">BCN 1930</font></td><td><font face="Verdana" size="1">Construction Seminar</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 09:30am - 11:10am -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Seichi Marchiori, Raissa
+</font></td><td><font face="Verdana" size="1">Session A</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85290', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85290</a></font></td><td><font face="Verdana" size="1">BCN 1930</font></td><td><font face="Verdana" size="1">Construction Seminar</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 11:30am - 01:10pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Session A</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86050', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86050</a></font></td><td><font face="Verdana" size="1">BCN 1930</font></td><td><font face="Verdana" size="1">Construction Seminar</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 11:30am - 01:10pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Session B</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84304', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84304</a></font></td><td><font face="Verdana" size="1">BCN 2405C</font></td><td><font face="Verdana" size="1">Construction Mechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Co-instructor: S. Makredes.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 11:45am -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 11:45am -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 08:15pm - 10:30pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Sharma Bhattarai, Sushmit
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84660', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84660</a></font></td><td><font face="Verdana" size="1">BCN 2405C</font></td><td><font face="Verdana" size="1">Construction Mechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Co-instructor: S. Makredes.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 06:00pm - 07:15pm -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 06:00pm - 07:15pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 05:45pm - 08:00pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Sharma Bhattarai, Sushmit
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84306', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84306</a></font></td><td><font face="Verdana" size="1">BCN 3240C</font></td><td><font face="Verdana" size="1">Construction Methods and Equip</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 11:45am -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Seichi Marchiori, Raissa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86058', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86058</a></font></td><td><font face="Verdana" size="1">BCN 3240C</font></td><td><font face="Verdana" size="1">Construction Methods and Equip</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Yanez, Hector
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86060', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86060</a></font></td><td><font face="Verdana" size="1">BCN 3240C</font></td><td><font face="Verdana" size="1">Construction Methods and Equip</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86062', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86062</a></font></td><td><font face="Verdana" size="1">BCN 3255</font></td><td><font face="Verdana" size="1">Graphic Communication in Const</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 07:30am - 10:15am -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 07:30am - 09:45am -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Tayeh, Amelia
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84307', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84307</a></font></td><td><font face="Verdana" size="1">BCN 3611C</font></td><td><font face="Verdana" size="1">Construction Estimating I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 11:45am -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Tayeh, Amelia
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84663', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84663</a></font></td><td><font face="Verdana" size="1">BCN 3611C</font></td><td><font face="Verdana" size="1">Construction Estimating I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 09:00am - 10:15am -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Tayeh, Amelia
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86063', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86063</a></font></td><td><font face="Verdana" size="1">BCN 3611C</font></td><td><font face="Verdana" size="1">Construction Estimating I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 12:00pm - 01:15pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Chau, Anh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87145', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87145</a></font></td><td><font face="Verdana" size="1">BCN 4237</font></td><td><font face="Verdana" size="1">Roofing Construction</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 04:30pm - 05:45pm -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 03:00pm - 05:15pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Wao, Joel
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84308', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84308</a></font></td><td><font face="Verdana" size="1">BCN 4252</font></td><td><font face="Verdana" size="1">Building Information Modeling</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 07:30am - 10:15am -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 07:30am - 09:45am -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+Bao, Jieyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86064', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86064</a></font></td><td><font face="Verdana" size="1">BCN 4252</font></td><td><font face="Verdana" size="1">Building Information Modeling</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 01:30pm - 04:15pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Figueiredo Muller, Marina
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84558', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84558</a></font></td><td><font face="Verdana" size="1">BCN 4252</font></td><td><font face="Verdana" size="1">Building Information Modeling</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 01:30pm - 04:15pm -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 12:30pm - 02:45pm -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+Figueiredo Muller, Marina
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87781', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87781</a></font></td><td><font face="Verdana" size="1">BCN 4340</font></td><td><font face="Verdana" size="1">AI for Construction Management</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 11:45am -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 08:15pm - 10:30pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Kunkle, Andy
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84564', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84564</a></font></td><td><font face="Verdana" size="1">BCN 4423C</font></td><td><font face="Verdana" size="1">Temporary Structures</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 07:30am - 10:15am -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 07:30am - 10:15am -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 07:30am - 10:15am -- Holmes Engineering 100</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 07:30am - 09:45am -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86056', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86056</a></font></td><td><font face="Verdana" size="1">BCN 4423C</font></td><td><font face="Verdana" size="1">Temporary Structures</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 07:30am - 10:15am -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 07:30am - 10:15am -- Holmes Engineering 100</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 07:30am - 10:15am -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 07:30am - 09:45am -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86783', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86783</a></font></td><td><font face="Verdana" size="1">BCN 4423C</font></td><td><font face="Verdana" size="1">Temporary Structures</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 07:30am - 10:15am -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 07:30am - 09:45am -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Chau, Anh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86784', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86784</a></font></td><td><font face="Verdana" size="1">BCN 4510C</font></td><td><font face="Verdana" size="1">Mechanical Systems</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 07:30am - 10:15am -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 07:30am - 09:45am -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Griffin, Gary
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84563', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84563</a></font></td><td><font face="Verdana" size="1">BCN 4510C</font></td><td><font face="Verdana" size="1">Mechanical Systems</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 06:00pm - 08:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 05:45pm - 08:00pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Bridge, Jason
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86069', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86069</a></font></td><td><font face="Verdana" size="1">BCN 4510C</font></td><td><font face="Verdana" size="1">Mechanical Systems</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>    R    -- 06:00pm - 08:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 05:45pm - 08:00pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Mendoza, Steven
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86538', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86538</a></font></td><td><font face="Verdana" size="1">BCN 4594</font></td><td><font face="Verdana" size="1">Building Energy Modeling</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 06:00pm - 08:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 05:45pm - 08:00pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Bao, Jieyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84567', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84567</a></font></td><td><font face="Verdana" size="1">BCN 4709C</font></td><td><font face="Verdana" size="1">Const Project Management</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 03:00pm - 04:15pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Nguyen, Long
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86066', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86066</a></font></td><td><font face="Verdana" size="1">BCN 4709C</font></td><td><font face="Verdana" size="1">Const Project Management</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Elessais, Thomas
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86785', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86785</a></font></td><td><font face="Verdana" size="1">BCN 4709C</font></td><td><font face="Verdana" size="1">Const Project Management</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 06:00pm - 08:45pm -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 05:45pm - 08:00pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Tiedeman, Robert
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">12</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87503', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87503</a></font></td><td><font face="Verdana" size="1">BCN 4740</font></td><td><font face="Verdana" size="1">Construction Law &amp; Contracts</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 04:30pm - 07:15pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 03:00pm - 05:15pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Moore, Lori
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86070', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86070</a></font></td><td><font face="Verdana" size="1">BCN 4753C</font></td><td><font face="Verdana" size="1">Construction Finance</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 06:00pm - 08:45pm -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 05:45pm - 08:00pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Tibi, Fadi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84562', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84562</a></font></td><td><font face="Verdana" size="1">BCN 4753C</font></td><td><font face="Verdana" size="1">Construction Finance</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 06:00pm - 08:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 05:45pm - 08:00pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Swartz, Trent
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85288', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85288</a></font></td><td><font face="Verdana" size="1">BCN 4753C</font></td><td><font face="Verdana" size="1">Construction Finance</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 09:00am - 10:15am -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Sharma Bhattarai, Sushmit
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">23</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87925', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87925</a></font></td><td><font face="Verdana" size="1">BCN 4787</font></td><td><font face="Verdana" size="1">Const Capstone</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Students
+ will incur cost for the Certified Associate Constructor (CAC) exam 
+registration. The registration fee will be reimbursed if students pass 
+the CAC exam in the current semester.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 01:30pm - 04:15pm -- Merwin Hall 203</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Merwin Hall 203</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">25</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86065', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86065</a></font></td><td><font face="Verdana" size="1">BCN 4787</font></td><td><font face="Verdana" size="1">Const Capstone</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Students
+ will incur cost for the Certified Associate Constructor (CAC) exam 
+registration. The registration fee will be reimbursed if students pass 
+the CAC exam in the current semester.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 01:30pm - 04:15pm -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+Wao, Joel
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">off campus</font></td><td><font face="Verdana" size="1">20</font></td><td><font face="Verdana" size="1">19</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85707', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85707</a></font></td><td><font face="Verdana" size="1">BCN 4949</font></td><td><font face="Verdana" size="1">Internship in Const</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor Approval Required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Off Campus Site TBA TBA</font>
+</td><td><font face="Verdana" size="1">
+Nguyen, Long
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86448', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86448</a></font></td><td><font face="Verdana" size="1">BCN 6581</font></td><td><font face="Verdana" size="1">Building Energy Modeling</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 06:00pm - 08:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 05:45pm - 08:00pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Bao, Jieyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86057', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86057</a></font></td><td><font face="Verdana" size="1">BCN 6705</font></td><td><font face="Verdana" size="1">Construction Management</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 03:00pm - 04:15pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Nguyen, Long
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">8</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87504', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87504</a></font></td><td><font face="Verdana" size="1">BCN 6748</font></td><td><font face="Verdana" size="1">Construction Law</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 04:30pm - 07:15pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 03:00pm - 05:15pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Moore, Lori
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">20</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87502', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87502</a></font></td><td><font face="Verdana" size="1">BCN 6874</font></td><td><font face="Verdana" size="1">Equipment and Methods</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 04:30pm - 07:15pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Bao, Jieyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">38</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80473', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80473</a></font></td><td><font face="Verdana" size="1">BME 3100C</font></td><td><font face="Verdana" size="1">Introduction to Biomaterials</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 12:45pm -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Sahiner, Nurettin
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">12</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85463', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85463</a></font></td><td><font face="Verdana" size="1">BME 3101C</font></td><td><font face="Verdana" size="1">Bio Performance of Materials</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Sypabekova, Marzhan
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">13</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80474', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80474</a></font></td><td><font face="Verdana" size="1">BME 3261C</font></td><td><font face="Verdana" size="1">Biofluid Mechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W  F   -- 09:30am - 10:55am -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 10:00am - 12:15pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Sypabekova, Marzhan
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">34</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84312', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84312</a></font></td><td><font face="Verdana" size="1">BME 3404C</font></td><td><font face="Verdana" size="1">Human Physiology Engineers II</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Co: Sahiner, Nurettin</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Lieber, Claude
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">39</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80478', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80478</a></font></td><td><font face="Verdana" size="1">BME 3506C</font></td><td><font face="Verdana" size="1">Circuits for Bioengineers</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:30pm - 05:45pm -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 03:00pm - 05:15pm -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Torres, Jorge
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">26</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80482', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80482</a></font></td><td><font face="Verdana" size="1">BME 4211C</font></td><td><font face="Verdana" size="1">Biomechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:00pm - 03:15pm -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Lura, Derek
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">12</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80481', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80481</a></font></td><td><font face="Verdana" size="1">BME 4503C</font></td><td><font face="Verdana" size="1">Biomedical Instrumentation</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Co: Sypabekova, Marzhan</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 03:30pm - 05:45pm -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Torres, Jorge
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">33</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85146', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85146</a></font></td><td><font face="Verdana" size="1">BME 4722</font></td><td><font face="Verdana" size="1">Health Care Engineering</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 09:00am - 10:15am -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 07:30am - 09:45am -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Sozkes, Sarkis
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">14</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80483', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80483</a></font></td><td><font face="Verdana" size="1">BME 4884</font></td><td><font face="Verdana" size="1">Bioengineering Senior Design I</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 03:30pm - 05:10pm -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 03:00pm - 05:15pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Liao, Jiehong
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">25</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87696', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87696</a></font></td><td><font face="Verdana" size="1">BME 4930</font></td><td><font face="Verdana" size="1">ST:Nanotechnology</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">This
+ course introduces the principles and applications of nanotechnology in 
+bioengineering, focusing on the design and use of nanomaterials and 
+nanoscale systems for biomedical and biotechnological applications.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 339</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 12:30pm - 02:45pm -- Holmes Engineering 339</font>
+</td><td><font face="Verdana" size="1">
+Sahiner, Nurettin
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">14</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87714', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87714</a></font></td><td><font face="Verdana" size="1">CAI 4002</font></td><td><font face="Verdana" size="1">Foundations of AI</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 11:45am -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 10:00am - 12:15pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+de Castro Silva, Leandro
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">14</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87030', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87030</a></font></td><td><font face="Verdana" size="1">CAI 4105</font></td><td><font face="Verdana" size="1">Machine Learning</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:30pm - 02:45pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 12:30pm - 02:45pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Ahuja, Vinod
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87717', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87717</a></font></td><td><font face="Verdana" size="1">CAI 6107</font></td><td><font face="Verdana" size="1">Advanced Machine Learning</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T      -- 05:00pm - 07:45pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  -- 03:00pm - 05:15pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Ahuja, Vinod
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">23</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87718', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87718</a></font></td><td><font face="Verdana" size="1">CAI 6930</font></td><td><font face="Verdana" size="1">ST:Autonomous Vehicles</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Introduces
+ the fundamental concepts, technologies, and challenges of autonomous 
+driving systems, including vehicle architecture, perception, 
+localization and mapping, motion  planning, control, and system 
+integration, along with afety, ethical, and regulatory considerations. 
+Through lectures, hands-on labs, and a semester project, students gain 
+practical experience using autonomous driving software frameworks and 
+simulation tools. Students engage in research-oriented analysis of 
+advanced topics such as algorithm design, multimodal sensor fusion, 
+object detection and tracking, SLAM, trajectory planning, vehicle 
+control, simulation-based validation, quantitative performance 
+evaluation, and safety assurance for real-world autonomous 
+systems.&nbsp;</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>    R    -- 05:00pm - 07:45pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 03:00pm - 05:15pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Dhakal, Sudip
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80484', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80484</a></font></td><td><font face="Verdana" size="1">CCE 3101C</font></td><td><font face="Verdana" size="1">Civil Engineering Materials</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- TBA </font>
+</td><td><font face="Verdana" size="1">
+Villiers, Claude
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80485', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80485</a></font></td><td><font face="Verdana" size="1">CCE 3101C</font></td><td><font face="Verdana" size="1">Civil Engineering Materials</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:30pm - 05:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:30pm - 05:45pm -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 03:00pm - 05:15pm -- TBA </font>
+</td><td><font face="Verdana" size="1">
+Villiers, Claude
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=82787', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">82787</a></font></td><td><font face="Verdana" size="1">CCE 4031C</font></td><td><font face="Verdana" size="1">Project Planning &amp; Regulations</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Chau, Anh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=82819', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">82819</a></font></td><td><font face="Verdana" size="1">CCE 4031C</font></td><td><font face="Verdana" size="1">Project Planning &amp; Regulations</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Seichi Marchiori, Raissa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">-2</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84842', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84842</a></font></td><td><font face="Verdana" size="1">CCE 4204C</font></td><td><font face="Verdana" size="1">Construction Methods &amp; Managmt</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Yanez, Hector
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86048', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86048</a></font></td><td><font face="Verdana" size="1">CCE 4204C</font></td><td><font face="Verdana" size="1">Construction Methods &amp; Managmt</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 11:45am -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Seichi Marchiori, Raissa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">-2</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86061', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86061</a></font></td><td><font face="Verdana" size="1">CCE 4204C</font></td><td><font face="Verdana" size="1">Construction Methods &amp; Managmt</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Shaheen, Ehab
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85149', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85149</a></font></td><td><font face="Verdana" size="1">CDA 3104</font></td><td><font face="Verdana" size="1">Comp Org'n &amp; Assem Lang Prog</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:30pm - 02:45pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 12:30pm - 02:45pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Allen, Paul
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86510', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86510</a></font></td><td><font face="Verdana" size="1">CDA 3200</font></td><td><font face="Verdana" size="1">Digital Systems &amp; Architecture</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 09:00am - 10:15am -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 07:30am - 09:45am -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Devasenapathy, Deepa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80594', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80594</a></font></td><td><font face="Verdana" size="1">CEN 3031</font></td><td><font face="Verdana" size="1">Software Engng Fundamentals</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 12:00pm - 01:15pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 10:00am - 12:15pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Viera Martin, Edumis
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=83935', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">83935</a></font></td><td><font face="Verdana" size="1">CEN 3031</font></td><td><font face="Verdana" size="1">Software Engng Fundamentals</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 03:00pm - 04:15pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Koufakou, Anna
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80593', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80593</a></font></td><td><font face="Verdana" size="1">CEN 3031</font></td><td><font face="Verdana" size="1">Software Engng Fundamentals</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 09:00am - 10:15am -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Viera Martin, Edumis
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">18</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87702', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87702</a></font></td><td><font face="Verdana" size="1">CEN 3073</font></td><td><font face="Verdana" size="1">Requirements Engr &amp; Analysis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:00pm - 04:15pm -- Griffin Hall 205</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 12:30pm - 02:45pm -- Griffin Hall 205</font>
+</td><td><font face="Verdana" size="1">
+Buckley, Ingrid
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87713', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87713</a></font></td><td><font face="Verdana" size="1">CEN 3078</font></td><td><font face="Verdana" size="1">Computer Security</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:30pm - 02:45pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 12:30pm - 02:45pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Qu, Chengyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86203', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86203</a></font></td><td><font face="Verdana" size="1">CEN 3941</font></td><td><font face="Verdana" size="1">Internship in Software Engr</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Allen, Paul
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80586', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80586</a></font></td><td><font face="Verdana" size="1">CEN 4065</font></td><td><font face="Verdana" size="1">Software Architecture &amp; Design</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 12:00pm - 01:15pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 10:00am - 12:15pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Buckley, Ingrid
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80589', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80589</a></font></td><td><font face="Verdana" size="1">CEN 4065</font></td><td><font face="Verdana" size="1">Software Architecture &amp; Design</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 11:45am -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Buckley, Ingrid
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">13</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87701', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87701</a></font></td><td><font face="Verdana" size="1">CEN 4072</font></td><td><font face="Verdana" size="1">Software Testing</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 11:45am -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 10:00am - 12:15pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Devasenapathy, Deepa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87720', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87720</a></font></td><td><font face="Verdana" size="1">CEN 4930</font></td><td><font face="Verdana" size="1">ST:AI Agent Studio</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Learn
+ to develop AI agents from concept to deployment hrough an 
+entrepreneurial lens. Students gain hands-on experience with modern AI 
+frameworks, identify market opportunities, validate business models, and
+ develop the cross-functional skills needed to build and launch AI 
+solutions in the emerging agent economy.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Ahuja, Vinod
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86205', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86205</a></font></td><td><font face="Verdana" size="1">CEN 4934</font></td><td><font face="Verdana" size="1">Senior Software Engr Project I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 01:30pm - 04:15pm -- Sugden Resort &amp;Hospitality Mgt 114</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Sugden Resort &amp;Hospitality Mgt 114</font>
+</td><td><font face="Verdana" size="1">
+Gonzalez, Fernando
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86204', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86204</a></font></td><td><font face="Verdana" size="1">CEN 4934</font></td><td><font face="Verdana" size="1">Senior Software Engr Project I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 01:30pm - 04:15pm -- Sugden Resort &amp;Hospitality Mgt 114</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Sugden Resort &amp;Hospitality Mgt 114</font>
+</td><td><font face="Verdana" size="1">
+Koufakou, Anna
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">24</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87716', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87716</a></font></td><td><font face="Verdana" size="1">CEN 5079</font></td><td><font face="Verdana" size="1">Secure Software Development</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 05:00pm - 07:45pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 05:45pm - 08:00pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Qu, Chengyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84296', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84296</a></font></td><td><font face="Verdana" size="1">CES 4605C</font></td><td><font face="Verdana" size="1">Steel Design</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:30pm - 05:45pm -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:30pm - 05:45pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 03:00pm - 05:15pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Ozdagli, Ali
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">16</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80540', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80540</a></font></td><td><font face="Verdana" size="1">CES 4702C</font></td><td><font face="Verdana" size="1">Reinforced Concrete Design</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:00pm - 03:15pm -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Badir, Ashraf
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80541', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80541</a></font></td><td><font face="Verdana" size="1">CGN 3323C</font></td><td><font face="Verdana" size="1">Surveying and Geomatics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 07:30am - 12:00pm -- Holmes Engineering 142</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 07:30am - 12:00pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 07:30am - 09:45am -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Bragg, Josh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">17</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87851', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87851</a></font></td><td><font face="Verdana" size="1">CGN 3323C</font></td><td><font face="Verdana" size="1">Surveying and Geomatics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 12:15pm - 04:45pm -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 10:00am - 12:15pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Bragg, Josh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">23</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87700', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87700</a></font></td><td><font face="Verdana" size="1">CIS 4368</font></td><td><font face="Verdana" size="1">Intro to Database Security</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:30pm - 02:45pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Dhakal, Sudip
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">23</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87155', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87155</a></font></td><td><font face="Verdana" size="1">CIS 4622</font></td><td><font face="Verdana" size="1">Hands-on Cybersecurity</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 03:00pm - 04:15pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Qu, Chengyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87188', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87188</a></font></td><td><font face="Verdana" size="1">CIS 6910</font></td><td><font face="Verdana" size="1">Project</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+STAFF
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87860', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87860</a></font></td><td><font face="Verdana" size="1">CIS 6970</font></td><td><font face="Verdana" size="1">Thesis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor approval required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Qu, Chengyi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87858', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87858</a></font></td><td><font face="Verdana" size="1">CIS 6970</font></td><td><font face="Verdana" size="1">Thesis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor approval required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+de Castro Silva, Leandro
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87861', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87861</a></font></td><td><font face="Verdana" size="1">CIS 6970</font></td><td><font face="Verdana" size="1">Thesis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor approval required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Dhakal, Sudip
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87859', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87859</a></font></td><td><font face="Verdana" size="1">CIS 6970</font></td><td><font face="Verdana" size="1">Thesis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor approval required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Ahuja, Vinod
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87359', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87359</a></font></td><td><font face="Verdana" size="1">CIS 6970</font></td><td><font face="Verdana" size="1">Thesis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor approval required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+STAFF
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">23</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85684', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85684</a></font></td><td><font face="Verdana" size="1">COP 1500</font></td><td><font face="Verdana" size="1">Intro to Computer Science</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 09:00am - 10:15am -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Gao, Tiying
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80597', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80597</a></font></td><td><font face="Verdana" size="1">COP 1500</font></td><td><font face="Verdana" size="1">Intro to Computer Science</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 12:00pm - 01:15pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 10:00am - 12:15pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Gao, Tiying
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=83989', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">83989</a></font></td><td><font face="Verdana" size="1">COP 1500</font></td><td><font face="Verdana" size="1">Intro to Computer Science</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:30pm - 02:45pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 12:30pm - 02:45pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Devasenapathy, Deepa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">16</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86208', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86208</a></font></td><td><font face="Verdana" size="1">COP 2006</font></td><td><font face="Verdana" size="1">Programming I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 11:45am -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Gao, Tiying
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80600', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80600</a></font></td><td><font face="Verdana" size="1">COP 2006</font></td><td><font face="Verdana" size="1">Programming I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 12:00pm - 01:15pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Devasenapathy, Deepa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80602', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80602</a></font></td><td><font face="Verdana" size="1">COP 3003</font></td><td><font face="Verdana" size="1">Programming II</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 09:00am - 10:15am -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 07:30am - 09:45am -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Ciris, Pelin
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85148', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85148</a></font></td><td><font face="Verdana" size="1">COP 3003</font></td><td><font face="Verdana" size="1">Programming II</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 03:00pm - 04:15pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Ciris, Pelin
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86201', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86201</a></font></td><td><font face="Verdana" size="1">COP 3350</font></td><td><font face="Verdana" size="1">Systems Admin and Programming</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 11:45am -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 10:00am - 12:15pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Islam, Md Baharul
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87712', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87712</a></font></td><td><font face="Verdana" size="1">COP 3350</font></td><td><font face="Verdana" size="1">Systems Admin and Programming</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 09:00am - 10:15am -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 10:00am - 12:15pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Islam, Md Baharul
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86511', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86511</a></font></td><td><font face="Verdana" size="1">COP 3530</font></td><td><font face="Verdana" size="1">Data Structures &amp; Algorithms</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 07:30am - 08:45am -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 07:30am - 09:45am -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Sunny, Cijy
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87699', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87699</a></font></td><td><font face="Verdana" size="1">COP 3710</font></td><td><font face="Verdana" size="1">Intro to Data Engineering</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:00pm - 04:15pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 12:30pm - 02:45pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Dhakal, Sudip
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">20</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87703', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87703</a></font></td><td><font face="Verdana" size="1">COP 4020</font></td><td><font face="Verdana" size="1">Principles of Programming Lang</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 04:30pm - 05:45pm -- University Library Classroom 443</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- University Library Classroom 443</font>
+</td><td><font face="Verdana" size="1">
+STAFF
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">36</font></td><td><font face="Verdana" size="1">8</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80604', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80604</a></font></td><td><font face="Verdana" size="1">COP 4610</font></td><td><font face="Verdana" size="1">Operating Systems</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:00pm - 04:15pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 12:30pm - 02:45pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Viera Martin, Edumis
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">36</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=82454', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">82454</a></font></td><td><font face="Verdana" size="1">COP 4610</font></td><td><font face="Verdana" size="1">Operating Systems</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 12:00pm - 01:15pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Viera Martin, Edumis
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">21</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87704', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87704</a></font></td><td><font face="Verdana" size="1">COP 4951</font></td><td><font face="Verdana" size="1">Senior Comp Sci Project I</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 01:30pm - 04:15pm -- Sugden Resort &amp;Hospitality Mgt 114</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Sugden Resort &amp;Hospitality Mgt 114</font>
+</td><td><font face="Verdana" size="1">
+STAFF
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">33</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=86202', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">86202</a></font></td><td><font face="Verdana" size="1">COT 3400</font></td><td><font face="Verdana" size="1">Design&amp;Analysis of Algorithms</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:30pm - 02:45pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Allen, Paul
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87297', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87297</a></font></td><td><font face="Verdana" size="1">COT 3400</font></td><td><font face="Verdana" size="1">Design&amp;Analysis of Algorithms</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 12:00pm - 01:15pm -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Koufakou, Anna
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">8</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87715', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87715</a></font></td><td><font face="Verdana" size="1">COT 5405</font></td><td><font face="Verdana" size="1">Design and Analysis of Algo.</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 05:00pm - 07:45pm -- Holmes Engineering 202</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 05:45pm - 08:00pm -- Holmes Engineering 202</font>
+</td><td><font face="Verdana" size="1">
+Islam, Md Baharul
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">20</font></td><td><font face="Verdana" size="1">16</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87852', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87852</a></font></td><td><font face="Verdana" size="1">CWR 3201C</font></td><td><font face="Verdana" size="1">Engineering Fluid Mechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Combined final exam with CRN 80542 and 80543.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 08:15pm - 10:30pm -- Seidler Hall 114</font>
+</td><td><font face="Verdana" size="1">
+Uduebor, Mike
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80542', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80542</a></font></td><td><font face="Verdana" size="1">CWR 3201C</font></td><td><font face="Verdana" size="1">Engineering Fluid Mechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Combined final exam with CRN 80543 will meet on Monday, 11/30 from 10:00am-12:15pm in SH 114.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:30pm - 03:45pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 08:15pm - 10:30pm -- Seidler Hall 114</font>
+</td><td><font face="Verdana" size="1">
+Said, Mohamed Fathi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80543', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80543</a></font></td><td><font face="Verdana" size="1">CWR 3201C</font></td><td><font face="Verdana" size="1">Engineering Fluid Mechanics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Combined final exam with CRN 80542 will meet on Monday, 11/30 from 10:00am-12:15pm in SH 114.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 08:15pm - 10:30pm -- Seidler Hall 114</font>
+</td><td><font face="Verdana" size="1">
+Said, Mohamed Fathi
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80545', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80545</a></font></td><td><font face="Verdana" size="1">CWR 4540C</font></td><td><font face="Verdana" size="1">Water Resources Design</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 434</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 08:00am - 10:15am -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 07:30am - 09:45am -- TBA </font>
+</td><td><font face="Verdana" size="1">
+Kim, Jong-Yeop
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">40</font></td><td><font face="Verdana" size="1">12</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80547', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80547</a></font></td><td><font face="Verdana" size="1">CWR 4540C</font></td><td><font face="Verdana" size="1">Water Resources Design</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 434</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- TBA </font>
+</td><td><font face="Verdana" size="1">
+Tsegaye, Seneshaw
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">12</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87694', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87694</a></font></td><td><font face="Verdana" size="1">CWR 6125C</font></td><td><font face="Verdana" size="1">Groundwater Hydrology</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Elshall, Ahmed
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85555', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85555</a></font></td><td><font face="Verdana" size="1">CWR 6537</font></td><td><font face="Verdana" size="1">Contaminant Transport</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>   W     -- 04:30pm - 07:15pm -- Online (Virtual) </font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 03:00pm - 05:15pm -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Redfern, Lauren
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85247', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85247</a></font></td><td><font face="Verdana" size="1">CWR 6637</font></td><td><font face="Verdana" size="1">Storm Water Mgmt and Modeling</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 04:30pm - 07:15pm -- Griffin Hall 114</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 03:00pm - 05:15pm -- Griffin Hall 114</font>
+</td><td><font face="Verdana" size="1">
+Kim, Jong-Yeop
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">18</font></td><td><font face="Verdana" size="1">6</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87721', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87721</a></font></td><td><font face="Verdana" size="1">EEL 4730</font></td><td><font face="Verdana" size="1">Embedded Programming</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 12:00pm - 01:15pm -- Holmes Engineering 433</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 433</font>
+</td><td><font face="Verdana" size="1">
+STAFF
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">24</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80576', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80576</a></font></td><td><font face="Verdana" size="1">EES 3204C</font></td><td><font face="Verdana" size="1">Environ Chem for Engineers</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 12:45pm -- Holmes Engineering 434</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 10:30am - 12:45pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Karatum, Osman
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">8</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80552', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80552</a></font></td><td><font face="Verdana" size="1">EGM 3420C</font></td><td><font face="Verdana" size="1">Engineering Mechanics</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W  F   -- 11:30am - 01:10pm -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W  F   -- 11:30am - 01:10pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Liao, Jiehong
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80549', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80549</a></font></td><td><font face="Verdana" size="1">EGM 3420C</font></td><td><font face="Verdana" size="1">Engineering Mechanics</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W  F   -- 09:30am - 11:10am -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W  F   -- 09:30am - 11:10am -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>   W     -- 10:00am - 12:15pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Badir, Ashraf
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80556', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80556</a></font></td><td><font face="Verdana" size="1">EGN 1041C</font></td><td><font face="Verdana" size="1">Computational Tools &amp; Data Sci</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 03:00pm - 04:15pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 12:30pm - 02:45pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Lieber, Claude
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">47</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80554', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80554</a></font></td><td><font face="Verdana" size="1">EGN 1041C</font></td><td><font face="Verdana" size="1">Computational Tools &amp; Data Sci</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:30pm - 02:45pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Torres, Jorge
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=83627', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">83627</a></font></td><td><font face="Verdana" size="1">EGN 2111C</font></td><td><font face="Verdana" size="1">Engineering Computer Graphics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M       -- 05:30pm - 10:15pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 05:45pm - 08:00pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Al Suleh, Munir
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80548', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80548</a></font></td><td><font face="Verdana" size="1">EGN 2111C</font></td><td><font face="Verdana" size="1">Engineering Computer Graphics</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 05:30pm - 07:45pm -- Seidler Hall 127</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 05:45pm - 08:00pm -- Seidler Hall 127</font>
+</td><td><font face="Verdana" size="1">
+Al Suleh, Munir
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84833', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84833</a></font></td><td><font face="Verdana" size="1">EGN 3441C</font></td><td><font face="Verdana" size="1">Data Sci &amp; Eng Sys Analysis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">It
+ is recommended that students bring a laptop meeting FGCU minimum 
+computer specifications to class daily. Contact the instructor with 
+questions on this recommendation.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 302</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Holmes Engineering 302</font>
+</td><td><font face="Verdana" size="1">
+Redfern, Lauren
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84832', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84832</a></font></td><td><font face="Verdana" size="1">EGN 3441C</font></td><td><font face="Verdana" size="1">Data Sci &amp; Eng Sys Analysis</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">It
+ is recommended that students bring a laptop meeting FGCU minimum 
+computer specifications to class daily. Contact the instructor with 
+questions on this recommendation.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 01:00pm - 03:15pm -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 12:30pm - 02:45pm -- Holmes Engineering 225</font>
+</td><td><font face="Verdana" size="1">
+Ozdagli, Ali
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87695', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87695</a></font></td><td><font face="Verdana" size="1">EGN 4930</font></td><td><font face="Verdana" size="1">ST:Groundwater Hydrology</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">This
+ course explores the key concepts governing groundwater movement and the
+ transport of dissolved substances within aquifer systems, with an 
+emphasis on how subsurface flow interacts with environmental processes. 
+Students will develop a strong conceptual understanding of aquifer 
+behavior and contaminant dynamics, preparing them for advanced 
+coursework and professional roles in water resources and environmental 
+engineering.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Elshall, Ahmed
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">off campus</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">13</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=85246', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">85246</a></font></td><td><font face="Verdana" size="1">EGN 4940</font></td><td><font face="Verdana" size="1">Engineering Internship</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">Instructor approval required.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Off Campus Site TBA TBA</font>
+</td><td><font face="Verdana" size="1">
+Tsegaye, Seneshaw
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">distance learning</font></td><td><font face="Verdana" size="1">15</font></td><td><font face="Verdana" size="1">9</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=83614', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">83614</a></font></td><td><font face="Verdana" size="1">EGN 6457</font></td><td><font face="Verdana" size="1">Research Methods</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Online (Virtual) </font>
+</td><td><font face="Verdana" size="1">
+Elshall, Ahmed
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">10</font></td><td><font face="Verdana" size="1">7</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87758', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87758</a></font></td><td><font face="Verdana" size="1">EGN 6941</font></td><td><font face="Verdana" size="1">Project</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>    R    -- 04:30pm - 07:15pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>    R    -- 03:00pm - 05:15pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Chau, Anh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">off campus</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87796', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87796</a></font></td><td><font face="Verdana" size="1">EGN 6971</font></td><td><font face="Verdana" size="1">Thesis 1</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Off Campus Site TBA TBA</font>
+</td><td><font face="Verdana" size="1">
+Chau, Anh
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">off campus</font></td><td><font face="Verdana" size="1">5</font></td><td><font face="Verdana" size="1">4</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87954', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87954</a></font></td><td><font face="Verdana" size="1">EGN 6973</font></td><td><font face="Verdana" size="1">Thesis 2</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  --  -- Off Campus Site TBA TBA</font>
+</td><td><font face="Verdana" size="1">
+Seichi Marchiori, Raissa
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">closed</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80572', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80572</a></font></td><td><font face="Verdana" size="1">EGS 1006L</font></td><td><font face="Verdana" size="1">Intro to the Engineering Prof.</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">This course includes an integrated service-learning requirement.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 01:30pm - 03:10pm -- Holmes Engineering 147</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Holmes Engineering 147</font>
+</td><td><font face="Verdana" size="1">
+Redfern, Lauren
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">45</font></td><td><font face="Verdana" size="1">2</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80574', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80574</a></font></td><td><font face="Verdana" size="1">EGS 1006L</font></td><td><font face="Verdana" size="1">Intro to the Engineering Prof.</font></td><td><font face="Verdana" size="1">1</font></td><td><font face="Verdana" size="1">This course includes an integrated service-learning requirement.</font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>     F   -- 01:30pm - 03:10pm -- Holmes Engineering 330</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>     F   -- 12:30pm - 02:45pm -- Holmes Engineering 330</font>
+</td><td><font face="Verdana" size="1">
+Danley, Ashley
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">30</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80578', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80578</a></font></td><td><font face="Verdana" size="1">ENV 4101C</font></td><td><font face="Verdana" size="1">Atmospheric Pollution</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 434</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Karatum, Osman
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=84182', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">84182</a></font></td><td><font face="Verdana" size="1">ENV 4341C</font></td><td><font face="Verdana" size="1">Solid &amp; Hazardous Waste Mgmt</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 230</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b>  T  R    -- 10:30am - 12:45pm -- Holmes Engineering 225</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b>  T      -- 10:00am - 12:15pm -- Holmes Engineering 230</font>
+</td><td><font face="Verdana" size="1">
+Danley, Ashley
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">48</font></td><td><font face="Verdana" size="1">26</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=80582', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">80582</a></font></td><td><font face="Verdana" size="1">ENV 4509C</font></td><td><font face="Verdana" size="1">Wastewater Engineering</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:00pm - 03:15pm -- Holmes Engineering 439</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 01:00pm - 03:15pm -- Holmes Engineering 434</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 12:30pm - 02:45pm -- Holmes Engineering 439</font>
+</td><td><font face="Verdana" size="1">
+Danley, Ashley
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+<tr>
+<td><font face="Verdana" size="1">on campus</font></td><td><font face="Verdana" size="1">35</font></td><td><font face="Verdana" size="1">27</font></td><td><font face="Verdana" size="1">0</font></td><td><font face="Verdana" size="1"><a href="javascript:void window.open('szkschd.p_showdetail?termcode=202608&amp;crn=87150', '_blank', 'width=640,height=700,directories=no,toolbar=yes,resizable=no,menubar=yes,scrollbars=yes,resizable=yes')">87150</a></font></td><td><font face="Verdana" size="1">STA 3038</font></td><td><font face="Verdana" size="1">Prob &amp; Stat for Data Sci</font></td><td><font face="Verdana" size="1">3</font></td><td><font face="Verdana" size="1"></font>&nbsp;</td><td>
+<font face="Verdana" size="1">
+<b>Class
+:</b> M  W     -- 12:00pm - 01:15pm -- Holmes Engineering 402</font>
+<br><br>
+<font face="Verdana" size="1">
+<b>Exam
+:</b> M       -- 10:00am - 12:15pm -- Holmes Engineering 402</font>
+</td><td><font face="Verdana" size="1">
+Ciris, Pelin
+</font></td><td><font face="Verdana" size="1">Full Term</font></td>
+</tr>
+	</tbody></table></p>
+							<p align="center">
+								</p>
+</td></tr></tbody></table>
+				</td>
+			</tr>
+		</tbody></table>
+<div>
+<fgcuinclude-footer id="fgcuinclude-footer"><!-- file="/_template-includes/cachedincludefooter.html" -->
+<!-- Replace png/files with fgcucdn version -->
+
+<fgcufooter id="incfgcu-colophon" role="contentinfo">
+  <div class="incfgcu-lower-footer">
+         <span>Florida Gulf Coast University © All rights reserved.</span>
+   </div>
+</fgcufooter></fgcuinclude-footer>
+<script src="FGCU%20Schedule%20Search-fall2026_files/fgcu-include-lib-redesign.min_SllU.js"></script>
+	
+
+</div></div><harper-render-box popover="manual" style="pointer-events: none; border: medium; visibility: hidden !important;"></harper-render-box></body></html>

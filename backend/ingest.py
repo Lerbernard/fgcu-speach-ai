@@ -210,7 +210,13 @@ def normalize_event_dates(text: str) -> str:
 
 all_files = []
 for root, dirs, files in os.walk(data_dir):
-    dirs[:] = [d for d in dirs if not d.startswith(".")]
+    # Skip hidden dirs AND saved-webpage artifacts: Firefox "..._files" asset
+    # folders and the "FGCU Schedule Search-*" HTML dumps. Only real .md content
+    # (including the generated courses/ tree) is ingested.
+    dirs[:] = [d for d in dirs
+               if not d.startswith(".")
+               and not d.endswith("_files")
+               and "schedule search" not in d.lower()]
     for filename in files:
         if filename.endswith(".md"):
             all_files.append(os.path.join(root, filename))
