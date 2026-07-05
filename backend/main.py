@@ -852,6 +852,27 @@ def _condense_query(question: str, history) -> str:
     if not convo:
         return question
 
+    # Compute the single most-recent course/professor actually named in the
+    # conversation (scan newest-first). This is a hard anchor for the rewriter:
+    # when the student switches courses mid-chat, the OLD course often dominates
+    # the transcript by sheer repetition, so "prefer the most recent" alone isn't
+    # enough — we tell the model exactly which subject "it" refers to.
+    anchor_subject = ""
+    for h in reversed(history):
+        q = (h.get("question") or "")
+        code = extract_course_code(q)
+        prof = detect_professor(q)
+        if code:
+            anchor_subject = code
+            break
+        if prof:
+            anchor_subject = prof
+            break
+    anchor_line = (f"\nThe subject the student is currently asking about is "
+                   f"{anchor_subject}. Resolve pronouns like \"it\" to {anchor_subject} "
+                   f"unless the latest question clearly names a different one.\n"
+                   if anchor_subject else "\n")
+
     prompt = (
         "You rewrite the student's latest question into ONE standalone search "
         "query that makes sense on its own. Resolve every reference (it, that, the "
@@ -860,8 +881,9 @@ def _condense_query(question: str, history) -> str:
         "mentions more than one course or professor, resolve references to the MOST "
         "RECENT one the student was asking about, not an earlier one. Keep the SAME "
         "language. Do not answer it, add facts, or explain. If it is already "
-        "standalone, return it unchanged. Reply with ONLY the query.\n\n"
-        f"Conversation:\n{convo}\n\nLatest question: {question}\n\nStandalone query:"
+        "standalone, return it unchanged. Reply with ONLY the query."
+        + anchor_line +
+        f"\nConversation:\n{convo}\n\nLatest question: {question}\n\nStandalone query:"
     )
     try:
         out = str(Settings.llm.complete(prompt)).strip().strip('"').strip()
