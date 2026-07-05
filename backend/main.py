@@ -662,7 +662,7 @@ _BARE_Q = {"when", "where", "how", "why", "who", "what", "which", "whose", "whom
 _STOP = {"is", "are", "was", "were", "am", "be", "been", "being", "do", "does", "did",
          "the", "a", "an", "of", "for", "to", "about", "in", "on", "at", "with", "by",
          "and", "or", "please", "can", "could", "would", "there", "some", "any",
-         "me", "tell", "give", "show", "i", "my", "get"}
+         "me", "tell", "give", "show", "i", "my", "get", "will", "many", "much"}
 _MORE = {"tell me more", "more", "go on", "and", "what else", "anything else",
          "continue", "more info", "more details"}
 # Relative words that refer back to a subject from the previous turn rather than
@@ -671,6 +671,15 @@ _MORE = {"tell me more", "more", "go on", "and", "what else", "anything else",
 # retrieval (otherwise "the next one" matches any random upcoming item).
 _RELATIVE = {"next", "one", "ones", "last", "first", "other", "another",
              "previous", "same", "upcoming"}
+# Course attributes: words that describe an aspect of a course rather than name
+# one. A question made up only of these (plus question/stop words) is asking
+# about the course from the previous turn -> treat it as a follow-up so it gets
+# anchored. "what time are the exams" -> exams+time are attributes -> follow-up.
+_ATTRIBUTE = {"exam", "exams", "time", "times", "room", "rooms", "location",
+              "locations", "credit", "credits", "instructor", "instructors",
+              "professor", "professors", "teacher", "teachers", "section",
+              "sections", "crn", "seat", "seats", "prerequisite", "prerequisites",
+              "prereq", "prereqs", "schedule", "meet", "meets", "meeting", "offered"}
 
 
 def _is_followup(q: str) -> bool:
@@ -694,7 +703,8 @@ def _is_followup(q: str) -> bool:
     words = ql.split()
     if set(words) & _ANAPHORA:           # leans on a pronoun referring to prior turn
         return True
-    content = [w for w in words if w not in _STOP and w not in _BARE_Q and w not in _RELATIVE]
+    content = [w for w in words if w not in _STOP and w not in _BARE_Q
+               and w not in _RELATIVE and w not in _ATTRIBUTE]
     return not content                   # only question/filler/relative words left -> follow-up
 
 
