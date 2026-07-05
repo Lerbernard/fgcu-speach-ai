@@ -70,7 +70,7 @@ Settings.chunk_overlap = 50
 #   BACKUP : openai/gpt-oss-120b      — used if Llama is unavailable at startup
 #            OR if it fails mid-run (see _run() in answer_question).
 # (Other tested option if you ever want it: qwen/qwen3.6-27b, reasoning_effort "none".)
-_GROQ_KEY = os.getenv("GROQ_API_KEY")
+_GROQ_KEY = os.getenv("GROQ_API_KEY2")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
