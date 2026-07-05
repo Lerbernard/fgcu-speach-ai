@@ -1030,6 +1030,12 @@ def answer_question(question: str, history=None, correct=True):
                     break
             retrieval_query = (anchor + " " + question).strip()
 
+    # Debug: shows the exact query that drives retrieval (visible in Space logs).
+    # If this reads e.g. "who teaches COP 2006 fall 2026" but the answer still
+    # can't find COP 2006, the gap is DATA (that chunk isn't indexed), not
+    # follow-up resolution.
+    print(f"[retrieval_query] {retrieval_query!r}", flush=True)
+
     # System prompt + language directive + history go into the QA *template* (the
     # LLM still sees all of it) instead of into the retrieval query. Braces in that
     # text are escaped so PromptTemplate treats only {context_str}/{query_str} as
