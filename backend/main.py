@@ -823,6 +823,53 @@ def _correct_typos(question: str) -> str:
     return out
 
 
+def _condense_query(question: str, history) -> str:
+    """Rewrite a follow-up into ONE standalone retrieval query using the recent
+    conversation — resolving references ('it', 'the exams', 'each section', 'the
+    next one', 'the professor') to the specific course / professor / event they
+    point to. This is the robust successor to the keyword follow-up rules: it
+    handles phrasings the word lists miss. Best-effort — returns the question
+    unchanged when it's already self-contained or on any error, so it can never
+    make retrieval worse.
+
+    Skips the LLM call (returns as-is) when there's no history or the question
+    already names its own course/professor, so the cost is paid only on the
+    ambiguous follow-ups that actually need it."""
+    if not history:
+        return question
+    if extract_course_code(question) or detect_professor(question):
+        return question
+
+    turns = []
+    for h in history[-6:]:
+        q = (h.get("question") or "").strip()
+        a = (h.get("answer") or "").strip()
+        if q:
+            turns.append(f"Student: {q}")
+        if a:
+            turns.append(f"Assistant: {a[:300]}")
+    convo = "\n".join(turns)
+    if not convo:
+        return question
+
+    prompt = (
+        "You rewrite the student's latest question into ONE standalone search "
+        "query that makes sense on its own. Resolve every reference (it, that, the "
+        "exams, each section, the next one, the professor) to the specific course "
+        "code, professor, or event from the conversation. Keep the SAME language. "
+        "Do not answer it, add facts, or explain. If it is already standalone, "
+        "return it unchanged. Reply with ONLY the query.\n\n"
+        f"Conversation:\n{convo}\n\nLatest question: {question}\n\nStandalone query:"
+    )
+    try:
+        out = str(Settings.llm.complete(prompt)).strip().strip('"').strip()
+    except Exception:
+        return question
+    if not out or len(out) > len(question) * 6 + 80:
+        return question
+    return out
+
+
 def answer_question(question: str, history=None, correct=True):
     history = history or []
     if correct:                                  # text mode only; voice transcripts are clean
@@ -938,21 +985,26 @@ def answer_question(question: str, history=None, correct=True):
         established = detect_professor(routing_text) or extract_course_code(routing_text)
         if sched and established and not own:
             followup = True
-    if history and followup:
-        # Chained follow-ups: "what about COP 2006" -> "when is it offered" ->
-        # "who teaches it". Condensing with only the immediately-previous question
-        # breaks on the third turn (the previous question is itself a follow-up
-        # carrying no subject, so the course code drops out of retrieval). Walk
-        # back to the most recent question that stands on its own — one that names
-        # a course/professor or has content words — and anchor retrieval on it.
-        prev_q = history[-1].get("question", "").strip()
-        anchor = prev_q
-        for h in reversed(history):
-            hq = (h.get("question", "") or "").strip()
-            if hq and (detect_professor(hq) or extract_course_code(hq) or not _is_followup(hq)):
-                anchor = hq
-                break
-        retrieval_query = (anchor + " " + question).strip()
+    if history:
+        # Primary: LLM rewrites the question into a standalone query, resolving
+        # references from the conversation (handles phrasings the keyword rules
+        # miss entirely). It internally skips questions that already name a
+        # course/professor, so self-contained questions cost nothing. Fallback:
+        # if the LLM leaves it unchanged BUT the keyword rules flag a follow-up,
+        # walk back to the most recent self-contained question and anchor on it.
+        rewritten = _condense_query(question, history)
+        if rewritten != question:
+            retrieval_query = rewritten
+            followup = True
+        elif followup:
+            prev_q = history[-1].get("question", "").strip()
+            anchor = prev_q
+            for h in reversed(history):
+                hq = (h.get("question", "") or "").strip()
+                if hq and (detect_professor(hq) or extract_course_code(hq) or not _is_followup(hq)):
+                    anchor = hq
+                    break
+            retrieval_query = (anchor + " " + question).strip()
 
     # System prompt + language directive + history go into the QA *template* (the
     # LLM still sees all of it) instead of into the retrieval query. Braces in that
