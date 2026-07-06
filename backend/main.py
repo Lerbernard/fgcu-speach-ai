@@ -1031,10 +1031,26 @@ def answer_question(question: str, history=None, correct=True):
             retrieval_query = (anchor + " " + question).strip()
 
     # Debug: shows the exact query that drives retrieval (visible in Space logs).
-    # If this reads e.g. "who teaches COP 2006 fall 2026" but the answer still
-    # can't find COP 2006, the gap is DATA (that chunk isn't indexed), not
-    # follow-up resolution.
     print(f"[retrieval_query] {retrieval_query!r}", flush=True)
+
+    # The rewritten query is the RESOLVED subject. Re-derive the metadata filters
+    # (doc types, course code, professor) from it — otherwise a mid-conversation
+    # course switch leaves the filters pinned to the PREVIOUS course or its
+    # instructor (both still present in the history text), silently restricting
+    # retrieval to the wrong course. E.g. after switching to COP 2006, "who is
+    # going to teach it" kept the professor filter = the prior course's Ciris,
+    # returning only Ciris's courses.
+    if retrieval_query != question:
+        doc_types, program, term = route_query(retrieval_query, retrieval_query)
+        course_code = None
+        if doc_types in (["course_offering"], ["course_description"]):
+            course_code = extract_course_code(retrieval_query)
+        professor = None
+        if doc_types and ("faculty" in doc_types or "faculty_reviews" in doc_types
+                          or doc_types == ["course_offering"]):
+            professor = detect_professor(retrieval_query)
+        if doc_types == ["course_offering"] and professor and not extract_course_code(retrieval_query):
+            course_code = None
 
     # System prompt + language directive + history go into the QA *template* (the
     # LLM still sees all of it) instead of into the retrieval query. Braces in that
