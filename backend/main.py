@@ -9,8 +9,6 @@ from llama_index.llms.groq import Groq
 from pinecone import Pinecone
 from dotenv import load_dotenv
 
-# Date / academic-term awareness. Optional: if the module is missing the
-# assistant still runs, just without the "today / current term" directive.
 try:
     from academic_calendar import calendar_directive
 except Exception:
@@ -32,45 +30,29 @@ from fastapi.responses import JSONResponse
 
 load_dotenv()
 
-# Date/term awareness: gives the model today's date and the current/upcoming
-# FGCU term. Optional - if the module is missing, the app still runs.
 try:
     from academic_calendar import calendar_directive
 except Exception:
     def calendar_directive(today=None):
         return ""
 
-# Windows consoles default to cp1252 and crash printing non-Latin scripts in
-# terminal chat mode. Force UTF-8 so any language prints correctly.
 try:
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 except Exception:
     pass
 
-# ── Setup ──────────────────────────────────────────────────
 print("Loading embedding model...")
 Settings.embed_model = HuggingFaceEmbedding(
     model_name="intfloat/multilingual-e5-large",
     trust_remote_code=True,
-    # e5 is trained with asymmetric prefixes: queries get "query: ", documents
-    # get "passage: ". Omitting them measurably degrades ranking — worst for
-    # near-duplicates, cross-language queries, and entities buried in a chunk.
-    # These MUST match ingest.py, and changing them requires a re-ingest.
     query_instruction="query: ",
     text_instruction="passage: ",
 )
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-# LLM with automatic fallback.
-#   PRIMARY: llama-3.3-70b-versatile  — preferred while it lasts. Groq is
-#            decommissioning it on 2026-08-16; after that the startup probe below
-#            fails and we use the backup automatically (no code change needed).
-#   BACKUP : openai/gpt-oss-120b      — used if Llama is unavailable at startup
-#            OR if it fails mid-run (see _run() in answer_question).
-# (Other tested option if you ever want it: qwen/qwen3.6-27b, reasoning_effort "none".)
-_GROQ_KEY = os.getenv("GROQ_API_KEY2")
+_GROQ_KEY = os.getenv("GROQ_API_KEY")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -78,8 +60,6 @@ def _make_groq(model, **extra):
     return Groq(model=model, api_key=_GROQ_KEY, **extra)
 
 _LLM_PRIMARY = _make_groq(_PRIMARY_MODEL)
-# gpt-oss is a reasoning model; "low" keeps it snappy. If your installed
-# llama-index-llms-groq rejects additional_kwargs, delete that one line.
 _LLM_BACKUP = _make_groq(_BACKUP_MODEL, additional_kwargs={"reasoning_effort": "low"})
 _using_backup = False
 
@@ -116,12 +96,6 @@ pinecone_index = pc.Index(os.getenv("PINECONE_INDEX_NAME"))
 vector_store = PineconeVectorStore(pinecone_index=pinecone_index)
 index = VectorStoreIndex.from_vector_store(vector_store)
 
-# Cohere reranker: re-scores the 40 retrieved candidates against the question with
-# a cross-encoder and keeps the best 8. This is what fixes both cross-content bleed
-# (only the most relevant chunks reach the LLM) and exact-name/cross-language recall
-# (the multilingual model scores a Spanish query against English passages directly).
-# Optional by design: if the package or COHERE_API_KEY is missing, retrieval still
-# works, just without reranking.
 try:
     from llama_index.postprocessor.cohere_rerank import CohereRerank
     _reranker = (
@@ -129,9 +103,6 @@ try:
                      model="rerank-multilingual-v3.0")
         if os.getenv("COHERE_API_KEY") else None
     )
-    # Calendar questions usually want one term's dates. Keeping fewer chunks
-    # stops several terms (e.g. Spring 2026 + Spring 2027) from crowding the
-    # context and tempting the model to mention more than one.
     _reranker_calendar = (
         CohereRerank(api_key=os.getenv("COHERE_API_KEY"), top_n=4,
                      model="rerank-multilingual-v3.0")
@@ -146,9 +117,6 @@ except Exception as _e:
     _reranker_calendar = None
     print(f"[startup] Cohere reranker unavailable ({_e}); running without it.")
 
-# Load the set of known professor names once, so we can match a name mentioned
-# in a question (e.g. "Professor Paul Allen") to the stored metadata value
-# (e.g. "allen paul") and filter retrieval to just that professor's chunks.
 KNOWN_PROFESSORS = []
 try:
     _probe = pinecone_index.query(vector=[0.1] * 1024, top_k=300,
@@ -187,15 +155,12 @@ If a student seems to be in emotional distress or a mental health crisis, gently
 
 Answer only using the provided context."""
 
-
-# ── Smart query router (EN/ES/FR) ──────────────────────────
 def detect_program(q):
     for program, lang_words in kw.PROGRAM_WORDS.items():
         for word in kw.flatten(lang_words):
             if word in q:
                 return program
     return None
-
 
 def detect_term(q):
     season = None
@@ -208,18 +173,9 @@ def detect_term(q):
         return f"{season} {year.group(1)}"
     return None
 
-
-# Every "informational" page type (everything that isn't a course/faculty/club
-# record). Used as the broad fallback so a general question can reach any page,
-# including ones re-tagged to the new categories below.
 INFO_DOC_TYPES = ["general", "campus", "program", "department", "student_life",
                   "admissions", "policy", "degree_map", "research"]
 
-
-# For broad "what events are coming up" queries, float chunks that actually
-# contain a date to the top of the reranked set, so dated events (AI Day —
-# November 2) beat dateless descriptions (Senate meets Tuesdays). Applied ONLY
-# to event-listing queries, and only to the handful the reranker already kept.
 _DATE_RX = re.compile(
     r"\b(January|February|March|April|May|June|July|August|September|October|"
     r"November|December)\b", re.I)
@@ -237,14 +193,12 @@ try:
 except Exception:
     _DATE_BOOST = None
 
-
 def _wants_event_list(q: str) -> bool:
     ql = (q or "").lower()
     if "event" not in ql:
         return False
     return any(c in ql for c in ("upcoming", "coming up", "what", "which",
                                  "happening", "any", "list", "other"))
-
 
 def route_query(question: str, routing_text: str = None):
     """Return (doc_types, program, term). Keywords come from keywords.py.
@@ -278,8 +232,6 @@ def route_query(question: str, routing_text: str = None):
     program = detect_program(q)
     term = detect_term(q)
 
-    # If the student explicitly says "learning hub", that wins over everything
-    # (even if they also mention a course code or a time word).
     if hub_override:
         return ["learning_support"], None, None
 
@@ -287,24 +239,12 @@ def route_query(question: str, routing_text: str = None):
         return ["course_offering"], None, term
     if has_course_code and description_words:
         return ["course_description"], None, None
-    # Academic calendar: "when do classes start", "last day to drop", withdrawal
-    # and finals dates. Must be checked before the schedule+term branch below, or
-    # "when do classes start in the fall" would be mistaken for a course schedule.
     if calendar_words:
         return ["calendar", "advising", "general"], None, None
-    # "What classes does Professor X teach?" — no course code, but a professor
-    # is named (here or earlier) plus a teaching/schedule word. Route to the
-    # course offerings so we can filter by that instructor.
     if schedule_words and not rating_words and detect_professor(rtext):
         return ["course_offering"], None, term
-    # "Who teaches it / when is it offered?" — a schedule question whose course
-    # code came up earlier in the conversation (e.g. asked about COP 1500, then
-    # "who teaches it in fall 2026?"). Route to offerings, filtered by that code.
     if schedule_words and not rating_words and extract_course_code(rtext):
         return ["course_offering"], None, term
-    # A schedule question pinned to a term but with no course code or professor
-    # (e.g. "what classes are offered in fall 2026?"). Filter offerings by that
-    # term only (not program) so every per-subject term rollup is reachable.
     if schedule_words and not rating_words and term:
         return ["course_offering"], None, term
     if help_words:
@@ -312,46 +252,22 @@ def route_query(question: str, routing_text: str = None):
     if rating_words:
         return ["faculty_reviews"], None, None
 
-    # Advising: "who/when can I meet my advisor", advising hours, appointments,
-    # change-major and registration FAQs all live in the advising pages. Checked
-    # before the faculty/department routes so "advisor" isn't mistaken for a
-    # professor lookup. Keeps department + general in the pool for spillover.
     if advising_words:
         return ["advising", "department", "general"], None, None
-    # "institut" (fr/de/sv for institute) is a substring of English
-    # "institutional", so a policy question like "institutional ethics and
-    # compliance policy" would otherwise route here. If it also reads as policy,
-    # let the policy route (below) handle it.
     if institute_words and not policy_words:
         return ["department", "general"], None, None
     if curriculum_words:
         return ["degree_map"], program, None
-    # Events live in the event-labeled involvement files, in admissions (Say Yes
-    # to the Nest), and in club write-ups (club events). We deliberately EXCLUDE
-    # student_life: those files (CAPS, dean of students, recreation, etc.) hold no
-    # events and only dilute the pool, pushing real event chunks past top_k. This
-    # keeps the pool ~42 chunks so top_k=40 covers nearly all of it.
     if event_words:
         return ["event", "admissions", "club", "general"], None, None
     if club_words:
         return ["club"], None, None
-    # Faculty: either a faculty keyword, OR the question names a known professor
-    # without one (e.g. "Who is Paul Allen?", "Tell me about Allen"). We check the
-    # QUESTION (not history) so an unrelated follow-up after a professor was
-    # mentioned earlier isn't pulled into the faculty route.
     if faculty_words or detect_professor(question):
         return ["faculty", "faculty_reviews"], None, None
-    # ── Page-data topics (admissions, student life, policies, campus, etc.) ──
-    # Each route stays broad (keeps "general" and related types in the mix) so
-    # info scattered across pages — e.g. "Holmes" shows up in faculty office
-    # lines AND the engineering pages — is never filtered out.
     if admissions_words:
         return ["admissions", "general"], None, None
     if policy_words:
         return ["policy", "general"], None, None
-    # Student-life is checked before campus so a general student-life question
-    # routes here (and still reaches the event-labeled involvement files via the
-    # "event" type below), while a bare "Holmes" / "where is..." → campus.
     if student_life_words:
         return ["student_life", "club", "event", "general"], None, None
     if department_words:
@@ -364,19 +280,12 @@ def route_query(question: str, routing_text: str = None):
         return INFO_DOC_TYPES, None, None
     return None, None, None
 
-
-# Common 3-letter words (articles/prepositions across the supported languages)
-# that can sit directly in front of a year and look like a course prefix. Real
-# FGCU subject codes (COP, EGN, CES, ...) are never ordinary words, so excluding
-# these removes false positives like "the 2026" while keeping real codes such as
-# COP 2006 (whose number also happens to look year-like).
 _NON_SUBJECT_PREFIXES = {
     "the", "for", "our", "his", "her", "its", "and", "are", "was", "you",
     "all", "any", "who", "how", "why", "out", "off", "per", "via", "but", "not",
     "del", "der", "die", "das", "les", "des", "los", "las", "dos", "una", "uno",
     "ein", "een", "den", "det", "ist",
 }
-
 
 def extract_course_code(question: str):
     """Pull a course code like 'cop 1500' from a question, normalized to
@@ -395,7 +304,6 @@ def extract_course_code(question: str):
         return f"{prefix} {m.group(2).lower()}"
     return None
 
-
 def detect_professor(question: str):
     """Match a professor name mentioned in the question against the known list.
     Stored names are 'lastname firstname' (lowercase), sometimes comma-formatted
@@ -406,7 +314,6 @@ def detect_professor(question: str):
     q = question.lower()
     for ch in ",.;:()?!¿¡\"'":
         q = q.replace(ch, " ")
-    # strip common titles (word-bounded, so 'dr' inside 'address' is untouched)
     q = " " + q + " "
     for title in (" professor ", " prof ", " dr ", " instructor ", " teacher "):
         q = q.replace(title, " ")
@@ -418,11 +325,8 @@ def detect_professor(question: str):
         if not parts:
             continue
         hits = sum(1 for p in parts if (" " + p + " ") in q)
-        # require every name part to be present (so "allen paul" needs both
-        # 'allen' and 'paul'); a single distinctive surname also counts
         if hits == len(parts) and hits > best_score:
             best, best_score = prof, hits
-    # fall back: a unique surname match (first word of stored name)
     if not best:
         for prof in KNOWN_PROFESSORS:
             clean = prof.lower().replace(",", " ").replace(".", " ").split()
@@ -431,9 +335,8 @@ def detect_professor(question: str):
                 if best is None:
                     best = prof
                 else:
-                    return None  # ambiguous surname; don't guess
+                    return None
     return best
-
 
 def make_engine(doc_types, program, term, course_code=None, professor=None,
                 qa_template=None, postprocessors=None):
@@ -455,9 +358,6 @@ def make_engine(doc_types, program, term, course_code=None, professor=None,
         filter_list.append(MetadataFilter(key="course_code", value=course_code,
                                           operator=FilterOperator.EQ))
     if professor:
-        # Faculty/course files tag the name "lastname firstname" but the
-        # RateMyProfessors review files tag it "firstname lastname". To match
-        # across both, filter on either word order.
         parts = professor.split()
         if len(parts) == 2:
             variants = [professor, f"{parts[1]} {parts[0]}"]
@@ -466,9 +366,6 @@ def make_engine(doc_types, program, term, course_code=None, professor=None,
         else:
             filter_list.append(MetadataFilter(key="professor", value=professor,
                                               operator=FilterOperator.EQ))
-    # Retrieve a wide candidate set (40); the Cohere reranker (a node
-    # postprocessor) re-scores them against the question and keeps only the best
-    # handful, so the LLM sees tight, on-topic context instead of 20 diluted hits.
     kwargs = {"similarity_top_k": 40}
     if qa_template is not None:
         kwargs["text_qa_template"] = qa_template
@@ -478,16 +375,12 @@ def make_engine(doc_types, program, term, course_code=None, professor=None,
         kwargs["filters"] = MetadataFilters(filters=filter_list, condition="and")
     return index.as_query_engine(**kwargs)
 
-
 def detect_question_language(q: str) -> str:
     """Return a language name ONLY for non-Latin scripts, where the model
     sometimes drifts. For Latin-script text (English, Spanish, French, German,
     etc.) we return None and let the model detect it itself — it does this
     reliably, and forcing a guess here caused French questions to be mislabeled
     as English."""
-    # Japanese uses kana (hiragana/katakana); Chinese does not. Check for kana
-    # ANYWHERE before deciding on the shared CJK ideograph range, so a Japanese
-    # sentence that begins with a kanji (e.g. "教授は…") isn't mislabeled Chinese.
     if any(0x3040 <= ord(ch) <= 0x30FF for ch in q):
         return "Japanese"
     for ch in q:
@@ -499,17 +392,12 @@ def detect_question_language(q: str) -> str:
         if 0x0B80 <= o <= 0x0BFF: return "Tamil"
         if 0x0400 <= o <= 0x04FF: return "Russian or Ukrainian"
         if 0x0370 <= o <= 0x03FF: return "Greek"
-    return None  # Latin script: let the model detect the exact language
+    return None
 
-
-# Optional: langdetect gives a far more reliable read of a question's language
-# than function-word markers, especially for short inputs like "what class is
-# cop 3003". It's optional — without it we fall back to the markers below and to
-# the model's own detection. Install with: pip install langdetect
 try:
     from langdetect import (detect as _langdetect, detect_langs as _langdetect_langs,
                             DetectorFactory as _LDFactory)
-    _LDFactory.seed = 0  # make langdetect deterministic across runs
+    _LDFactory.seed = 0
     _LANGDETECT_OK = True
 except Exception:
     _LANGDETECT_OK = False
@@ -522,7 +410,6 @@ _ISO_TO_LANG = {
     "tl": "Tagalog", "hi": "Hindi", "ta": "Tamil", "ko": "Korean",
     "ja": "Japanese", "ar": "Arabic",
 }
-
 
 def detect_language_name(q: str):
     """Identify the question's language as one of our supported names using
@@ -545,21 +432,14 @@ def detect_language_name(q: str):
     code = top.lang.lower()
     return _ISO_TO_LANG.get(code) or _ISO_TO_LANG.get(code.split("-")[0])
 
-
 def _markers_language(q: str):
     """Marker-word vote for a NON-English Latin-script language, or None if
     nothing clearly wins. (English has no markers; it's the default elsewhere.)
     Needs at least two distinctive hits so a stray word can't flip the language."""
     ql = " " + q.lower() + " "
-    # Detach sentence punctuation so a trailing "?" or leading "¿" doesn't fuse to a
-    # marker word ("hay?" != " hay "). Keep "¿"/"¡" as their own tokens since they are
-    # themselves Spanish markers.
     for _ch in "?!.,;:()\"":
         ql = ql.replace(_ch, " ")
     ql = ql.replace("¿", " ¿ ").replace("¡", " ¡ ")
-    # Distinctive function words per language. We deliberately avoid words that
-    # look similar across languages (like "professor") to prevent an English
-    # question from matching another language by accident.
     markers = {
         "Spanish": [" el ", " la ", " qué ", " quién ", " cómo ", " dónde ", " es ", " cuál ", " profesor ", "¿", "ñ",
                     " hay ", " cuáles ", " cuándo ", " los ", " las ", " una ", " del ", " sobre ",
@@ -588,13 +468,12 @@ def _markers_language(q: str):
         "Tagalog": [" ang ", " sino ", " ano ", " saan ", " paano ", " guro ", " salamat ",
                     " ako ", " kamusta ", " tulong ", " hindi ", " mga "],
     }
-    best, best_score = None, 1  # need >= 2 hits to claim a language
+    best, best_score = None, 1
     for lang, words in markers.items():
         score = sum(1 for w in words if w in ql)
         if score > best_score:
             best, best_score = lang, score
     return best
-
 
 _EN_MARKERS = [
     " what ", "what is", "what's", "what are", "what does", " where ", "where is",
@@ -602,7 +481,6 @@ _EN_MARKERS = [
     "does ", " can i ", "can you", "could you", "how do i", " i need", " i want",
     " i'm ", " is the ", " are the ", " of the ",
 ]
-
 
 def _english_markers(q: str) -> bool:
     """True if the question carries DISTINCTIVE English structure words (what /
@@ -614,7 +492,6 @@ def _english_markers(q: str) -> bool:
     ql = " " + q.lower().strip() + " "
     return any(m in ql for m in _EN_MARKERS)
 
-
 _UK_LETTERS = set("іїєґ")
 
 def _cyrillic_name(q: str) -> str:
@@ -623,7 +500,6 @@ def _cyrillic_name(q: str) -> str:
     their presence labels the text Ukrainian; otherwise we call it Russian. Both
     still answer fine; this only fixes the LABEL that drives the TTS voice and UI."""
     return "Ukrainian" if any(ch in _UK_LETTERS for ch in q.lower()) else "Russian"
-
 
 def _detected_language(q: str):
     """A POSITIVE language read for a single question, or None if nothing is
@@ -634,7 +510,6 @@ def _detected_language(q: str):
         return _cyrillic_name(q) if script_lang.startswith("Russian") else script_lang
     return (detect_language_name(q) or _markers_language(q)
             or ("English" if _english_markers(q) else None))
-
 
 def _conversation_language(history):
     """The language of the most recent prior user turn we can read. Used to keep
@@ -648,13 +523,11 @@ def _conversation_language(history):
             return lang
     return None
 
-
 def guess_ui_language(q: str) -> str:
     """Best-effort language name for switching the UI text, defaulting to
     English. Drives only which language the interface displays, not how the
     model answers."""
     return _detected_language(q) or "English"
-
 
 _ANAPHORA = {"it", "its", "it's", "that", "this", "they", "them", "those", "these",
              "he", "she", "him", "her", "his", "their", "theirs"}
@@ -665,23 +538,14 @@ _STOP = {"is", "are", "was", "were", "am", "be", "been", "being", "do", "does", 
          "me", "tell", "give", "show", "i", "my", "get", "will", "many", "much", "going"}
 _MORE = {"tell me more", "more", "go on", "and", "what else", "anything else",
          "continue", "more info", "more details"}
-# Relative words that refer back to a subject from the previous turn rather than
-# naming a new one. "when is the next one" / "which one" / "the first one" carry no
-# subject of their own, so they must be folded in with the prior question for
-# retrieval (otherwise "the next one" matches any random upcoming item).
 _RELATIVE = {"next", "one", "ones", "last", "first", "other", "another",
              "previous", "same", "upcoming", "each", "both", "all"}
-# Course attributes: words that describe an aspect of a course rather than name
-# one. A question made up only of these (plus question/stop words) is asking
-# about the course from the previous turn -> treat it as a follow-up so it gets
-# anchored. "what time are the exams" -> exams+time are attributes -> follow-up.
 _ATTRIBUTE = {"exam", "exams", "time", "times", "room", "rooms", "location",
               "locations", "credit", "credits", "instructor", "instructors",
               "professor", "professors", "teacher", "teachers", "section",
               "sections", "crn", "seat", "seats", "prerequisite", "prerequisites",
               "prereq", "prereqs", "schedule", "meet", "meets", "meeting", "offered",
               "teach", "teaches", "taught", "teaching", "instruct", "instructs"}
-
 
 def _is_followup(q: str) -> bool:
     """True only for questions that genuinely depend on the previous turn, so we
@@ -699,21 +563,16 @@ def _is_followup(q: str) -> bool:
         return False
     if ql in _MORE:
         return True
-    if '"' in raw:                       # a quoted subject stands on its own
+    if '"' in raw:
         return False
     words = ql.split()
-    if set(words) & _ANAPHORA:           # leans on a pronoun referring to prior turn
+    if set(words) & _ANAPHORA:
         return True
     content = [w for w in words if w not in _STOP and w not in _BARE_Q
                and w not in _RELATIVE and w not in _ATTRIBUTE]
-    return not content                   # only question/filler/relative words left -> follow-up
+    return not content
 
-
-# Backstop for the "never answer with code" rule (see _strip_code below).
 _CODE_FENCE_RE = re.compile(r"```[\s\S]*?```")
-# Short refusal used only if an answer was essentially all code. Machine-assisted
-# translations - flag for native review. Keys match the names answer_question
-# resolves (Cyrillic maps to "Russian").
 _CODE_REFUSAL = {
     "English": "I can help with questions about the college, its courses, and faculty, but I can't help with homework or coding.",
     "Spanish": "Puedo ayudarte con preguntas sobre la universidad, sus cursos y el profesorado, pero no puedo ayudarte con tareas ni con programación.",
@@ -737,7 +596,6 @@ _CODE_REFUSAL = {
     "Arabic": "يمكنني المساعدة في الأسئلة المتعلقة بالكلية ومقرراتها وأعضاء هيئة التدريس، لكن لا يمكنني المساعدة في الواجبات أو البرمجة.",
 }
 
-
 def _strip_code(answer: str, lang: str = "English") -> str:
     """Hard backstop for the 'never answer with code' rule. The system prompt
     already tells the model to decline homework/coding, but if it ever returns
@@ -748,17 +606,15 @@ def _strip_code(answer: str, lang: str = "English") -> str:
         return answer
     cleaned = _CODE_FENCE_RE.sub("", answer)
     cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
-    if len(cleaned) < 25:                       # answer was essentially all code
+    if len(cleaned) < 25:
         return _CODE_REFUSAL.get(lang, _CODE_REFUSAL["English"])
     return cleaned
-
 
 import difflib
 
 def _sentences(text: str):
     parts = re.split(r"(?<=[.!?。！？])\s*", (text or "").strip())
     return [p.strip() for p in parts if p.strip()]
-
 
 def _dedup_followup(answer: str, history) -> str:
     """Deterministic backstop for the no-repeat rule. The prompt tells the model
@@ -781,22 +637,18 @@ def _dedup_followup(answer: str, history) -> str:
             sm = difflib.SequenceMatcher(None, s, pl)
             if sm.ratio() > 0.8:
                 return True
-            # A shortened restatement: the whole answer sentence is essentially a
-            # substring of a previous one (symmetric ratio misses this when the
-            # prior sentence is much longer).
             if len(s) > 20 and sm.find_longest_match(0, len(s), 0, len(pl)).size / len(s) > 0.85:
                 return True
         return False
 
     i = 0
-    while i < len(ans_sents) - 1:          # never strip the last remaining sentence
+    while i < len(ans_sents) - 1:
         if _repeats(ans_sents[i].lower()):
             i += 1
         else:
             break
     trimmed = " ".join(ans_sents[i:]).strip()
     return trimmed or answer
-
 
 def _correct_typos(question: str) -> str:
     """Fix obvious typos before retrieval, so a misspelled word ('homlmes') still
@@ -817,11 +669,10 @@ def _correct_typos(question: str) -> str:
     try:
         out = str(Settings.llm.complete(prompt)).strip().strip('"').strip()
     except Exception:
-        return question                          # never break the main flow
+        return question
     if not out or len(out) > len(q) * 2 + 20:
         return question
     return out
-
 
 def _condense_query(question: str, history) -> str:
     """Rewrite a follow-up into ONE standalone retrieval query using the recent
@@ -852,11 +703,6 @@ def _condense_query(question: str, history) -> str:
     if not convo:
         return question
 
-    # Compute the single most-recent course/professor actually named in the
-    # conversation (scan newest-first). This is a hard anchor for the rewriter:
-    # when the student switches courses mid-chat, the OLD course often dominates
-    # the transcript by sheer repetition, so "prefer the most recent" alone isn't
-    # enough — we tell the model exactly which subject "it" refers to.
     anchor_subject = ""
     for h in reversed(history):
         q = (h.get("question") or "")
@@ -893,15 +739,25 @@ def _condense_query(question: str, history) -> str:
         return question
     return out
 
+def _tense_term(question: str) -> str:
+    ql = (question or "").lower()
+    if not any(w in ql for w in ("teach", "instructor", "professor")):
+        return ""
+    ql_noc = re.sub(r"\b[a-z]{3}\s?\d{4}[a-z]?\b", " ", ql)
+    if re.search(r"\b(20\d\d|spring|summer|fall|current|upcoming|next semester|"
+                 r"this semester|current semester|next term|this term)\b", ql_noc):
+        return ""
+    if any(p in ql for p in ("going to", "gonna", "will ", "will be", "next")):
+        return "upcoming"
+    if any(p in ql for p in ("currently", "right now", "is teaching", "are teaching",
+                             "teaches", "teaching")):
+        return "current"
+    return ""
 
 def answer_question(question: str, history=None, correct=True):
     history = history or []
-    if correct:                                  # text mode only; voice transcripts are clean
-        question = _correct_typos(question)      # typo-tolerant retrieval (any language)
-    # For routing and entity detection, a follow-up ("what does he teach?")
-    # may rely on a name mentioned earlier. We build a small context string of
-    # recent turns and use it to help detect the course/professor when the
-    # current question alone doesn't name one.
+    if correct:
+        question = _correct_typos(question)
     recent = " ".join(
         (turn.get("question", "") + " " + turn.get("answer", ""))
         for turn in history[-3:]
@@ -909,30 +765,15 @@ def answer_question(question: str, history=None, correct=True):
     routing_text = question + " " + recent
 
     doc_types, program, term = route_query(question, routing_text)
-    # For course-specific routes, also filter to the exact course code so the
-    # right course's chunk isn't buried among all courses in the same term.
     course_code = None
     if doc_types in (["course_offering"], ["course_description"]):
         course_code = extract_course_code(question) or extract_course_code(routing_text)
-    # For faculty routes, filter to the named professor so their chunk isn't
-    # buried among all faculty (same idea as the course-code filter). Fall back
-    # to a professor named earlier in the conversation for follow-up questions.
-    # Also applies to course_offering when the question is "what does X teach".
     professor = None
     if doc_types and ("faculty" in doc_types or "faculty_reviews" in doc_types
                       or doc_types == ["course_offering"]):
         professor = detect_professor(question) or detect_professor(routing_text)
-    # If we're routing course offerings by professor, don't also force a course
-    # code (we want ALL their courses, not one).
     if doc_types == ["course_offering"] and professor and not extract_course_code(question):
         course_code = None
-    # Resolve the language once and use it for BOTH the answer directive and the
-    # UI language we return. Non-Latin script is pinned directly (the model picks
-    # ru/uk for the combined Cyrillic bucket). For Latin script we take a positive
-    # read (confident langdetect, or distinctive markers); if a short, ambiguous
-    # follow-up gives no read, we INHERIT the conversation's established language
-    # instead of re-guessing — langdetect flips short English to Dutch/Italian,
-    # which otherwise switches the whole answer and UI mid-chat.
     script_lang = detect_question_language(question)
     if script_lang:
         directive_lang = script_lang
@@ -959,8 +800,6 @@ def answer_question(question: str, history=None, correct=True):
             "of your answer. Do not comment on which language it is — just answer "
             "naturally in that language."
         )
-    # Build a short conversation transcript so the model can resolve follow-ups
-    # ("he", "that course", "what about the fall?") against earlier turns.
     history_block = ""
     if history:
         lines = []
@@ -985,24 +824,8 @@ def answer_question(question: str, history=None, correct=True):
                 "reintroduce a person, course, or topic you already described. "
                 "Answer ONLY the new question below, directly and on its own."
             )
-    # Retrieval query = the QUESTION only, NOT the system prompt. Embedding the
-    # whole system prompt pulled every query toward the same point and drowned out
-    # the actual question - the single biggest retrieval fix here.
-    #
-    # For GENUINE follow-ups ("when is it?", "tell me more") we prepend the previous
-    # question so references resolve. But we must NOT do this for self-contained
-    # questions that merely happen to be short ("What is Eagle X?"), or the previous
-    # topic bleeds into the answer. A question is a follow-up only if it leans on an
-    # anaphor or is a bare interrogative AND names no subject of its own.
     retrieval_query = question
     followup = _is_followup(question)
-    # Language-agnostic follow-up: _is_followup only recognises English anaphora
-    # ("what does HE teach"), so a non-English teaching follow-up ("¿qué clases
-    # enseña?", "quali corsi insegna?") looked self-contained and dropped the
-    # subject, retrieving the wrong professor. If the current question is a
-    # schedule/teaching question that names no professor or course of its own,
-    # while the conversation already established one, treat it as a follow-up so
-    # the prior question (which named the professor) is folded into the search.
     if history and not followup:
         sched = any(w in question.lower() for w in kw.ALL_SCHEDULE)
         own = detect_professor(question) or extract_course_code(question)
@@ -1010,12 +833,6 @@ def answer_question(question: str, history=None, correct=True):
         if sched and established and not own:
             followup = True
     if history:
-        # Primary: LLM rewrites the question into a standalone query, resolving
-        # references from the conversation (handles phrasings the keyword rules
-        # miss entirely). It internally skips questions that already name a
-        # course/professor, so self-contained questions cost nothing. Fallback:
-        # if the LLM leaves it unchanged BUT the keyword rules flag a follow-up,
-        # walk back to the most recent self-contained question and anchor on it.
         rewritten = _condense_query(question, history)
         if rewritten != question:
             retrieval_query = rewritten
@@ -1030,16 +847,6 @@ def answer_question(question: str, history=None, correct=True):
                     break
             retrieval_query = (anchor + " " + question).strip()
 
-    # Debug: shows the exact query that drives retrieval (visible in Space logs).
-    print(f"[retrieval_query] {retrieval_query!r}", flush=True)
-
-    # The rewritten query is the RESOLVED subject. Re-derive the metadata filters
-    # (doc types, course code, professor) from it — otherwise a mid-conversation
-    # course switch leaves the filters pinned to the PREVIOUS course or its
-    # instructor (both still present in the history text), silently restricting
-    # retrieval to the wrong course. E.g. after switching to COP 2006, "who is
-    # going to teach it" kept the professor filter = the prior course's Ciris,
-    # returning only Ciris's courses.
     if retrieval_query != question:
         doc_types, program, term = route_query(retrieval_query, retrieval_query)
         course_code = None
@@ -1052,12 +859,6 @@ def answer_question(question: str, history=None, correct=True):
         if doc_types == ["course_offering"] and professor and not extract_course_code(retrieval_query):
             course_code = None
 
-    # System prompt + language directive + history go into the QA *template* (the
-    # LLM still sees all of it) instead of into the retrieval query. Braces in that
-    # text are escaped so PromptTemplate treats only {context_str}/{query_str} as
-    # variables.
-    # Date + current/upcoming-term awareness, prepended so the model always
-    # knows "today" and which semester we're in.
     date_directive = calendar_directive()
     calendar_note = ""
     if doc_types and "calendar" in doc_types:
@@ -1075,7 +876,15 @@ def answer_question(question: str, history=None, correct=True):
             "regular first day of classes, not 'Saturday Classes Begin' and not any "
             "registration date."
         )
-    _instr = (SYSTEM_PROMPT + date_directive + calendar_note + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
+    tense_note = ""
+    _tt = _tense_term(question)
+    if _tt == "upcoming":
+        tense_note = ("\n\nThe student's question is future tense (\"going to teach\") and names "
+                      "no term, so answer for the UPCOMING term from the today's-date line above.")
+    elif _tt == "current":
+        tense_note = ("\n\nThe student's question is present tense (\"is teaching\"/\"teaches\") and "
+                      "names no term, so answer for the CURRENT term from the today's-date line above.")
+    _instr = (SYSTEM_PROMPT + date_directive + calendar_note + tense_note + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
     qa_template = PromptTemplate(
         _instr
         + "\n\nContext information from FGCU Engineering pages is below.\n"
@@ -1087,7 +896,7 @@ def answer_question(question: str, history=None, correct=True):
     _active_reranker = _reranker_calendar if (_is_calendar and _reranker_calendar) else _reranker
     _post = [_active_reranker] if _active_reranker else []
     if _DATE_BOOST is not None and _wants_event_list(question):
-        _post.append(_DATE_BOOST)                 # dated events first for "what's coming up"
+        _post.append(_DATE_BOOST)
     _post = _post or None
 
     def _run(dt, prog, trm, code, prof):
@@ -1096,8 +905,6 @@ def answer_question(question: str, history=None, correct=True):
                                qa_template=qa_template,
                                postprocessors=_post).query(retrieval_query)
         except Exception as e:
-            # If the primary model just died (e.g. Llama decommissioned mid-run),
-            # switch to the backup once and retry this query immediately.
             if _using_backup:
                 raise
             _activate_backup(type(e).__name__)
@@ -1106,42 +913,23 @@ def answer_question(question: str, history=None, correct=True):
                                postprocessors=_post).query(retrieval_query)
 
     def _no_match(r):
-        # LlamaIndex returns the literal "Empty Response" (and no source nodes)
-        # when the metadata filters match nothing.
         s = str(r).strip()
         return (not s) or s == "Empty Response" or not getattr(r, "source_nodes", None)
 
     response = _run(doc_types, program, term, course_code, professor)
 
-    # Safety net: a course-code query that matched no chunks should not dead-end
-    # as "Empty Response". This happens when we route to course_offering for a
-    # course with no scheduled section (e.g. "who teaches COP 1500 and what's it
-    # about", "what does COP 2006 cover", or a negated "I don't want the
-    # schedule, just tell me what COP 1500 covers"). Retry across BOTH the
-    # offering and the description for that code (dropping term/professor) so an
-    # answerable course still answers instead of returning nothing.
     if course_code and _no_match(response):
         response = _run(["course_offering", "course_description"],
                         program, None, course_code, None)
-    # Last resort: the course code alone, any doc type.
     if course_code and _no_match(response):
         response = _run(None, None, None, course_code, None)
 
-    # General fail-safe (works for ANY topic in ANY language): if the routed,
-    # filtered search still matched nothing — which can happen when a question
-    # routes to a doc_type that holds no matching chunk, or when a non-English
-    # phrasing routes imperfectly — fall back to an unfiltered search across
-    # every document. The multilingual embedding model matches the question to
-    # the closest content regardless of its language, so this keeps any file
-    # reachable instead of dead-ending on "Empty Response".
     if _no_match(response):
         response = _run(None, None, None, None, None)
 
     answer = _dedup_followup(_strip_code(str(response), ui_lang), history)
     return answer, ui_lang
 
-
-# ── Terminal chat mode ─────────────────────────────────────
 def chat():
     print("=" * 60)
     print("FGCU Engineering Assistant — Terminal Chat")
@@ -1164,17 +952,11 @@ def chat():
             ans, _lang = answer_question(question, chat_history)
             print(f"\nAssistant: {ans}\n")
             chat_history.append({"question": question, "answer": ans})
-            chat_history = chat_history[-6:]  # keep recent turns only
+            chat_history = chat_history[-6:]
         except Exception as e:
             print(f"\nError: {e}\n")
 
-
-# ── FastAPI app ────────────────────────────────────────────
 app = FastAPI()
-# CORS: set ALLOWED_ORIGINS in the environment to a comma-separated list of the
-# exact frontend origins allowed to call this API, e.g.
-#   ALLOWED_ORIGINS=https://ask-the-eagle.vercel.app,http://localhost:3000
-# If unset (local dev), it falls back to "*" so nothing breaks on your machine.
 _origins_env = os.getenv("ALLOWED_ORIGINS", "").strip()
 _allowed_origins = [o.strip() for o in _origins_env.split(",") if o.strip()] or ["*"]
 print(f"CORS allowed origins: {_allowed_origins}")
@@ -1185,18 +967,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-
-# ─── Bot protection (Cloudflare Turnstile) ─────────────────────────────────
-# A human solves the Turnstile widget once; the frontend exchanges that token at
-# /verify for a short-lived signed session, then sends the session header with
-# each /ask, /transcribe and /speak call. Those endpoints reject anything without
-# a valid session, so bots can't hit the paid APIs (Groq / ElevenLabs) directly.
-# If TURNSTILE_SECRET is unset (e.g. local dev) the check is skipped entirely, so
-# nothing breaks while you develop without keys.
 TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET", "")
 SESSION_SECRET   = os.getenv("SESSION_SECRET", "dev-only-change-me")
-SESSION_TTL      = 2 * 60 * 60          # how long one verified session lasts (s)
-
+SESSION_TTL      = 2 * 60 * 60
 
 def _make_session() -> str:
     """Signed, expiring token '<exp>.<hmac>'. Simple format (no JSON/base64) so a
@@ -1206,7 +979,6 @@ def _make_session() -> str:
     exp = str(int(time.time()) + SESSION_TTL)
     sig = hmac.new(SESSION_SECRET.encode(), exp.encode(), hashlib.sha256).hexdigest()
     return f"{exp}.{sig}"
-
 
 def _valid_session(token: str) -> bool:
     if not token or "." not in token:
@@ -1220,23 +992,16 @@ def _valid_session(token: str) -> bool:
     except ValueError:
         return False
 
-
-# Per-IP rate limiting (in-memory sliding window). Needs no external calls, so it
-# protects the paid endpoints even where Turnstile can't verify. Tune with the
-# RATE_LIMIT_PER_MIN env var (counts every /ask, /transcribe and /speak call; one
-# voice question is ~3 calls, so 40/min ≈ 13 questions/min per IP).
 from collections import defaultdict, deque
 _RL_WINDOW = 60
 _RL_MAX = int(os.getenv("RATE_LIMIT_PER_MIN", "40"))
 _rl_hits: "dict[str, deque]" = defaultdict(deque)
 
-
 def _client_ip(request: Request) -> str:
     xff = request.headers.get("x-forwarded-for", "")
     if xff:
-        return xff.split(",")[0].strip()          # first hop = real client (behind proxies)
+        return xff.split(",")[0].strip()
     return request.client.host if request.client else "unknown"
-
 
 def _rate_limited(ip: str) -> bool:
     now = time.time()
@@ -1247,7 +1012,6 @@ def _rate_limited(ip: str) -> bool:
         return True
     dq.append(now)
     return False
-
 
 async def require_human(request: Request, x_session: str = Header(default="")):
     """Gate the costly endpoints. Two layers: (1) a per-IP rate limit that always
@@ -1260,19 +1024,11 @@ async def require_human(request: Request, x_session: str = Header(default="")):
     if not _valid_session(x_session):
         raise HTTPException(status_code=401, detail="Bot check required")
 
-
-# ─── Usage logging (Supabase) ──────────────────────────────────────────────
-# Every question is logged to a Supabase table (question, answer, language, the
-# per-device client id, and a timestamp the DB fills in). Writes happen in a
-# background task so they never slow down or break the user's answer, and the
-# whole thing is a no-op if Supabase isn't configured.
 SUPABASE_URL   = os.getenv("SUPABASE_URL", "").rstrip("/")
 SUPABASE_KEY   = os.getenv("SUPABASE_KEY", "")
 SUPABASE_TABLE = os.getenv("SUPABASE_TABLE", "ask_logs")
 SUPABASE_ISSUES_TABLE = os.getenv("SUPABASE_ISSUES_TABLE", "issue_reports")
 
-# Password for the /data admin dashboard. If unset, the admin endpoints are
-# DISABLED (deny all) rather than open — safer default.
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
 
 def _check_admin(password: str) -> bool:
@@ -1280,7 +1036,6 @@ def _check_admin(password: str) -> bool:
     if not ADMIN_PASSWORD:
         return False
     return hmac.compare_digest(str(password or ""), ADMIN_PASSWORD)
-
 
 async def log_interaction(client_id: str, question: str, answer: str, language: str,
                           message_id: str = "", platform: str = "", browser: str = "",
@@ -1313,12 +1068,8 @@ async def log_interaction(client_id: str, question: str, answer: str, language: 
                 },
             )
     except Exception:
-        pass  # logging is best-effort; swallow everything
+        pass
 
-
-# ─── Friendly error handling ───────────────────────────────────────────────
-# If generation fails (e.g. a transient Groq/Pinecone/Cohere hiccup), the user
-# should get a short, polite message in their own language instead of a raw 500.
 _ERROR_TEXT = {
     "English":    "Sorry, something went wrong on my end. Please try again in a moment.",
     "Spanish":    "Lo siento, algo salió mal de mi lado. Inténtalo de nuevo en un momento.",
@@ -1342,7 +1093,6 @@ _ERROR_TEXT = {
     "Arabic":     "عذرًا، حدث خطأ من جانبي. يرجى المحاولة مرة أخرى بعد قليل.",
 }
 
-
 def _safe_ui_lang(question: str) -> str:
     """Best-effort language of the question, for picking the error message.
     Never raises; defaults to English."""
@@ -1355,13 +1105,11 @@ def _safe_ui_lang(question: str) -> str:
     except Exception:
         return "English"
 
-
 @app.exception_handler(Exception)
 async def _unhandled_exception(request: Request, exc: Exception):
     """Catch-all so an unexpected error returns clean JSON, not an HTML stack
     trace. (FastAPI's own HTTPException responses are unaffected.)"""
     return JSONResponse(status_code=500, content={"error": "Something went wrong. Please try again."})
-
 
 @app.post("/report")
 async def report(request: Request, body: dict = Body(default=None)):
@@ -1378,7 +1126,7 @@ async def report(request: Request, body: dict = Body(default=None)):
     if len(description) > 4000:
         description = description[:4000]
     if not (SUPABASE_URL and SUPABASE_KEY):
-        return {"ok": True}                       # dev: nothing to write to
+        return {"ok": True}
     try:
         async with httpx.AsyncClient(timeout=10) as client:
             r = await client.post(
@@ -1396,18 +1144,15 @@ async def report(request: Request, body: dict = Body(default=None)):
     except Exception:
         return {"ok": False}
 
-
 @app.post("/verify")
 async def verify(body: dict = Body(default=None)):
     """Exchange a Turnstile token for a session token."""
     token = (body or {}).get("token", "")
     if not TURNSTILE_SECRET:
-        return {"session": _make_session()}          # dev: Turnstile not configured
+        return {"session": _make_session()}
     if not token:
         raise HTTPException(status_code=400, detail="Missing Turnstile token")
     try:
-        # Force IPv4 (local_address="0.0.0.0"): HF Spaces has broken IPv6 egress,
-        # so httpx hangs connecting to Cloudflare over IPv6 -> ConnectTimeout.
         transport = httpx.AsyncHTTPTransport(local_address="0.0.0.0")
         async with httpx.AsyncClient(timeout=15, transport=transport) as client:
             resp = await client.post(
@@ -1415,11 +1160,7 @@ async def verify(body: dict = Body(default=None)):
                 data={"secret": TURNSTILE_SECRET, "response": token},
             )
         result = resp.json()
-    except Exception as e:                            # network / DNS / timeout / bad JSON
-        # This HF Space can't reach challenges.cloudflare.com. Rather than break the
-        # whole assistant, fail OPEN (issue a session) and rely on the per-IP rate
-        # limiter for abuse protection. If the backend later runs where Cloudflare
-        # IS reachable, this path simply stops triggering and real checks resume.
+    except Exception as e:
         print(f"[verify] siteverify unreachable, failing open: {e!r}")
         return {"session": _make_session()}
     if not result.get("success"):
@@ -1432,12 +1173,8 @@ async def verify(body: dict = Body(default=None)):
         print(f"[verify] make_session failed: {e!r}")
         raise HTTPException(status_code=500, detail=f"Session error: {e}")
 
-
 @app.post("/ask")
 async def ask(request: Request, background: BackgroundTasks, question: str = "", body: dict = Body(default=None), _human=Depends(require_human)):
-    # Accept either a query param (?question=) for backward compatibility, or a
-    # JSON body {"question": ..., "history": [...], "client_id": "...",
-    # "message_id": "...", "platform": "...", "browser": "..."}.
     history = []
     client_id = ""
     message_id = ""
@@ -1453,11 +1190,7 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
         browser = (body.get("browser", "") or "")[:40]
         mode = (body.get("mode", "text") or "text")
     user_agent = request.headers.get("user-agent", "") if request else ""
-    # Text mode: fix typos up front so we retrieve on AND can log the corrected text.
     corrected_q = question if mode == "voice" else _correct_typos(question)
-    # Generate the answer, retrying once on a transient failure (Groq/Pinecone/
-    # Cohere hiccup). If it still fails, return a short, polite message in the
-    # user's language instead of a raw 500.
     answer = None
     language = "English"
     for attempt in range(2):
@@ -1470,13 +1203,10 @@ async def ask(request: Request, background: BackgroundTasks, question: str = "",
                 continue
             language = _safe_ui_lang(question)
             answer = _ERROR_TEXT.get(language, _ERROR_TEXT["English"])
-    # Log after responding (non-blocking). corrected_question is only stored when
-    # the typo-fixer actually changed the text.
     background.add_task(log_interaction, client_id, question, answer, language,
                         message_id, platform, browser, user_agent,
                         mode, corrected_q if corrected_q != question else "")
     return {"answer": answer, "language": language}
-
 
 @app.post("/feedback")
 async def feedback(body: dict = Body(default=None)):
@@ -1488,7 +1218,7 @@ async def feedback(body: dict = Body(default=None)):
     if not message_id or rating not in (1, -1, 0):
         raise HTTPException(status_code=400, detail="Bad feedback")
     if not (SUPABASE_URL and SUPABASE_KEY):
-        return {"ok": True}                        # dev: nothing to write to
+        return {"ok": True}
     try:
         async with httpx.AsyncClient(timeout=10) as client:
             r = await client.patch(
@@ -1505,10 +1235,6 @@ async def feedback(body: dict = Body(default=None)):
     except Exception:
         return {"ok": False}
 
-
-# ─── Admin dashboard (/data) endpoints ─────────────────────────────────────
-# Password-protected read-only access to the Supabase logs for the /data page.
-# The password is checked server-side, so the data is never exposed without it.
 async def _sb_get(table: str, params: dict):
     """Read rows from a Supabase table via the REST API (service-role key)."""
     if not (SUPABASE_URL and SUPABASE_KEY):
@@ -1522,7 +1248,6 @@ async def _sb_get(table: str, params: dict):
         if r.status_code == 200:
             return r.json()
         return []
-
 
 @app.post("/admin/logs")
 async def admin_logs(body: dict = Body(default=None)):
@@ -1544,7 +1269,6 @@ async def admin_logs(body: dict = Body(default=None)):
     })
     return {"ok": True, "rows": rows}
 
-
 @app.post("/admin/issues")
 async def admin_issues(body: dict = Body(default=None)):
     """Return recent issue_reports rows for the dashboard. Requires the admin
@@ -1564,9 +1288,6 @@ async def admin_issues(body: dict = Body(default=None)):
     })
     return {"ok": True, "rows": rows}
 
-
-# Whisper language codes for the supported languages (used when the user turns
-# auto-detect OFF and picks a language, which improves accuracy with accents).
 LANG_CODES = {
     "English": "en", "Spanish": "es", "Portuguese": "pt", "French": "fr",
     "German": "de", "Italian": "it", "Russian": "ru", "Ukrainian": "uk",
@@ -1575,8 +1296,6 @@ LANG_CODES = {
     "Tamil": "ta", "Korean": "ko", "Japanese": "ja", "Arabic": "ar",
 }
 
-# A vocabulary hint so Whisper spells our domain terms correctly even through
-# an accent. Whisper biases toward words it sees in this prompt.
 WHISPER_PROMPT = (
     "U.A. Whitaker College of Engineering, FGCU, Florida Gulf Coast University. "
     "Courses: COP 1500 Intro to Computer Science, COP 2006 Programming I, "
@@ -1586,12 +1305,9 @@ WHISPER_PROMPT = (
     "Sahiner, Tsegaye, Allen, Ciris, Dhakal, Ahuja."
 )
 
-
 @app.post("/transcribe")
 async def transcribe(audio: UploadFile = File(...), language: str = Form(""), _human=Depends(require_human)):
     audio_bytes = await audio.read()
-    # The browser sends webm/opus from MediaRecorder. Give Whisper a filename
-    # with a real extension so it detects the format correctly.
     filename = audio.filename or "audio.webm"
     content_type = audio.content_type or "audio/webm"
     form_data = {
@@ -1599,8 +1315,6 @@ async def transcribe(audio: UploadFile = File(...), language: str = Form(""), _h
         "response_format": "json",
         "prompt": WHISPER_PROMPT,
     }
-    # If the user picked a language (auto-detect off), force it for better
-    # accuracy on accents. Otherwise Whisper auto-detects.
     code = LANG_CODES.get(language, "")
     if code:
         form_data["language"] = code
@@ -1618,29 +1332,14 @@ async def transcribe(audio: UploadFile = File(...), language: str = Form(""), _h
     print(f"[/transcribe] ({language or 'auto'}) heard: {text!r}")
     return {"text": text}
 
-
-# ── Text-to-speech: ElevenLabs primary, edge-tts fallback ──────────────────
-# ElevenLabs (multilingual_v2, default voice "Sarah") is the primary voice. Its
-# free tier is ~10k characters/month; when that quota is exhausted the API
-# returns 401/402/429 (usually with "quota_exceeded" in the body). We then fall
-# back to edge-tts (free Microsoft neural voices, no key, no character cap) so
-# the demo never loses its voice. Unlike ElevenLabs' single multilingual voice,
-# edge-tts uses one voice PER LANGUAGE, so we pick it from the answer's language
-# via the existing guess_ui_language(), leaving the /speak signature unchanged.
 try:
     import edge_tts
     _EDGE_TTS_AVAILABLE = True
 except ImportError:
-    _EDGE_TTS_AVAILABLE = False  # run: pip install edge-tts  to enable fallback
+    _EDGE_TTS_AVAILABLE = False
 
-# Once ElevenLabs reports its quota is gone, skip it for the rest of this run to
-# avoid a guaranteed-failing call on every request. Resets on server restart
-# (which in practice lines up with the monthly quota reset).
 _elevenlabs_quota_hit = False
 
-# Native neural voice per language for the edge-tts fallback. Keys match the
-# names guess_ui_language() returns. (It maps all Cyrillic to "Russian", so a
-# Ukrainian answer currently uses the Russian voice — intelligible, not ideal.)
 EDGE_VOICE_BY_LANG = {
     "English": "en-US-AriaNeural",         "Spanish": "es-ES-ElviraNeural",
     "Portuguese": "pt-BR-FranciscaNeural",  "French": "fr-FR-DeniseNeural",
@@ -1655,7 +1354,6 @@ EDGE_VOICE_BY_LANG = {
 }
 EDGE_DEFAULT_VOICE = "en-US-AriaNeural"
 
-
 async def _edge_tts_audio(text: str) -> bytes:
     """Synthesize MP3 bytes with edge-tts, choosing a voice that matches the
     language of the text so a non-English answer isn't read by an English voice.
@@ -1668,12 +1366,10 @@ async def _edge_tts_audio(text: str) -> bytes:
             chunks.append(chunk["data"])
     return b"".join(chunks)
 
-
 def _is_elevenlabs_quota_error(status_code: int, body: str) -> bool:
     """ElevenLabs signals an exhausted/blocked quota with 401/402/429, usually
     with 'quota_exceeded' in the body."""
     return status_code in (401, 402, 429) or "quota" in body.lower()
-
 
 def _speakable(text: str) -> str:
     """Rewrite course codes so TTS spells the subject letters instead of reading
@@ -1693,7 +1389,6 @@ def _speakable(text: str) -> str:
         return f"{letters} {number}{tail}"
     return re.sub(r'\b([A-Za-z]{3})\s*([1-7]\d{3})([A-Za-z]?)\b', repl, text)
 
-
 @app.post("/speak")
 async def speak(text: str, _human=Depends(require_human)):
     global _elevenlabs_quota_hit
@@ -1701,11 +1396,10 @@ async def speak(text: str, _human=Depends(require_human)):
     if not text:
         return Response(content=b'{"error": "empty text"}', status_code=400,
                         media_type="application/json")
-    text = _speakable(text)  # spell course-code letters so they aren't read as words
+    text = _speakable(text)
 
-    # 1) PRIMARY: ElevenLabs (skipped once we know its quota is gone).
     if not _elevenlabs_quota_hit:
-        voice_id = "EXAVITQu4vr4xnSDxMaL"  # Sarah (default voice; free-tier safe)
+        voice_id = "EXAVITQu4vr4xnSDxMaL"
         try:
             async with httpx.AsyncClient(timeout=30) as client:
                 resp = await client.post(
@@ -1720,19 +1414,14 @@ async def speak(text: str, _human=Depends(require_human)):
             content_type = resp.headers.get("content-type", "")
             if resp.status_code == 200 and "audio" in content_type:
                 return Response(content=resp.content, media_type="audio/mpeg")
-            # Non-audio response: decide whether the quota ran out.
             body = resp.text[:500]
             print(f"[/speak] ElevenLabs error {resp.status_code}: {body}")
             if _is_elevenlabs_quota_error(resp.status_code, body):
                 print("[/speak] ElevenLabs quota exhausted -> switching to edge-tts for this run.")
-                _elevenlabs_quota_hit = True  # latch: stop retrying ElevenLabs
-            # fall through to edge-tts for this request either way
+                _elevenlabs_quota_hit = True
         except Exception as e:
-            # Transient failure (network/timeout): try edge-tts now, but do NOT
-            # latch the quota flag — ElevenLabs may be fine on the next request.
             print(f"[/speak] ElevenLabs request failed ({e}) -> trying edge-tts.")
 
-    # 2) FALLBACK: edge-tts (free, no key, no character cap, all 21 languages).
     if _EDGE_TTS_AVAILABLE:
         try:
             audio = await _edge_tts_audio(text)
@@ -1744,13 +1433,9 @@ async def speak(text: str, _human=Depends(require_human)):
     else:
         print("[/speak] edge-tts not installed; run: pip install edge-tts")
 
-    # 3) Both unavailable: degrade gracefully so the frontend can show
-    #    "voice unavailable" instead of trying to play a broken audio body.
     return Response(content=b'{"error": "voice unavailable"}', status_code=503,
                     media_type="application/json")
 
-
-# ── Run mode ───────────────────────────────────────────────
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "chat":
         chat()
