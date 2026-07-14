@@ -109,7 +109,8 @@ LEARNING_HUB_OVERRIDE = {
 # ── Course schedule (who/when/what time)  →  course_offering ──
 SCHEDULE_WORDS = {
     "en": ["teach", "who teaches", "what time", "when does", "meet",
-           "instructor", "crn", "schedule", "offered in"],
+           "instructor", "crn", "schedule", "offered in",
+           "exam", "exams", "final exam", "room", "section", "sections"],
     "es": ["enseña", "imparte", "dicta", "quién enseña", "qué hora", "cuándo es",
            "se reúne", "instructor", "crn", "horario", "se ofrece en"],
     "pt": ["ensina", "leciona", "dá aula", "quem ensina", "que horas", "quando é",

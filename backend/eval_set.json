@@ -1,0 +1,190 @@
+{
+  "_comment": "Gold evaluation set. 'must_include' = facts that MUST appear in a correct answer (case-insensitive substring, any one of a list of alternatives per fact). 'history' = prior turns for multi-turn follow-up items. VERIFY every expected value against your own data before running.",
+
+  "single_turn": [
+    {
+      "id": "S01", "category": "course_info",
+      "question": "What is COP 1500?",
+      "must_include": [["intro to computer science", "introduction to computer science"]]
+    },
+    {
+      "id": "S02", "category": "instructor",
+      "question": "Who is going to teach COP 1500 in Fall 2026?",
+      "must_include": [["gao"], ["devasenapathy"]]
+    },
+    {
+      "id": "S03", "category": "meeting_time",
+      "question": "What time does COP 1500 meet in Fall 2026?",
+      "must_include": [["12:00"], ["1:30", "01:30"], ["9:00", "09:00"]]
+    },
+    {
+      "id": "S04", "category": "exam_time",
+      "question": "When is the exam for COP 1500 in Fall 2026?",
+      "must_include": [["10:00"], ["12:30"], ["7:30", "07:30"]]
+    },
+    {
+      "id": "S05", "category": "room",
+      "question": "What room does COP 1500 meet in for Fall 2026?",
+      "must_include": [["holmes"], ["202", "402"]]
+    },
+    {
+      "id": "S06", "category": "multi_section",
+      "question": "How many sections of COP 1500 are offered in Fall 2026?",
+      "must_include": [["three", "3"]]
+    },
+    {
+      "id": "S07", "category": "course_info",
+      "question": "What is COP 3003?",
+      "must_include": [["programming ii", "programming 2"]]
+    },
+    {
+      "id": "S08", "category": "instructor",
+      "question": "Who teaches COP 3003 in Fall 2026?",
+      "must_include": [["ciris"]]
+    },
+    {
+      "id": "S09", "category": "course_info",
+      "question": "What is COP 2006?",
+      "must_include": [["programming i", "programming 1"]]
+    },
+    {
+      "id": "S10", "category": "instructor",
+      "question": "Who is going to teach COP 2006 in Fall 2026?",
+      "must_include": [["devasenapathy", "gao"]]
+    },
+    {
+      "id": "S11", "category": "course_info",
+      "question": "What is ENV 4341C?",
+      "must_include": [["solid", "hazardous", "waste"]]
+    },
+    {
+      "id": "S12", "category": "instructor",
+      "question": "Who teaches ENV 4341C in Fall 2026?",
+      "must_include": [["danley"]]
+    },
+    {
+      "id": "S13", "category": "event_date",
+      "question": "When is Holmes is Your Home?",
+      "must_include": [["august 19", "aug 19"], ["2026"]]
+    },
+    {
+      "id": "S14", "category": "event_date",
+      "question": "When is AI Day?",
+      "must_include": [["november 2", "nov 2"], ["2026"]]
+    },
+    {
+      "id": "S15", "category": "event_info",
+      "question": "What is Say Yes to the Nest?",
+      "must_include": [["admitted student"]]
+    },
+    {
+      "id": "S16", "category": "credits",
+      "question": "How many credits is COP 3003?",
+      "must_include": [["3", "three"]]
+    },
+    {
+      "id": "S17", "category": "typo_robustness",
+      "question": "wne is the next homlmes is your holmes",
+      "must_include": [["august 19", "aug 19"]]
+    },
+    {
+      "id": "S18", "category": "typo_robustness",
+      "question": "who is teachin cop 3003 in fal 2026",
+      "must_include": [["ciris"]]
+    },
+    {
+      "id": "S19", "category": "multilingual",
+      "question": "¿Quién enseña COP 3003 en el otoño de 2026?",
+      "must_include": [["ciris"]]
+    },
+    {
+      "id": "S20", "category": "multilingual",
+      "question": "Qui enseigne COP 1500 à l'automne 2026?",
+      "must_include": [["gao", "devasenapathy"]]
+    },
+    {
+      "id": "S21", "category": "abstention",
+      "question": "Who teaches BIO 9999 in Fall 2026?",
+      "must_abstain": true
+    },
+    {
+      "id": "S22", "category": "abstention",
+      "question": "What is the exact date of Say Yes to the Nest in Fall 2026?",
+      "must_abstain": true
+    }
+  ],
+
+  "multi_turn": [
+    {
+      "id": "M01", "category": "followup_pronoun",
+      "history": [
+        {"question": "What is COP 1500?", "answer": "COP 1500 is Intro to Computer Science, a 3-credit course."}
+      ],
+      "question": "Who is going to teach it?",
+      "must_include": [["gao", "devasenapathy"]]
+    },
+    {
+      "id": "M02", "category": "followup_pronoun",
+      "history": [
+        {"question": "What is COP 3003?", "answer": "COP 3003 is Programming II, a 3-credit course."}
+      ],
+      "question": "Who is teaching it in the upcoming semester?",
+      "must_include": [["ciris"]]
+    },
+    {
+      "id": "M03", "category": "followup_attribute",
+      "history": [
+        {"question": "What is COP 1500?", "answer": "COP 1500 is Intro to Computer Science."},
+        {"question": "What time does it meet in Fall 2026?", "answer": "It meets T R 12:00pm, M W 1:30pm, and T R 9:00am."}
+      ],
+      "question": "When are the exam times?",
+      "must_include": [["10:00"], ["12:30"]]
+    },
+    {
+      "id": "M04", "category": "course_switch",
+      "history": [
+        {"question": "When is COP 3003 going to be taught?", "answer": "COP 3003 is taught in Fall 2026, M W 9:00am and M W 3:00pm, by Ciris, Pelin."},
+        {"question": "When are the exam times?", "answer": "For COP 3003 the exams are Monday 7:30am and Monday 12:30pm."},
+        {"question": "What about COP 2006?", "answer": "COP 2006 is Programming I, a 3-credit course."}
+      ],
+      "question": "Who is going to teach it?",
+      "must_include": [["devasenapathy", "gao"]],
+      "must_exclude": [["ciris"]]
+    },
+    {
+      "id": "M05", "category": "course_switch",
+      "history": [
+        {"question": "Who teaches COP 1500 in Fall 2026?", "answer": "Gao, Tiying and Devasenapathy, Deepa."},
+        {"question": "What about ENV 4341C?", "answer": "ENV 4341C is Solid and Hazardous Waste Management."}
+      ],
+      "question": "Who teaches it?",
+      "must_include": [["danley"]],
+      "must_exclude": [["gao"]]
+    },
+    {
+      "id": "M06", "category": "followup_chain",
+      "history": [
+        {"question": "What is COP 3003?", "answer": "COP 3003 is Programming II."},
+        {"question": "When is it offered?", "answer": "It is offered in Fall 2026."}
+      ],
+      "question": "Who teaches each section?",
+      "must_include": [["ciris"]]
+    },
+    {
+      "id": "M07", "category": "followup_event",
+      "history": [
+        {"question": "What is Holmes is Your Home?", "answer": "Holmes is Your Home is the college's annual kick-off event."}
+      ],
+      "question": "When is the next one?",
+      "must_include": [["august 19", "aug 19"]]
+    },
+    {
+      "id": "M08", "category": "followup_professor",
+      "history": [
+        {"question": "Who teaches COP 3003 in Fall 2026?", "answer": "Ciris, Pelin teaches COP 3003."}
+      ],
+      "question": "What other classes does he teach?",
+      "must_include": [["sta 3038", "sta3038", "prob & stat", "probability"]]
+    }
+  ]
+}

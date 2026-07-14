@@ -52,7 +52,7 @@ Settings.embed_model = HuggingFaceEmbedding(
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY")
+_GROQ_KEY = os.getenv("GROQ_API_KEY3")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -162,13 +162,27 @@ def detect_program(q):
                 return program
     return None
 
+_TERM_SEASONS = {"fall", "spring", "summer", "winter"}
+
+
 def detect_term(q):
+    # Strip course codes first. "COP 2006 in Fall 2026" would otherwise match
+    # 2006 (the course NUMBER) as the year and filter on "fall 2006", which
+    # matches nothing and makes retrieval return empty. Season words are kept,
+    # so "fall 2026" survives the strip.
+    ql = (q or "").lower()
+
+    def _drop(m):
+        return m.group(0) if m.group(1) in _TERM_SEASONS else " "
+
+    ql = re.sub(r"\b([a-z]{2,4})\s*(\d{3,4}[a-z]?)\b", _drop, ql)
+
     season = None
     for season_name, lang_words in kw.SEASON_WORDS.items():
-        if any(w in q for w in kw.flatten(lang_words)):
+        if any(w in ql for w in kw.flatten(lang_words)):
             season = season_name
             break
-    year = re.search(r'(20\d{2})', q)
+    year = re.search(r'(20\d{2})', ql)
     if season and year:
         return f"{season} {year.group(1)}"
     return None
@@ -199,6 +213,15 @@ def _wants_event_list(q: str) -> bool:
         return False
     return any(c in ql for c in ("upcoming", "coming up", "what", "which",
                                  "happening", "any", "list", "other"))
+
+
+def _wants_date(q: str) -> bool:
+    """Any question asking WHEN something happens. Dated chunks should outrank
+    dateless descriptions for these. Without this, "when is Holmes is Your Home"
+    returned the general description chunk and never the one carrying the date."""
+    ql = (q or "").lower()
+    return any(w in ql for w in ("when", "what date", "which date", "what day",
+                                 "date of", "how soon"))
 
 def route_query(question: str, routing_text: str = None):
     """Return (doc_types, program, term). Keywords come from keywords.py.
@@ -663,6 +686,8 @@ def _correct_typos(question: str) -> str:
         "You fix typos. Correct only obvious spelling and typing mistakes in the "
         "question below. Keep the SAME language, meaning, names and word order. Do "
         "not answer it, translate it, add or remove words, or change proper nouns. "
+        "NEVER change a number, a course code (such as COP 2006), a year, or a "
+        "date, even if it looks unusual. "
         "If nothing is misspelled, return it unchanged. Reply with ONLY the "
         "corrected question - no quotes, no explanation.\n\nQuestion: " + q
     )
@@ -878,6 +903,19 @@ def answer_question(question: str, history=None, correct=True):
         )
     tense_note = ""
     _tt = _tense_term(question)
+    if _tt:
+        # Only infer the term from tense when NO term is established anywhere.
+        # Otherwise "who teaches each section" (present tense) would override a
+        # Fall 2026 the student already named two turns ago and answer for the
+        # current term instead.
+        _known_term = detect_term(retrieval_query)
+        if not _known_term:
+            for h in history:
+                if detect_term(h.get("question", "") or "") or detect_term(h.get("answer", "") or ""):
+                    _known_term = True
+                    break
+        if _known_term:
+            _tt = ""
     if _tt == "upcoming":
         tense_note = ("\n\nThe student's question is future tense (\"going to teach\") and names "
                       "no term, so answer for the UPCOMING term from the today's-date line above.")
@@ -895,7 +933,7 @@ def answer_question(question: str, history=None, correct=True):
     _is_calendar = bool(doc_types and "calendar" in doc_types)
     _active_reranker = _reranker_calendar if (_is_calendar and _reranker_calendar) else _reranker
     _post = [_active_reranker] if _active_reranker else []
-    if _DATE_BOOST is not None and _wants_event_list(question):
+    if _DATE_BOOST is not None and (_wants_event_list(question) or _wants_date(question)):
         _post.append(_DATE_BOOST)
     _post = _post or None
 
@@ -916,6 +954,14 @@ def answer_question(question: str, history=None, correct=True):
         s = str(r).strip()
         return (not s) or s == "Empty Response" or not getattr(r, "source_nodes", None)
 
+    _ABSTAIN_RX = re.compile(
+        r"(don'?t have|do not have|no information|not sure|isn'?t any information|"
+        r"is no information|not provided|not specified|couldn'?t find|could not find|"
+        r"not available|unable to find)", re.I)
+
+    def _abstained(r):
+        return bool(_ABSTAIN_RX.search(str(r)))
+
     response = _run(doc_types, program, term, course_code, professor)
 
     if course_code and _no_match(response):
@@ -926,6 +972,20 @@ def answer_question(question: str, history=None, correct=True):
 
     if _no_match(response):
         response = _run(None, None, None, None, None)
+
+    # A filtered search can return chunks that are non-empty but wrong: the
+    # metadata filter excludes the passage holding the answer, retrieval still
+    # returns *something*, so _no_match is False and the fallbacks above never
+    # fire. The model then truthfully reports that it has no information, even
+    # though the answer is sitting in the index. If we filtered at all and the
+    # model abstained, retry once with no filters and keep the relaxed answer
+    # only when it actually resolves the question. Genuine unknowns still
+    # abstain, because the unfiltered search will not find them either.
+    _filtered = bool(doc_types or program or term or course_code or professor)
+    if _filtered and _abstained(response):
+        relaxed = _run(None, None, None, None, None)
+        if not _no_match(relaxed) and not _abstained(relaxed):
+            response = relaxed
 
     answer = _dedup_followup(_strip_code(str(response), ui_lang), history)
     return answer, ui_lang
