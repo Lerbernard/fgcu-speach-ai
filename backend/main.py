@@ -53,7 +53,7 @@ Settings.embed_model = PineconeInferenceEmbedding(pc)
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY4")
+_GROQ_KEY = os.getenv("GROQ_API_KEY")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -978,13 +978,16 @@ def answer_question(question: str, history=None, correct=True):
         )
     tense_note = ""
     # ---- Resolve the concrete term this answer should use, in priority order ----
-    #   1. A term named explicitly in THIS question (e.g. "Fall 2026").
+    #   1. A term the STUDENT named explicitly in this question ("Fall 2026").
     #   2. A relative phrase in this question ("upcoming/next/this semester").
-    #   3. For an anaphoric follow-up ("they", "them", "it") that names no term,
-    #      inherit the most recent concrete term already in play — from the
-    #      student's earlier question OR the assistant's earlier answer — so the
-    #      term does not evaporate and drift to a stale default on the next turn.
-    _concrete_term = detect_term(retrieval_query) or _relative_term(question)
+    #   3. For an anaphoric follow-up ("they", "them", "it") with no term, inherit
+    #      the most recent concrete term already in play (student question OR
+    #      assistant answer).
+    #   4. Only as a last resort, a term detected in the LLM-REWRITTEN query.
+    # The rewrite is LLM-generated and varies run-to-run, so it must NOT outrank
+    # what the student actually typed — otherwise the same turn resolves to a
+    # different term on different runs.
+    _concrete_term = detect_term(question) or _relative_term(question)
     if not _concrete_term and _is_followup(question):
         for h in reversed(history):
             t = (detect_term(h.get("question", "") or "")
@@ -992,6 +995,8 @@ def answer_question(question: str, history=None, correct=True):
             if t:
                 _concrete_term = t
                 break
+    if not _concrete_term:
+        _concrete_term = detect_term(retrieval_query)
     if _concrete_term:
         term = _concrete_term
         _pretty = _concrete_term.title()
@@ -1011,6 +1016,10 @@ def answer_question(question: str, history=None, correct=True):
             tense_note = ("\n\nThe student's question is present tense (\"is teaching\"/"
                           "\"teaches\") and names no term, so answer for the CURRENT term "
                           "from the today's-date line above.")
+    if os.getenv("EAGLE_DEBUG"):
+        print(f"[debug] q={question!r} rewrite={retrieval_query!r} "
+              f"resolved_term={_concrete_term!r} term_filter={term!r} "
+              f"doc_types={doc_types}", flush=True)
     _instr = (SYSTEM_PROMPT + date_directive + calendar_note + tense_note + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
     qa_template = PromptTemplate(
         _instr
@@ -1051,28 +1060,37 @@ def answer_question(question: str, history=None, correct=True):
     def _abstained(r):
         return bool(_ABSTAIN_RX.search(str(r)))
 
+    # When the student's question resolved to a concrete term (e.g. "fall 2026"),
+    # that term is authoritative: every relaxation below keeps it, so a missed
+    # first query can never fall back into a different term's offering (which is
+    # what let "the upcoming semester" get answered with a stale Summer 2025
+    # section). If no term was resolved, _pin is None and the fallbacks broaden
+    # exactly as before.
+    _pin = _concrete_term
+
     response = _run(doc_types, program, term, course_code, professor)
 
     if course_code and _no_match(response):
         response = _run(["course_offering", "course_description"],
-                        program, None, course_code, None)
+                        program, _pin, course_code, None)
     if course_code and _no_match(response):
-        response = _run(None, None, None, course_code, None)
+        response = _run(None, None, _pin, course_code, None)
 
     if _no_match(response):
-        response = _run(None, None, None, None, None)
+        response = _run(None, None, _pin, None, None)
 
     # A filtered search can return chunks that are non-empty but wrong: the
     # metadata filter excludes the passage holding the answer, retrieval still
     # returns *something*, so _no_match is False and the fallbacks above never
     # fire. The model then truthfully reports that it has no information, even
     # though the answer is sitting in the index. If we filtered at all and the
-    # model abstained, retry once with no filters and keep the relaxed answer
-    # only when it actually resolves the question. Genuine unknowns still
-    # abstain, because the unfiltered search will not find them either.
+    # model abstained, retry once relaxing everything EXCEPT the resolved term,
+    # keeping the relaxed answer only when it actually resolves the question.
+    # Genuine unknowns still abstain, because the relaxed search will not find
+    # them either.
     _filtered = bool(doc_types or program or term or course_code or professor)
     if _filtered and _abstained(response):
-        relaxed = _run(None, None, None, None, None)
+        relaxed = _run(None, None, _pin, None, None)
         if not _no_match(relaxed) and not _abstained(relaxed):
             response = relaxed
 
