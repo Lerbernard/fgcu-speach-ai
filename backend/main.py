@@ -52,7 +52,7 @@ Settings.embed_model = HuggingFaceEmbedding(
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY3")
+_GROQ_KEY = os.getenv("GROQ_API_KEY")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
