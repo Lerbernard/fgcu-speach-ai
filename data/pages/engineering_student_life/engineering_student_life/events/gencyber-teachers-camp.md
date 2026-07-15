@@ -1,6 +1,5 @@
-GenCyber Teachers Camp 2025
-Toggle More Info
-Designed for middle and high school computer science and IT teachers in Southwest Florida Public Schools, The FGCU GenCyber Teachers Camp is a cybersecurity education program that focuses on Network and Internet of Things Security.
+# GenCyber Teachers Camp
 
-U.A. Whitaker College of Engineering
-Holmes Hall 208
+The GenCyber Teachers Camp is held in the summer at Holmes Hall 208. Upcoming dates are announced closer to the event.
+
+Designed for middle and high school computer science and IT teachers in Southwest Florida public schools, the FGCU GenCyber Teachers Camp is a cybersecurity education program focused on network and Internet-of-Things security.

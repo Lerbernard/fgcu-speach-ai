@@ -1,1 +1,5 @@
-| WCE Showcase  | /eng/calendar-photos/showcase-calendar.jpg  | 04  | 12  | 2026  | 1  | 3  | Holmes Hall  | A student gestures to his poster presentation while talking to industry members  |  
+# WCE Showcase
+
+WCE Showcase takes place on December 4, 2026 at Holmes Hall.
+
+WCE Showcase is an event where students present their poster projects and talk with industry members about their work. It is a chance to celebrate student achievement and connect with the professional community.

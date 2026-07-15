@@ -51,7 +51,7 @@ Settings.embed_model = PineconeInferenceEmbedding(pc)
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY")
+_GROQ_KEY = os.getenv("GROQ_API_KEY3")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -145,6 +145,7 @@ When answering:
 - A course can have several sections (different CRNs), each with its own meeting time, and the same instructor may teach more than one section. When asked who teaches a course, list each DISTINCT instructor once. When asked about meeting times, give each section's time. Whenever you state a count (instructors, sections, or times), make the number match EXACTLY what you go on to list — never say "two" and then name three. If unsure of the count, just list the items without stating a number.
 - If the student is asking a follow-up, do NOT repeat what you already told them earlier in the conversation. Answer only the new question, and give just the new information they asked for - don't restate your previous answer.
 - Answer only about the exact thing the student asked. Never bring up, compare to, or disclaim a different but similarly-named show, product, movie, or event that is not in the context — for example, never mention "Say Yes to the Dress" when asked about "Say Yes to the Nest." Do not introduce any name or fact that is not in the provided context.
+- Never mention, compare to, contrast with, or disambiguate against a topic, event, course, or person from an earlier turn in the conversation UNLESS the student's new question explicitly refers back to it (with words like "it", "that one", "he", "the previous one"). If the new question stands on its own, answer it as if it were the very first question asked, with no reference to anything discussed earlier.
 
 Language:
 - You are fully multilingual. Reply in the language of the student's QUESTION, never the language of the reference material (which is always English). The question's language is identified for you in the instruction that accompanies this prompt — follow it: write your ENTIRE answer in that language, and never refuse, drift, mix languages, or switch partway through. Do not comment on or apologize for the language; just answer naturally in it.
@@ -726,6 +727,10 @@ def _condense_query(question: str, history) -> str:
         return question
     if extract_course_code(question) or detect_professor(question):
         return question
+    if any(w in question.lower() for w in kw.ALL_EVENT):
+        # Already names its own event (e.g. "When is the Hard Hat Ceremony?") —
+        # self-contained, so don't rewrite it against prior turns.
+        return question
 
     turns = []
     for h in history[-6:]:
@@ -851,8 +856,49 @@ def answer_question(question: str, history=None, correct=True):
             "of your answer. Do not comment on which language it is — just answer "
             "naturally in that language."
         )
+    # history_block is built LATER, and only when this turn is actually a
+    # follow-up. A self-contained question (e.g. "When is the Hard Hat
+    # Ceremony?") gets no history at all, so a previous topic cannot leak into
+    # its answer.
     history_block = ""
+    retrieval_query = question
+    followup = _is_followup(question)
+    # needs_history controls whether the GENERATOR sees the conversation. It is
+    # True only when the question genuinely leans on the previous turn (a pronoun
+    # or an elliptical schedule follow-up) — NOT merely because the retrieval
+    # rewriter changed the query string. This is what stops a self-contained
+    # question ("When is the Hard Hat Ceremony?") from dragging an earlier,
+    # unrelated topic into its answer.
+    needs_history = followup
+    if history and not followup:
+        sched = any(w in question.lower() for w in kw.ALL_SCHEDULE)
+        own = detect_professor(question) or extract_course_code(question)
+        established = detect_professor(routing_text) or extract_course_code(routing_text)
+        if sched and established and not own:
+            followup = True
+            needs_history = True
     if history:
+        rewritten = _condense_query(question, history)
+        if rewritten != question:
+            retrieval_query = rewritten
+            followup = True
+            # Deliberately do NOT set needs_history here: rewriting improves
+            # retrieval, but a self-contained question still must not receive
+            # the prior conversation in its generation prompt.
+        elif followup:
+            prev_q = history[-1].get("question", "").strip()
+            anchor = prev_q
+            for h in reversed(history):
+                hq = (h.get("question", "") or "").strip()
+                if hq and (detect_professor(hq) or extract_course_code(hq) or not _is_followup(hq)):
+                    anchor = hq
+                    break
+            retrieval_query = (anchor + " " + question).strip()
+
+    # Only give the generator the conversation history when this turn genuinely
+    # leans on the previous one. Standalone questions get an empty history_block,
+    # so earlier topics cannot bleed into the answer.
+    if history and needs_history:
         lines = []
         for turn in history[-4:]:
             q = turn.get("question", "").strip()
@@ -875,28 +921,6 @@ def answer_question(question: str, history=None, correct=True):
                 "reintroduce a person, course, or topic you already described. "
                 "Answer ONLY the new question below, directly and on its own."
             )
-    retrieval_query = question
-    followup = _is_followup(question)
-    if history and not followup:
-        sched = any(w in question.lower() for w in kw.ALL_SCHEDULE)
-        own = detect_professor(question) or extract_course_code(question)
-        established = detect_professor(routing_text) or extract_course_code(routing_text)
-        if sched and established and not own:
-            followup = True
-    if history:
-        rewritten = _condense_query(question, history)
-        if rewritten != question:
-            retrieval_query = rewritten
-            followup = True
-        elif followup:
-            prev_q = history[-1].get("question", "").strip()
-            anchor = prev_q
-            for h in reversed(history):
-                hq = (h.get("question", "") or "").strip()
-                if hq and (detect_professor(hq) or extract_course_code(hq) or not _is_followup(hq)):
-                    anchor = hq
-                    break
-            retrieval_query = (anchor + " " + question).strip()
 
     if retrieval_query != question:
         doc_types, program, term = route_query(retrieval_query, retrieval_query)

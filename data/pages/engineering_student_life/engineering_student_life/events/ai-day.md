@@ -1,1 +1,5 @@
-| AI Day  | /eng/calendar-photos/ai-calendar.jpg  | 02  | 11  | 2026  | 1  | 3  | A panelist talks into a microphone in front of a group of people  |  
+# AI Day
+
+AI Day takes place on November 2, 2026. It is an annual event.
+
+AI Day is the U.A. Whitaker College of Engineering's annual event focused on artificial intelligence, featuring panels and speakers. Attendees hear from panelists and connect with others interested in AI.
