@@ -1,7 +1,8 @@
 # Ask the Eagle - backend runtime dependencies (curated from the full freeze).
-# These are the DIRECT packages main.py / ingest.py import; pip resolves the
-# rest (torch, transformers, sentence-transformers, groq SDK, pydantic, numpy,
-# etc.) automatically. Versions pinned to the ones you tested with.
+# These are the DIRECT packages main.py imports; pip resolves the rest (groq
+# SDK, pydantic, numpy, etc.) automatically. Embeddings run on Pinecone's
+# hosted model, so torch / transformers / sentence-transformers are NOT needed.
+# Versions pinned to the ones you tested with.
 
 # --- web server ---
 fastapi==0.136.3
@@ -16,7 +17,6 @@ httpx==0.28.1
 pinecone==7.3.0
 llama-index-core==0.14.22
 llama-index-vector-stores-pinecone==0.8.0
-llama-index-embeddings-huggingface==0.7.0   # pulls sentence-transformers + torch
 llama-index-llms-groq==0.5.0
 llama-index-postprocessor-cohere-rerank>=0.6.0   # Cohere cross-encoder reranker
 cohere>=5.11.0                                    # rerank API client (needs COHERE_API_KEY in .env)

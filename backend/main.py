@@ -4,9 +4,9 @@ from fastapi.responses import Response
 from llama_index.core import VectorStoreIndex, Settings, PromptTemplate
 from llama_index.core.vector_stores import MetadataFilters, MetadataFilter, FilterOperator
 from llama_index.vector_stores.pinecone import PineconeVectorStore
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 from pinecone import Pinecone
+from pinecone_embedding import PineconeInferenceEmbedding
 from dotenv import load_dotenv
 
 try:
@@ -42,13 +42,12 @@ try:
 except Exception:
     pass
 
-print("Loading embedding model...")
-Settings.embed_model = HuggingFaceEmbedding(
-    model_name="intfloat/multilingual-e5-large",
-    trust_remote_code=True,
-    query_instruction="query: ",
-    text_instruction="passage: ",
-)
+print("Connecting to Pinecone (client + hosted embedding)...")
+pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+# Embed queries with Pinecone's hosted multilingual-e5-large (same model the
+# index was built with) instead of loading a ~2 GB local model. Keeps the
+# container small enough for a 512 MB host and boots in seconds.
+Settings.embed_model = PineconeInferenceEmbedding(pc)
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
@@ -90,8 +89,7 @@ else:
     _using_backup = True
     print(f"  -> {_PRIMARY_MODEL} unavailable; using backup {_BACKUP_MODEL}")
 
-print("Connecting to Pinecone...")
-pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+print("Opening Pinecone index...")
 pinecone_index = pc.Index(os.getenv("PINECONE_INDEX_NAME"))
 vector_store = PineconeVectorStore(pinecone_index=pinecone_index)
 index = VectorStoreIndex.from_vector_store(vector_store)
