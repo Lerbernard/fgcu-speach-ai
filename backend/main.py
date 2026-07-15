@@ -52,7 +52,7 @@ Settings.embed_model = HuggingFaceEmbedding(
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY")
+_GROQ_KEY = os.getenv("GROQ_API_KEY3")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -190,9 +190,21 @@ def detect_term(q):
 INFO_DOC_TYPES = ["general", "campus", "program", "department", "student_life",
                   "admissions", "policy", "degree_map", "research"]
 
-_DATE_RX = re.compile(
+# A chunk "carries a date" if it names a spelled-out month, OR contains a
+# pipe-delimited numeric calendar date ("| 19 | 08 | 2026 |"), OR a clock time
+# ("2:00 pm"). The calendar rows store dates numerically, so a month-name-only
+# check missed them entirely and the dated event record never got boosted above
+# its own undated description chunks (the "Holmes is Your Home" coin-flip).
+_MONTH_RX = re.compile(
     r"\b(January|February|March|April|May|June|July|August|September|October|"
     r"November|December)\b", re.I)
+_NUMDATE_RX = re.compile(r"\d{1,2}\s*\|\s*\d{1,2}\s*\|\s*20\d{2}\b")
+_TIME_RX = re.compile(r"\b\d{1,2}:\d{2}\s*(?:am|pm)\b", re.I)
+
+def _has_date(text: str) -> bool:
+    t = text or ""
+    return bool(_MONTH_RX.search(t) or _NUMDATE_RX.search(t) or _TIME_RX.search(t))
+
 try:
     from llama_index.core.postprocessor.types import BaseNodePostprocessor
 
@@ -200,7 +212,7 @@ try:
         def _postprocess_nodes(self, nodes, query_bundle=None):
             dated, undated = [], []
             for n in nodes:
-                (dated if _DATE_RX.search(n.node.get_content() or "") else undated).append(n)
+                (dated if _has_date(n.node.get_content() or "") else undated).append(n)
             return dated + undated
 
     _DATE_BOOST = _DateBoost()
@@ -781,6 +793,7 @@ def _tense_term(question: str) -> str:
 
 def answer_question(question: str, history=None, correct=True):
     history = history or []
+    raw_question = question
     if correct:
         question = _correct_typos(question)
     recent = " ".join(
@@ -790,6 +803,20 @@ def answer_question(question: str, history=None, correct=True):
     routing_text = question + " " + recent
 
     doc_types, program, term = route_query(question, routing_text)
+    # Typo correction can delete a word from a named entity: the event
+    # "When is Holmes is Your Home?" gets "corrected" to "Holmes Your Home"
+    # (the doubled "is" looks like a stutter), which drops the event keyword and
+    # sends "Holmes" to the faculty/building pool, so the dated event chunk is
+    # never retrieved. Named-event/club routing is brittle to this, so when the
+    # corrected question misses those bounded pools, re-route on the ORIGINAL
+    # question, which still contains the intact entity name.
+    if correct and raw_question != question and not (
+            doc_types and ("event" in doc_types or "club" in doc_types)):
+        raw_dt, raw_prog, raw_term = route_query(
+            raw_question, raw_question + " " + recent)
+        if raw_dt and ("event" in raw_dt or "club" in raw_dt):
+            doc_types, program, term = raw_dt, raw_prog, raw_term
+
     course_code = None
     if doc_types in (["course_offering"], ["course_description"]):
         course_code = extract_course_code(question) or extract_course_code(routing_text)
