@@ -31,10 +31,12 @@ from fastapi.responses import JSONResponse
 load_dotenv()
 
 try:
-    from academic_calendar import calendar_directive
+    from academic_calendar import calendar_directive, current_and_upcoming
 except Exception:
     def calendar_directive(today=None):
         return ""
+    def current_and_upcoming(today=None):
+        return None, None, True
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -51,7 +53,7 @@ Settings.embed_model = PineconeInferenceEmbedding(pc)
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY3")
+_GROQ_KEY = os.getenv("GROQ_API_KEY4")
 _PRIMARY_MODEL = "llama-3.3-70b-versatile"
 _BACKUP_MODEL = "openai/gpt-oss-120b"
 
@@ -780,6 +782,29 @@ def _condense_query(question: str, history) -> str:
         return question
     return out
 
+def _relative_term(question: str):
+    """Resolve a relative term reference — 'upcoming/next semester', 'this/current
+    semester', or future/present teaching tense — to a CONCRETE term in the
+    index's lowercase format (e.g. 'fall 2026'), based on today's date. Returns
+    None when the question contains no such reference. This is what stops
+    'the upcoming semester' from being answered with a stale past term."""
+    ql = (question or "").lower()
+    try:
+        cur, up, _ = current_and_upcoming()
+    except Exception:
+        return None
+    up_name = up[0].lower() if up else None
+    cur_name = cur[0].lower() if cur else up_name
+    if any(p in ql for p in ("upcoming", "next semester", "next term",
+                             "coming semester", "coming term", "going to teach",
+                             "gonna teach", "will teach", "will be teaching")):
+        return up_name
+    if any(p in ql for p in ("this semester", "this term", "current semester",
+                             "current term", "currently", "right now",
+                             "teaching now", "teaches now")):
+        return cur_name
+    return None
+
 def _tense_term(question: str) -> str:
     ql = (question or "").lower()
     if not any(w in ql for w in ("teach", "instructor", "professor")):
@@ -952,26 +977,40 @@ def answer_question(question: str, history=None, correct=True):
             "registration date."
         )
     tense_note = ""
-    _tt = _tense_term(question)
-    if _tt:
-        # Only infer the term from tense when NO term is established anywhere.
-        # Otherwise "who teaches each section" (present tense) would override a
-        # Fall 2026 the student already named two turns ago and answer for the
-        # current term instead.
-        _known_term = detect_term(retrieval_query)
-        if not _known_term:
-            for h in history:
-                if detect_term(h.get("question", "") or "") or detect_term(h.get("answer", "") or ""):
-                    _known_term = True
-                    break
-        if _known_term:
-            _tt = ""
-    if _tt == "upcoming":
-        tense_note = ("\n\nThe student's question is future tense (\"going to teach\") and names "
-                      "no term, so answer for the UPCOMING term from the today's-date line above.")
-    elif _tt == "current":
-        tense_note = ("\n\nThe student's question is present tense (\"is teaching\"/\"teaches\") and "
-                      "names no term, so answer for the CURRENT term from the today's-date line above.")
+    # ---- Resolve the concrete term this answer should use, in priority order ----
+    #   1. A term named explicitly in THIS question (e.g. "Fall 2026").
+    #   2. A relative phrase in this question ("upcoming/next/this semester").
+    #   3. For an anaphoric follow-up ("they", "them", "it") that names no term,
+    #      inherit the most recent concrete term already in play — from the
+    #      student's earlier question OR the assistant's earlier answer — so the
+    #      term does not evaporate and drift to a stale default on the next turn.
+    _concrete_term = detect_term(retrieval_query) or _relative_term(question)
+    if not _concrete_term and _is_followup(question):
+        for h in reversed(history):
+            t = (detect_term(h.get("question", "") or "")
+                 or detect_term(h.get("answer", "") or ""))
+            if t:
+                _concrete_term = t
+                break
+    if _concrete_term:
+        term = _concrete_term
+        _pretty = _concrete_term.title()
+        tense_note = (
+            f"\n\nThe student is asking about the {_pretty} term. Answer only "
+            f"for {_pretty}. Do not use any other term's offering, and never "
+            f"answer with a term that has already ended."
+        )
+    else:
+        # No concrete term anywhere — fall back to plain tense inference.
+        _tt = _tense_term(question)
+        if _tt == "upcoming":
+            tense_note = ("\n\nThe student's question is future tense (\"going to teach\") "
+                          "and names no term, so answer for the UPCOMING term from the "
+                          "today's-date line above.")
+        elif _tt == "current":
+            tense_note = ("\n\nThe student's question is present tense (\"is teaching\"/"
+                          "\"teaches\") and names no term, so answer for the CURRENT term "
+                          "from the today's-date line above.")
     _instr = (SYSTEM_PROMPT + date_directive + calendar_note + tense_note + lang_directive + history_block).replace("{", "{{").replace("}", "}}")
     qa_template = PromptTemplate(
         _instr
