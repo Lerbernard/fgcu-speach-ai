@@ -1,24 +1,42 @@
-# FGCU Engineering — Computer Technology Recommendations
+<!-- source: https://www.fgcu.edu/eng/technology_recommendations/ -->
 
-## Recommended Specifications
-- Processor: Intel i5/i7/i9 or AMD Ryzen (2019 or later)
-- Memory: 32 GB RAM or higher
-- Storage: 512 GB SSD or higher
-- Operating System: Windows 10 or macOS with Parallels
-- Webcam, microphone, and speakers/headphones
-- Wireless: IEEE 802.11 b/g/n WLAN, 2.4 GHz/5 GHz Dual Band, WPA2
+# Technology Recommendations
 
-Note: Not all engineering software is compatible with Mac computers or Chromebooks.
+## Recommendation
 
-## Minimum Requirements
-- Processor: Intel Core i3/i5/i7/i9 or AMD Ryzen equivalent
-- Memory: 8 GB RAM
-- Storage: 250 GB hard drive or SSD
-- Webcam, microphone, and speakers
-- WiFi and high-speed internet (10 Mbps per device minimum)
-- Windows 10 or macOS High Sierra or newer
+* Processor: Intel i-Series (i5, i7, i9) or AMD Ryzen or equivalent (2019 and later)
+* Memory: 32 GB RAM or higher
+* Hard Drive: 512GB or higher (SSD required)
+* Operating Systems: Windows 11 or MacOS with Parallels
+  * Not all software used in the programs are compatible with Mac computers or Chromebooks
+* Webcam, Microphone, Speaker/Headphones
+* Wireless Network Card: IEEE 802.11 b/g/n WLAN NIC, 2.4 GHz/5GHz Dual Band, WPA2-PSK/WPA2-Enterprise
 
-## Productivity Tips
-- A second monitor improves time efficiency by up to 30%
-- Using a mouse instead of a trackpad can be up to 50% faster for certain tasks
-- Learning keyboard shortcuts can improve efficiency up to 200%
+## Minimum Requirement
+
+* Processor: Current generation Intel Core Series (i3, i5, i7, i9) or AMD Ryzen equivalent
+* Memory: 8GB RAM
+* Storage: 250GB hard drive/SSD
+* Web cam, microphone, and speakers
+* Wireless internet (WiFi)
+* Windows 11 or Mac OS X (High Sierra or newer recommended)
+* High speed Internet access at home (10mbps per device is a good rule of thumb)
+
+## Workspace Setup Examples
+Pictured below are four different workspace setups that are recommended for students. A second screen improves your time efficiency by up to 30% across all tasks. Using a mouse instead of a laptop trackpad increases the speed on certain tasks up to 50% faster and learning keyboard shortcuts for various application (e.g. Excel, programming IDE)  can improve your efficiency up to 200% faster.
+
+Example 1
+
+Laptop, Second Screen, Mouse
+
+Example 2
+
+Laptop, Second Screen, Keyboard, Mouse
+
+Example 3
+
+Desktop PC on 5 ft desk, Double Screens, Keyboard, Mouse
+
+Example 4
+
+Desktop PC on L-Desk, Double Screens, Keyboard, Mouse, Paper/Book holder

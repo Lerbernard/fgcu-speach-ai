@@ -6,3 +6,4 @@ EGM 3420C
  Engineering Mechanics - 4 credits(s)
  Engineering mechanics (statics and dynamics) examines the effect of forces acting on particles and rigid bodies. Vector mechanics is used extensively. Statics addresses the topics of equilibrium in two and three dimensions, to include distributed loads, trusses, frames, friction, and cables. Dynamics addresses kinematics, including translating and rotating reference frames and coriolis acceleration and two-dimensional kinetics methods of force-acceleration, work-energy, and impulse-momentum.
  Prerequisite(s)
+ PHY 2048C for level Undergraduate with minimum grade of C or ( PHY 2048 for level Undergraduate with minimum grade of C and PHY 2048L for level Undergraduate with minimum grade of C )

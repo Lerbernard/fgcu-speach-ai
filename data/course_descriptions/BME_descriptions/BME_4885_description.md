@@ -6,3 +6,6 @@ BME 4885
  Bioengineering Sr Design II - 3 credits(s)
  Second course in a two semester capstone design sequence for bioengineers. Includes capstone project design and assembly drawings, engineering analysis, prototyping, testing, and documentation. Also realistic constraints including health and safety, human factors, economics, sustainability, and manufacturing.
  Prerequisite(s)
+ BME 4884 for level Undergraduate with minimum grade of C and BME 3404C for level Undergraduate with minimum grade of C
+ Attribute(s)
+ CLWS - Coll Lvl English Lang Writing

@@ -6,3 +6,4 @@ BME 4503C
  Biomedical Instrumentation - 3 credits(s)
  Design and applications of biomedical instruments and devices. Includes biopotential electrodes and amplifiers, cardiovascular and respiratory measurements, clinical laboratory instruments, therapeutic and diagnostic devices, medical imaging systems, and electrical safety.
  Prerequisite(s)
+ BME 3506C for level Undergraduate with minimum grade of C and BME 3404C for level Undergraduate with minimum grade of C

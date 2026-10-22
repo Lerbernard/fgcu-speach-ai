@@ -6,3 +6,4 @@ TTE 3002C
  Transportation Engineering - 3 credits(s)
  The objective of this course is to give an overview of the profession of transportation, transportation systems and organizations, traffic operations, transportation planning and geometric design of highway facilities.
  Prerequisite(s)
+ CGN 3323C for level Undergraduate with minimum grade of C

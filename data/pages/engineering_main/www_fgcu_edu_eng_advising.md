@@ -1,46 +1,60 @@
-# WCE Advising Office
+<!-- source: https://www.fgcu.edu/eng/advising/ -->
 
-The U.A. Whitaker College of Engineering Advising Office supports students from first semester through graduation with academic planning, university policies, and campus resources.
+# University Advising Services
 
-## Advising Options
+## Your Path to Academic Success Starts Here
 
-**Scheduled Appointment (30 minutes) — In-Person or Virtual**
-For: Academic planning, change of major/minor, transfer advising
-Available Monday–Friday
+Academic Advising at FGCU supports student success through personalized guidance, degree planning, and access to key university resources. Our advisors are here to help you explore your options, make informed choices, and stay on track throughout your academic journey from your first semester to graduation.
 
-**Drop-In Advising — In-Person or Virtual (First Come, First Served)**
-For: Course scheduling issues, registration errors, account holds
-Returns August 12, 2026
+Schedule An AppointmentAttend Drop-In Advising
 
-**Email Advising**
-For: General questions, permit requests
-Response within 48 hours (excluding weekends and holidays)
+Arrow
 
-## Who Is My Advisor?
-Advisors are assigned by last name:
-- Last Names A–F: Bethany Mabin (HOLMES 0219)
-- Last Names G–N: Zack Muniz
-- Last Names O–Z: Claire Rudeen (HOLMES 0218)
+New FGCU Students
 
-Check the top of your Degree Works audit to see your assigned advisor's name.
+Arrow
 
-## Advising Team
-- Amy Aspengren — Academic Advisor I (HOLMES 0212)
-- Keith Davidson — Director, WCE Academic Advising (LH 1309)
-- Bethany Mabin — Academic Advisor I (HOLMES 0219)
-- Charita Martin — Academic Advisor II (HOLMES 0214)
-- Claire Rudeen — Academic Advisor II (HOLMES 0218)
-- Paige Padilla — Student Success Training and Intervention Specialist
+Find Your Advisor
 
-## First-Year Students
-Students starting directly from high school begin with the Exploratory Advising team, not WCE Advising. You transition to WCE Advising once you:
-- Earn 24 college credits
-- Complete MAC 1105 with a grade of C or better
-- Maintain a 2.0 GPA
+Arrow
 
-## Transfer Students (Florida SouthWestern State College)
-Students earning their AA at FSW can meet with WCE Advisors through the Destination FGCU program once they have completed 30 credit hours. Virtual appointments are held on the first Friday of each month from 1:00–3:00 PM.
+Advising Resources Hub
 
-## Office Hours
-- Monday, Wednesday, Friday: 8:00am–5:00pm
-- Tuesday, Thursday: 7:30am–5:00pm
+## Explore FGCU's 66 Undergraduate Programs
+
+Academic advising goes hand in hand with exploring degree options. Review FGCU’s undergraduate programs, visit program pages, and consult the academic catalog as you plan next steps with your advisor and work toward your academic goals.
+
+EXPLORE DEGREE PROGRAMS
+
+## Quick Links
+
+Destination FGCU
+
+Academic Calendar
+
+Financial Aid
+
+Records & Registration
+
+Student Success Advocates
+
+Thank An Advisor
+
+## —
+Need Support? Let's Connect.
+
+Our Academic Advisors are here to help you succeed. Whether you need guidance, campus resources, or ongoing support throughout your academic journey, we're here to connect and assist you from orientation to graduation.
+
+Schedule an Appointment
+
+Connect to Resources
+
+Contact
+
+University Advising Services
+
+ (239) 590-1000 (Press 3 for Advising) Find Your Advising Contact
+
+Business Hours
+
+**Mon-Fri:** 8:00am-5:00pm

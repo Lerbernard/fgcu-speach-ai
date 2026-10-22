@@ -1,13 +1,43 @@
+<!-- source: https://www.fgcu.edu/studentlife/housing/ -->
+
 # Housing & Residence Life
 
-Live the FGCU Life on campus, with a variety of options for students from their first day through graduation. Areas include Housing Options, Application Process, Check-in & Checkout, Resident Resources, and Get Involved. The Housing Web Portal lets students apply for housing, submit maintenance requests, and more.
+## Come 'Live the FGCU Life'
 
-## By the Numbers
-- 4,748 beds
-- 120 staff on call 24/7
+Experience the value, convenience, support and services that you'll only find living on campus. We offer a variety of options for students from their first day on campus through graduation.
 
-## Contact
+HOUSING OPTIONS
+
+APPLICATION PROCESS
+
+Check-in & Checkout
+
+RESIDENT RESOURCES
+
+GET INVOLVED
+
+WHAT'S happening IN HOUSING
+
+Visit the Housing Web Portal. Apply for housing, submit a maintenance request, and more.
+
+HOUSING WEB PORTAL
+
+of freshmen live  on campus
+
+4,748
+
+beds
+
+120
+
+staff on call 24/7
+
+## We're here to answer your questions
+
 Housing & Residence Life
+
 239-590-1700
+
 239-590-1702 (fax)
-housing@fgcu.edu
+
+Email Us

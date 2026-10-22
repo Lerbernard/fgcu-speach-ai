@@ -6,3 +6,6 @@ CGN 4802
  Civil Engin Senior Design - 3 credits(s)
  Civil Engineering Capstone Design is a cornerstone in engineering education. During this course the students will assimilate the engineering concepts acquired in previous courses into the design of a major civil engineering project, including where appropriate developing alternative solutions, plans and specifications and an oral and written presentation of their final design to their clients. Technical Written Communication.
  Prerequisite(s)
+ CEG 3011C for level Undergraduate with minimum grade of C and CCE 4031C for level Undergraduate with minimum grade of C and CWR 4540C for level Undergraduate with minimum grade of C and TTE 3002C for level Undergraduate with minimum grade of C and ENV 3006C for level Undergraduate with minimum grade of C and ( CES 4702C for level Undergraduate with minimum grade of C or CES 4605C for level Undergraduate with minimum grade of C or CES 4605 for level Undergraduate with minimum grade of C )
+ Attribute(s)
+ CLWS - Coll Lvl English Lang Writing
