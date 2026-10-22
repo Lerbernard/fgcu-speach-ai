@@ -37,6 +37,7 @@ The **EagleCyberNest** is open to students interested in cybersecurity research,
 
 Student Research Projects
 
+* DroneCOCoNet
 * Generative Adversarial Networks (GANs) in IoT Data Security
 * Hierarchical Federated Generative Learning in Secured Smart Home System for Elderly
 * Deep Reinforcement Learning Strategy in Edge Video Analytics and Networking

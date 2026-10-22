@@ -42,7 +42,9 @@ Fast-track your education and career with our Combined B.S. to M.S. Program in C
 
   * Computer Science
   * Software Engineering
+* Concentrations
 
+  * Cybersecurity
   * Data Science
   * No Concentration
 
@@ -61,6 +63,8 @@ Concentrations
 
 * Cybersecurity Concentration
 * Data Science Concentration
+
+* Accreditation
 
   Institutional Accreditation
 

@@ -58,4 +58,9 @@ jobs:
           git add backend/ingest_state.json
           git diff --cached --quiet && exit 0
           git commit -m "chore: record incremental ingest state [skip ci]"
-          git push
+          # main may have moved while the ingest ran; rebase onto it and retry
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1

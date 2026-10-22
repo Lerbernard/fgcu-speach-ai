@@ -81,6 +81,7 @@ We are committed to helping you find a path to an affordable education.
   Financial aid is an important step to begin your academic journey. Get details, eligibility information and dates that you just can't miss.
 
   How to Apply for Aid
+* Scholarships
 
   Scholarships are awarded on the basis of academic achievement, financial need, and/or other eligibility requirements.
 

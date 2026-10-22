@@ -70,8 +70,12 @@ Senate R&P
 
 Judicial R&P
 
+Student Government acknowledges that Florida Gulf Coast University vigorously protects freedom of inquiry and expression and categorically expects civility and mutual respect to be practiced by faculty, students and staff in all deliberations on its campus. As such, the FGCU Community as well as the Florida Gulf Coast University Board of Trustees shares the commitment of the State University System of Florida and the Florida Board of Governors to civil discourse and endorses their commitment with this Statement of Free Expression.
+
 ## We’re Here to Answer Your Questions! Visit Us in Cohen Student Union, Find Us on Eaglelink, and Follow Our Instagram @fgcusg!
 
 Organizations & Student Involvement
+
+Cohen Student Union 10501 FGCU Boulevard South
 
 (239) 590-7739

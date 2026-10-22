@@ -37,6 +37,7 @@ More Student Stories
 
 Because our curriculum is guided by industry needs, you'll be prepared for a variety of roles:
 
+* Estimator
 * Project Engineer
 * Assistant Project Manager
 * Assistant Superintendent
@@ -61,14 +62,15 @@ Financial Aid
 
 Admissions
 
+* Accreditation
+
   **Institutional Accreditation**
 
   Information on FGCU institutional accreditation is available at www.fgcu.edu/about/accreditation
 
   **Program Accreditation**
 
-  The Bachelor of Science in Construction Management at FGCU is accredited by the American Council for Construction Education.
-  Quality Improvement Plan Assessments of Student Learning Outcomes Public Disclosures ACCE Summary Report for Florida Gulf Coast University
+  The Bachelor of Science in Construction Management at FGCU is accredited by the American Council for Construction Education. Quality Improvement Plan Assessments of Student Learning Outcomes Public Disclosures ACCE Summary Report for Florida Gulf Coast University
 * Admissions and Curriculum Information
 
   Visit the FGCU Academic Catalog to review specific Admissions information and Program Requirements.

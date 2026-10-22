@@ -4,7 +4,7 @@
 
 The key to getting the most out of your college years is getting involved
 
- More than 150 Registered Student Organizations (RSOs) guarantee there’s something for everyone to do.
+ More than 150 Registered Student Organizations (RSOs) guarantee there’s something everyone to do.
 
 Arrow
 
@@ -47,6 +47,7 @@ FIND GROUPS ON EAGLELINK
 * Registered Student Organization Advisors
 
   * Are you interested in serving as an advisor to a Registered Student Organization?
+    * Eligibility:
       * A Florida Gulf Coast University full-time faculty or staff member
       * May advise an organization outside of field of study or discipline
       * May advise more than one organization

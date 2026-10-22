@@ -177,7 +177,10 @@ STRIP_SELECTORS = [
 
 # Lines that are navigation/footer boilerplate (ported from clean_pages.py).
 _SKIP_LINE_PATTERNS = [re.compile(p, re.IGNORECASE) for p in (
-    r"^\s*\*\s+\S+\s*$",
+    # one-word bullets that are navigation, not content ("* Bioengineering"
+    # in a program list must survive)
+    r"^\s*\*\s+(Home|Apply|Visit|Give|Donate|Menu|Search|Login|Directory|Calendar|"
+    r"News|Events|Contact|More|Back|Close|Share|Print|Email|Map)\s*$",
     r"Skip to (main content|the content)",
     r"FGCU Privacy Policy",
     r"This website stores cookies",
@@ -258,7 +261,6 @@ def clean_markdown(text: str) -> str:
     text = re.sub(r"^\|[-| :]+\|\s*$", "", text, flags=re.MULTILINE)  # table separators
     text = text.replace("\xa0", " ")
     text = re.sub(r"^(#{1,6}\s+)\*\*(.+?)\*\*\s*$", r"\1\2", text, flags=re.MULTILINE)  # bold inside headings
-    text = unwrap_paragraphs(text)
 
     cleaned, prev_blank = [], False
     for line in text.split("\n"):
@@ -276,7 +278,9 @@ def clean_markdown(text: str) -> str:
         else:
             cleaned.append(line.rstrip())
             prev_blank = False
-    text = "\n".join(cleaned)
+    # unwrap only after the nav lines are gone, or a stray "Menu" line would
+    # be glued onto the sentence below it and escape the filter
+    text = unwrap_paragraphs("\n".join(cleaned))
 
     # drop consecutive duplicate lines, then duplicate paragraphs
     lines, deduped = text.split("\n"), []

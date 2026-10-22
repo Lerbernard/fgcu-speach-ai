@@ -14,8 +14,7 @@ Financial Aid
 
 ### What's New in the Nest?
 
-FGCU360.com is your best source for university news, must-see videos and share-worthy stories — all the things that make you go "Wings Up."
-Quick reads, cool vids and new content weekly. Connect to the Nest anytime, anywhere, online.
+FGCU360.com is your best source for university news, must-see videos and share-worthy stories — all the things that make you go "Wings Up." Quick reads, cool vids and new content weekly. Connect to the Nest anytime, anywhere, online.
 
 EXPLORE FGCU360
 

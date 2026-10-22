@@ -20,11 +20,15 @@ Explore programs
 
 Share your story
 
+Florida Gulf Coast University vigorously protects freedom of inquiry and expression and categorically expects civility and mutual respect to be practiced by faculty, students and staff in all deliberations on its campus. As such, the FGCU Community as well as the Florida Gulf Coast University Board of Trustees shares the commitment of the State University System of Florida and the Florida Board of Governors to civil
+
 ## We’re Here to Answer Your Questions.
 
 TRIO and Outreach Programs
 
 McTarnaghan Hall 202 (Outreach Programs)
+
+Library Suite 103 (TRIO Student Support Services) 10501 FGCU Boulevard South
 
 (239) 590-7834
 

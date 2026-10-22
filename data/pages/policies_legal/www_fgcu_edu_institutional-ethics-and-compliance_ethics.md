@@ -56,7 +56,7 @@ SUBMIT REPORT
 * Do the FGCU Board of Trustees, President and Cabinet encourage reporting?
 
   They certainly do. In fact, the University needs you to report good-faith concerns. You know what’s going on around campus---both the good and the bad. You may have important information about an activity that could be cause for concern. Your reporting can minimize the potential negative impact on the University and its reputation and help identify issues that can improve University culture and performance.
-* I am aware of misconduct on campus, but it does not affect me. Why should I report it?
+* I am aware of misconduct on campus, but it does not affect me. Why should I report
 
   FGCU chooses to promote ethical behavior. All unethical behavior, at any level, ultimately harms the university and its employees and erodes the culture and reputation of the university. If you know of any incidents of misconduct occurring on campus, consider it your duty to report it.
 
@@ -74,6 +74,7 @@ SUBMIT REPORT
   Absolutely not. The Hotline system is meant to be a positive aspect of the University learning environment and allows employees and students to assure a safe, secure, and ethical workplace. The University encourages you to use the Hotline to seek guidance on ethical dilemmas, provide positive suggestions, or communicate a concern. Effective communication is the lifeblood of any organization and the Hotline is a great way to enhance communication throughout the University community.
 * What if I remember something important about the incident after I file a report? What if the University has further questions for me?
 
+  you receive a unique report key along with a password of your choosing. You can return to the EthicsPoint system by internet or telephone and access the original report to answer questions posted by a FGCU official or add further information that may help resolve an open issue.
 * What if I want to be identified with my report?
 
   There is a section in the report for identifying yourself, if you wish.

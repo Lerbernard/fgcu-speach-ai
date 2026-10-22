@@ -22,8 +22,14 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
         url, rel, mode = entry["url"], entry["path"], entry.get("mode", "auto")
         st = st_all.setdefault(rel, {})
         st["url"] = url
+        path = abs_path(rel)
+        old = read_text(path)
+        # A conditional GET (304) is only safe while the file on disk is still
+        # what the last run wrote; otherwise a hand edit or a deletion would
+        # never be repaired. Watch entries have no generated file to compare.
+        disk_matches = mode == "watch" or (old is not None and sha(old.rstrip("\n")) == st.get("hash"))
         try:
-            r = fetch.get(url, cond=st if st.get("hash") else None)
+            r = fetch.get(url, cond=st if (st.get("hash") and disk_matches) else None)
         except Exception as e:  # network error: keep the old file, say so
             report.error(SOURCE, f"{rel}: {type(e).__name__}: {e}")
             continue
@@ -38,7 +44,7 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
             continue
 
         md = page_to_markdown(r.text, url)
-        new_hash = sha(md)
+        new_hash = sha(md.rstrip("\n"))
         st.update(last_checked=now_iso(), last_status=200,
                   etag=r.headers.get("ETag"), last_modified=r.headers.get("Last-Modified"))
         if not same_page(r.url, url) and st.get("final_url") != r.url:
@@ -56,8 +62,6 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
             st["hash"] = new_hash
             continue
 
-        path = abs_path(rel)
-        old = read_text(path)
         # write_text appends a final newline, so compare without it or every
         # page would count as "updated" on every run
         if old is not None and old.rstrip("\n") == md.rstrip("\n"):

@@ -16,7 +16,7 @@ Florida Gulf Coast University's construction management department received a $2
 
 FGCU 360 Story
 
-As a construction management student, I have completed three research papers and presented them at FGCU and other universities, competed in three major Construction Management competitions, finished four internships, and earned two certifications. I have collaborated closely with students, faculty, and industry leaders across multiple projects. As President of the Associated Builders and Contractors (ABC) FGCU Student Chapter, I organized events with industry partners to support student professional development. I was inducted into Sigma Lambda Chi, the Construction Honor Society, and received multiple scholarships, including the Lennar Fellows Scholarship Program. Construction Management at FGCU has been a community of opportunity and support and the foundation for my professional and academic growth. ”
+As a construction management student, I have completed three research papers and presented them at FGCU and other universities, competed in three major Construction Management competitions, finished four internships, and earned two certifications. I have collaborated closely with students, faculty, and industry leaders across multiple projects. As President of the Associated Builders and Contractors (ABC) FGCU Student Chapter, I organized events with industry partners to support student professional development. I was inducted into Sigma Lambda Chi, the Construction Honor Society, and received multiple scholarships, including the Lennar Fellows Scholarship Program. Construction Management at FGCU has been a community of opportunity and support and the foundation for my professional and academic growth.
 
 Alexis Figueroa-Baltazar
 

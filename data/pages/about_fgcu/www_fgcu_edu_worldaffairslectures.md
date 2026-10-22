@@ -237,4 +237,6 @@ GET DETAILS College Details
 
 World Affairs Lecture Series
 
+Edwards Hall 10501 FGCU Boulevard South
+
 (239) 590-7487
