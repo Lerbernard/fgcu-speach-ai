@@ -37,6 +37,20 @@ python ingest_incremental.py --dry-run
 python ingest_incremental.py
 ```
 
+### Trying it against a test index first
+
+The ingest never has to touch the live index. Point it at another index and
+give it its own state file (`ingest_state.*.json` is gitignored):
+
+```
+PINECONE_INDEX_NAME=fgcu-eng-test python ingest_incremental.py --state ingest_state.test.json
+```
+
+The state file records which index it belongs to; a run against a different
+index ignores it and starts clean, so test runs can't make a production run
+skip files. To run the backend itself against the test index, set
+`PINECONE_INDEX_NAME=fgcu-eng-test` in `backend/.env` before starting it.
+
 ## How change detection works
 
 * **Pages** are converted to Markdown and hashed; a file is rewritten only when

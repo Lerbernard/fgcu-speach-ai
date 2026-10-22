@@ -43,16 +43,22 @@ def file_hash(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def load_state():
-    if os.path.exists(STATE_PATH):
-        with open(STATE_PATH, encoding="utf-8") as f:
-            return json.load(f)
-    return {"files": {}}
+def load_state(path, index_name):
+    """The state belongs to ONE index. If it was written for a different index
+    (say a test index), its hashes mean nothing here, so start from scratch
+    rather than skipping files the target index has never seen."""
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            state = json.load(f)
+        if state.get("index") == index_name:
+            return state
+        print(f"state file was for index {state.get('index')!r}, not {index_name!r}; ignoring it")
+    return {"index": index_name, "files": {}}
 
 
-def save_state(state):
+def save_state(state, path):
     state["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    with open(STATE_PATH, "w", encoding="utf-8", newline="\n") as f:
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(state, f, indent=1, sort_keys=True)
         f.write("\n")
 
@@ -85,12 +91,14 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--full", action="store_true", help="treat every file as changed")
+    ap.add_argument("--state", default=STATE_PATH,
+                    help="state file (default backend/ingest_state.json; use another for a test index)")
     args = ap.parse_args(argv)
 
     index_name = os.getenv("PINECONE_INDEX_NAME")
     namespace = os.getenv("PINECONE_NAMESPACE", "")
 
-    state = load_state()
+    state = load_state(args.state, index_name)
     known = state.setdefault("files", {})
 
     docs = {}
@@ -143,7 +151,7 @@ def main(argv=None):
             failed += 1
             print(f"[{n}/{len(changed)}] {rel}: FAILED {type(e).__name__}: {e}")
         if n % 10 == 0:
-            save_state(state)   # keep progress if the run dies halfway
+            save_state(state, args.state)   # keep progress if the run dies halfway
 
     for rel in deleted:
         try:
@@ -156,7 +164,7 @@ def main(argv=None):
             failed += 1
             print(f"delete {rel}: FAILED {type(e).__name__}: {e}")
 
-    save_state(state)
+    save_state(state, args.state)
     total = index.describe_index_stats()
     total = total["total_vector_count"] if isinstance(total, dict) else total.total_vector_count
     print(f"\nDone: {done} files ingested, {len(deleted)} removed, {failed} failed. "
