@@ -68,4 +68,6 @@ $2,155 Average awarded per scholarship
 
 ## Florida Gulf Coast University Foundation, Inc.
 
+Campus Support Complex
+
 (239) 590-1067

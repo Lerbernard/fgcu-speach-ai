@@ -59,6 +59,8 @@ Admissions
 
 Fast-track your education and career with our Combined B.S. to M.S. Program in Computer Science. Designed for motivated students, this accelerated pathway lets you complete up to 9 graduate credits as an undergraduate, saving time and money. With concentrations in Cybersecurity and Data Science, you will gain advanced technical expertise that sets you apart in today’s competitive tech landscape. Whether you are preparing for leadership roles or aiming to drive innovation in the field, this program gives you the skills, knowledge, and edge to succeed.
 
+* Accreditation
+
   Institutional Accreditation
 
   Information on FGCU institutional accreditation is available at www.fgcu.edu/accreditation

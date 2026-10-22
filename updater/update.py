@@ -134,11 +134,10 @@ def main(argv=None):
             f.write(md)
     print(md)
     print(f"{fetch.requests_made} requests, {elapsed:.0f}s")
-    if not args.dry_run and not args.limit:
-        state["last_run"] = {"at": started, "changed_files": report.changed_files,
-                             "errors": len(report.errors)}
-        save_state(state)
-    elif not args.dry_run:
+    if not args.dry_run:
+        if not args.limit:   # a partial run isn't a real "last run"
+            state["last_run"] = {"at": started, "changed_files": report.changed_files,
+                                 "errors": len(report.errors)}
         save_state(state)
     # exit 1 only when nothing could be fetched at all; partial failures are reported, not fatal
     return 1 if report.errors and not report.counts else 0

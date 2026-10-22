@@ -28,6 +28,7 @@ More Student Stories
 
 ## Concentrations
 
+* Cybersecurity
 * Data Science
 * Software Engineering
 
@@ -131,20 +132,14 @@ Concentrations
   6. Apply computer science theory and software development fundamentals to produce computing-based solutions.
 * Learning Outcomes
 
-  **Academic Learning Compact** Consistent with its mission and guiding principles, Florida Gulf Coast University is committed to academic excellence and continuous quality improvement, as supported by a sound teaching-learning process. Within this process, students and instructors share responsibility for learning that is a movement from the simple to the complex, the concrete to the abstract, and the dependent to the independent. The Academic Learning Compact (ALC) initiative supports the teaching-learning process by clearly identifying expected core student learning outcomes in the areas of content/discipline knowledge and skills, communication skills, and critical thinking skills; aligning curricula with expectations; and using assessment to guide continuous improvement.
-  **Content/Discipline Knowledge and Skills**
-  Graduates will be able to:
+  **Academic Learning Compact** Consistent with its mission and guiding principles, Florida Gulf Coast University is committed to academic excellence and continuous quality improvement, as supported by a sound teaching-learning process. Within this process, students and instructors share responsibility for learning that is a movement from the simple to the complex, the concrete to the abstract, and the dependent to the independent. The Academic Learning Compact (ALC) initiative supports the teaching-learning process by clearly identifying expected core student learning outcomes in the areas of content/discipline knowledge and skills, communication skills, and critical thinking skills; aligning curricula with expectations; and using assessment to guide continuous improvement. **Content/Discipline Knowledge and Skills** Graduates will be able to:
   1. Analyze complex computing problems and identify solutions by applying computer science theory and software development fundamentals.
   2. Design, implement, and evaluate secure computing solutions that meets a given set of requirements with consideration of public health, safety, and welfare as well as local and global, cultural, social, environmental, and sustainability factors.
   3. Recognize professional and ethical responsibilities in computing and make informed judgments.
   4. Function effectively as a member or leader of a team and communicate effectively in a variety of professional contexts.
-  5. Use the techniques, skills, and tools necessary for computing practice.Content/discipline knowledge and skills are assessed at the college and departmental levels through oral and written presentations, exams, design projects, laboratory assessment and other assignments throughout the curriculum.
-  **Communication Skills**
-  Graduates will be able to:
+  5. Use the techniques, skills, and tools necessary for computing practice.Content/discipline knowledge and skills are assessed at the college and departmental levels through oral and written presentations, exams, design projects, laboratory assessment and other assignments throughout the curriculum. **Communication Skills** Graduates will be able to:
   1. Select, organize, and relate ideas and information in written, oral, and graphic form with coherence, clarity, and unity.
-  2. Develop and present consistent arguments to select and diverse audiences.Communication skills are assessed at the University, College, and Department levels through oral and written presentations, exams, projects, laboratory assessment and other assignments throughout the curriculum.
-  **Critical Thinking Skills**
-  Graduates will be able to:
+  2. Develop and present consistent arguments to select and diverse audiences.Communication skills are assessed at the University, College, and Department levels through oral and written presentations, exams, projects, laboratory assessment and other assignments throughout the curriculum. **Critical Thinking Skills** Graduates will be able to:
   1. Identify problems and the critical information needed for their solution.
   2. Analyze and synthesize information, and draw reasoned inferences.
   3. Formulate and evaluate appropriate problems-solving strategies.Critical thinking skills are assessed at the University, College, and Departmental levels through oral and written presentations, exams, projects, laboratory assessment, and other assignments throughout the curriculum.

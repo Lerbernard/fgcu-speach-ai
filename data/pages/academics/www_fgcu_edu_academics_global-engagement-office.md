@@ -96,6 +96,7 @@ FGCU encourages students to broaden their world views and experience different c
   Exchange programs allow you to pay FGCU tuition to study at foreign institutions with which we have exchange agreements. Students earn direct FGCU academic credit for courses taken abroad. Exchange programs are often affiliated with and coordinated by a college or degree program.
 
   More information about our Partner University Exchange Programs can be found on our Study Abroad web page under Program Types.
+* Scholarships
 
   * The Global Learning Grant Program aims to help students pay for tuition and fees for undergrad students in programs affiliated with the Global Engagement Office, provided they meet the eligibility requirements. Global Learning Grant Application
   * *For Initial Students(first year at FGCU), and/or students with a GPA of 3.5 or higher please apply for the LAC scholarship through FGCU Admissions: LAC/Undergrad Admissions*
@@ -132,7 +133,9 @@ As part of the global mission of education, FGCU is committed to supporting and 
 * Faculty Teaching Abroad Opportunities
 
   * Teach Abroad
+  * WorldTeach
   * Peace Corps
+  * Rotary
   * Teach Abroad with Cross-Cultural Solutions
   * Teach TESOL Abroad with Oxford Seminars
   * Study Abroad, Volunteer, Teach with GoAbroad.com
@@ -173,6 +176,8 @@ As part of the global mission of education, FGCU is committed to supporting and 
 
   | The primary goal of the Global Engagement Office is to promote and guide the internationalization of Florida Gulf Coast University.  GEO recognizes the critical role of faculty in achieving this goal. In concert with the objectives laid out by the Office of Research and Sponsored Programs Career Advancement Assistance Program. How we will articulate and coordinate these is an ongoing discussion.  All of these opportunities will require an explicit commitment by participants to offer study abroad, coil course or other international resources to the university. |
 
+  * COIL
+  * Fulbright
   * Professional Engagement
 
   **COIL COHORT 2023-24**
@@ -199,15 +204,13 @@ As part of the global mission of education, FGCU is committed to supporting and 
 
   Thematic Faculty Seminar
 
-  **Dates:** June 2–9, 2024 **Location:** New Delhi, Palampur, McLeod Ganj, India **Cost:** $3,250 Fee and travel paid by FGCU GEO for 2 selected participants.
-  **Description:**The discourse surrounding gender and sexuality within the public health context in India is changing. Participants will be introduced to these alternative narratives from NGO officials, activists, academics, practitioners, and policymakers. Participants will spend time in Delhi and rural Palampur, surrounded by the Dhauladhar range of the Himalaya, with a visit to McLeod Ganj-the abode of His Holiness Dalai Lama.
+  **Dates:** June 2–9, 2024 **Location:** New Delhi, Palampur, McLeod Ganj, India **Cost:** $3,250 Fee and travel paid by FGCU GEO for 2 selected participants. **Description:**The discourse surrounding gender and sexuality within the public health context in India is changing. Participants will be introduced to these alternative narratives from NGO officials, activists, academics, practitioners, and policymakers. Participants will spend time in Delhi and rural Palampur, surrounded by the Dhauladhar range of the Himalaya, with a visit to McLeod Ganj-the abode of His Holiness Dalai Lama.
 
   Skills-Based Faculty Field Seminar
 
   (In Partnership with Dickson College)
 
-  **Dates:** June 9–16, 2024 **Location:** Yaoundé, Cameroon **Cost:**$3,250 – Fee and travel paid by FGCU GEO for 2 selected participants.
-  **Description**: Through this seminar in Cameroon, participants will address the concepts of “Decoloniality, Sustainability, and Epistemic Justice.” We will begin to unpack the meaning(s) of these terms in an international education context using Cameroon as a case study and lens for furthering our own understanding. The program will be based in Yaoundé with an overnight excursion within Cameroon.
+  **Dates:** June 9–16, 2024 **Location:** Yaoundé, Cameroon **Cost:**$3,250 – Fee and travel paid by FGCU GEO for 2 selected participants. **Description**: Through this seminar in Cameroon, participants will address the concepts of “Decoloniality, Sustainability, and Epistemic Justice.” We will begin to unpack the meaning(s) of these terms in an international education context using Cameroon as a case study and lens for furthering our own understanding. The program will be based in Yaoundé with an overnight excursion within Cameroon.
 
   GEO Professional Development Award Application
 

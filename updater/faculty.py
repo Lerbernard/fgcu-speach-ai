@@ -14,6 +14,7 @@ from common import abs_path, read_text, write_text, sha, now_iso, shrink_check
 
 SOURCE = "faculty"
 MIN_LIST_LINKS = 30   # fewer than this means the list page broke, not that everyone left
+MIN_LIST_RATIO = 0.8  # ...and a list that shrank by more than a fifth since last run is suspect too
 
 # link-only lines the old clean_faculty.py dropped
 _NAV_LINE = re.compile(r"^(View .*portfolio|View my publications\.?|Google Scholar|Linked-?In Profile:?|Back to List)$",
@@ -182,8 +183,10 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
         report.error(SOURCE, f"list page: {type(e).__name__}: {e}")
         return
     people = list_profiles(r.text, cfg["list_url"])
-    if len(people) < MIN_LIST_LINKS:
-        report.error(SOURCE, f"list page yielded only {len(people)} profiles; not touching faculty files")
+    prev_count = st.get("list_count") or 0
+    if len(people) < MIN_LIST_LINKS or len(people) < MIN_LIST_RATIO * prev_count:
+        report.error(SOURCE, f"list page yielded only {len(people)} profiles (last run: {prev_count}); "
+                             "not touching faculty files")
         return
     st["list_count"] = len(people)
     st["last_checked"] = now_iso()

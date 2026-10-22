@@ -99,6 +99,7 @@ A Day in the Life of Luna
 * For the entire University community:
 
   We are offering video tips and ideas on our YouTube channel, support and resources through our Facebook and Instagram pages, and additional support via phone or on our webpage.
+* Parking
 
   The nearest parking is in garage 2 or 4 if you need to drive for your CAPS appointment. The parking lot next to our building is reserved for staff/faculty, and there is no available parking for students.  The reserved spaces labeled Community Counseling Center clients, are for clients visiting the 2nd floor, not CAPS clients.  This is because community members do not have access to park anywhere else on campus.
 * Counseling Services
@@ -181,3 +182,7 @@ Contact
 Counseling and Psychological Services
 
 Student and Community Counseling Center
+
+(3rd Floor) 10499 FGCU Blvd. S.
+
+ 239-590-7950

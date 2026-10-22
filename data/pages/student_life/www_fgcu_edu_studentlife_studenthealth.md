@@ -88,6 +88,7 @@ Class Absence Notice Request Form courtesy of Student Care Services
   * Pregnancy testing
   * Emergency contraceptive
   * Minor surgical procedures (i.e. laceration repair and cryotherapy)
+  * EKG’s
   * Pulmonary function testing
   * Immunizations: Measles, mumps, rubella, hepatitis A&B, and tetanus
   * TB screening
@@ -110,6 +111,7 @@ Class Absence Notice Request Form courtesy of Student Care Services
   * Physical therapy
   * Mental-health care (prescribing of ADD/ADHD medications)
   * Travel clinic for overseas immunization requirements
+* Pricing
 
   FGCU Student Health Services
 
@@ -250,6 +252,7 @@ Class Absence Notice Request Form courtesy of Student Care Services
   Lower Back Pain
 
   Ingrown Toenail
+* Forms
 
   New Patients to Student Health Services
 
@@ -289,7 +292,14 @@ Class Absence Notice Request Form courtesy of Student Care Services
 
   Available tests include:
 
+  * Gonorrhea
+  * Syphilis
+  * Chlamydia
+  * Hepatitis
+  * HIV
+
   To schedule your appointment please visit their scheduling service: FGCU STI Testing through CAN
+* Partnerships
 
   UBYou is a student wellness and success app that connects you to FGCU campus resources and self-care activities to support your well-being and success.
 

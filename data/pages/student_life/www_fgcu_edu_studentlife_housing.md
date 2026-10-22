@@ -36,6 +36,8 @@ staff on call 24/7
 
 Housing & Residence Life
 
+12101 FGCU Lake Parkway E.
+
 239-590-1700
 
 239-590-1702 (fax)

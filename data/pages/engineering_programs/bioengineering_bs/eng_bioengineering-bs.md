@@ -30,6 +30,9 @@ More Student Stories
 
 Because our curriculum is guided by industry needs, you'll learn specialized topics valued by employers. This prepares our graduates for jobs in a variety of areas:
 
+* Biotechnology
+* Healthcare
+* Government
 * Medical Device Development
 * Quality Assurance
 
@@ -54,6 +57,8 @@ Student Life
 Financial Aid
 
 Admissions
+
+* Accreditation
 
   Institutional Accreditation
 
@@ -121,8 +126,7 @@ Admissions
   * an ability to acquire and apply new knowledge as needed, using appropriate learning strategies.
 * Learning Outcomes
 
-  Academic Learning Compact
-  Consistent with its mission and guiding principles, Florida Gulf Coast University is committed to academic excellence and continuous quality improvement, as supported by a sound teaching-learning process. Within this process, students and instructors share responsibility for learning that is a movement from the simple to the complex, the concrete to the abstract, and the dependent to the independent. The Academic Learning Compact (ALC) initiative supports the teaching-learning process by clearly identifying expected core student learning outcomes in the areas of content/discipline knowledge and skills, communication skills, and critical thinking skills; aligning curricula with expectations; and using assessment to guide continuous improvement.
+  Academic Learning Compact Consistent with its mission and guiding principles, Florida Gulf Coast University is committed to academic excellence and continuous quality improvement, as supported by a sound teaching-learning process. Within this process, students and instructors share responsibility for learning that is a movement from the simple to the complex, the concrete to the abstract, and the dependent to the independent. The Academic Learning Compact (ALC) initiative supports the teaching-learning process by clearly identifying expected core student learning outcomes in the areas of content/discipline knowledge and skills, communication skills, and critical thinking skills; aligning curricula with expectations; and using assessment to guide continuous improvement.
 
   ***Content/Discipline Knowledge and Skills***Graduates will be able to:
 
@@ -137,8 +141,7 @@ Admissions
   1. Select, organize, and relate ideas and information in written, oral, and graphic form with coherence, clarity, and unity.
   2. Develop and present consistent arguments to select and diverse audiences.
 
-  Communication skills are assessed at the University, College, and Department levels through oral and written presentations, exams, projects, laboratory activities and other assignments throughout the curriculum.
-  ***Critical Thinking Skills***Graduates will be able to:
+  Communication skills are assessed at the University, College, and Department levels through oral and written presentations, exams, projects, laboratory activities and other assignments throughout the curriculum. ***Critical Thinking Skills***Graduates will be able to:
 
   1. Identify problems and the critical information needed for their solution.
   2. Analyze and synthesize information, and draw reasoned inferences.

@@ -15,6 +15,12 @@ from bs4 import BeautifulSoup
 from common import abs_path, read_text, write_text, sha, now_iso, today
 
 SOURCE = "courses"
+MIN_SECTIONS_RATIO = 0.8   # a term that lost over a fifth of its sections since last run is a bad page, not a purge
+
+
+def term_slug(label):
+    """'Fall 2026' -> 'Fall_2026', the spelling used in folder and file names."""
+    return re.sub(r"\s+", "_", label)
 
 
 def norm(s):
@@ -105,7 +111,7 @@ def course_parts(course):
 
 def render_tree(term, sections):
     """{relative file path: markdown} for one term."""
-    slug = re.sub(r"\s+", "_", term)
+    slug = term_slug(term)
     by_course = {}
     for s in sections:
         subj, num = course_parts(s["course"])
@@ -174,7 +180,7 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
             report.warn(SOURCE, f"{label}: 0 sections returned; files kept as-is")
             continue
         files = render_tree(label, sections)
-        term_dir = os.path.join(root, f"courses_{re.sub(r'\\s+', '_', label)}")
+        term_dir = os.path.join(root, f"courses_{term_slug(label)}")
         written = updated = 0
         for rel, text in files.items():
             path = os.path.join(root, rel.replace("/", os.sep))
@@ -189,7 +195,13 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
                 updated += 1
             report.written(SOURCE, f"{cfg['dir']}/{rel}", "updated" if old is not None else "new", quiet=True)
         removed = 0
-        if os.path.isdir(term_dir):
+        prev_sections = st["terms"].get(label, {}).get("sections") or 0
+        if len(sections) < MIN_SECTIONS_RATIO * prev_sections:
+            # a truncated or error-wrapped results page still parses a few
+            # rows; pruning on it would delete most of the term
+            report.warn(SOURCE, f"{label}: {len(sections)} sections vs {prev_sections} last run; "
+                                "files written but nothing pruned")
+        elif os.path.isdir(term_dir):
             keep = {os.path.normpath(os.path.join(root, p)) for p in files}
             for dp, _, fns in os.walk(term_dir):
                 for fn in fns:

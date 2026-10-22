@@ -51,6 +51,9 @@ State Licensing Boards by College and School
 In the section below, you will find links to each of FGCU’s programs that may lead to licensure in other states. Links are also provided to the organizations that govern professional licensure in your state or can give you more guidance on licensure in your state. FGCU strongly suggests contacting the professional board specific to your career path to make sure you’re aware of its licensing requirements and your academic path is appropriate.
 
 * Arts & Sciences
+* Business
+* Education
+* Engineering
 * Health & Human Services
 * The Water School
 

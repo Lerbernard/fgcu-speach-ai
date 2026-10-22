@@ -128,6 +128,7 @@
   239-590-7011
 
   zmuniz@fgcu.edu
+* Bioengineering
 
   Administration
 

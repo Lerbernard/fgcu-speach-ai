@@ -83,6 +83,8 @@ Responsible AI adoption, workforce development, and applied research across Sout
 
 Dendritic : A Human-Centered AI and Data Science Institute
 
+16301 Innovation Ln #123,
+
  (239) 590-1362 dendritic@fgcu.edu
 
 Business Hours

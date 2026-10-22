@@ -82,12 +82,14 @@ Guidelines on Establishing and Reviewing Centers & Institutes at FGCU Policy 2.0
 * All Active Awards
 
   All Active Awards
+* Patents
 
   Invention Disclosure Form
 * Proposal Preparation (PreAward)
 
   * Letters of Intent Instructions
   * Please contact the PreAward team for training in the new Streamlyne system.
+  * Streamlyne
   * ORSP Deadlines
   * Checklist on Compensation from Sponsored Research Accounts
   * Grant Application Budget Planning Tool
@@ -148,5 +150,7 @@ Guidelines on Establishing and Reviewing Centers & Institutes at FGCU Policy 2.0
 Contact
 
 Office of Research & Sponsored Programs
+
+Sugden Hall Suite 201
 
  ORSP General Mailbox

@@ -62,6 +62,8 @@ Admissions
 
 Fast-track your education and career with our Combined B.S. to M.S. Program in Civil Engineering. Designed for motivated students, this combined program lets you complete up to 9 graduate credits as an undergraduate, saving time and money. With concentrations in Sustainable Water and Construction Management, you will gain advanced technical skills, deepen your expertise, and stand out in a competitive job market. Whether you are aiming for leadership roles or seeking to make a greater impact in the field, this program will give you the edge you need.
 
+* Accreditation
+
   Institutional Accreditation
 
   Information on FGCU institutional accreditation is available at www.fgcu.edu/accreditation

@@ -32,6 +32,8 @@ sacosta@fgcu.edu
 
 Graduate Studies
 
+10501 FGCU Boulevard South
+
 Office Hours: Monday-Friday, 8:00am - 5:00pm
 
 (239) 590-7027

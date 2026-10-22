@@ -169,9 +169,9 @@ Explore ground-breaking research conducted by the faculty of the U.A. Whitaker C
   **Funding Amount:** $10,000
 
   Currently Hiring
-* Enhanced Perception to Overcome Visual Field Defects: A Multi-Modal AR/MR-based Visual Aid
+* Enhanced Perception to Overcome Visual Field Defects: A Multi-Modal AR/MR-based Visual
 
-  Enhanced Perception to Overcome Visual Field Defects: A Multi-Modal AR/MR-based Visual Aid
+  Enhanced Perception to Overcome Visual Field Defects: A Multi-Modal AR/MR-based Visual
 
   **Student(s) Working on Project:** Jack Leser, Ian Wong
 
@@ -214,7 +214,7 @@ Explore ground-breaking research conducted by the faculty of the U.A. Whitaker C
 
   **Student(s) Working on Project:** Sebastian Campos, Ehud Orenstain
 
-  **Description:** Autonomous driving systems require highly reliable perception frameworks to detect and classify objects under diverse environmental conditions. Current multimodal systems integrating cameras and LiDAR have advanced the field substantially, but they still face notable limitations. Cameras are affected by poor lighting and adverse weather, while LiDAR struggles with sparse point clouds at longer ranges. Radar sensors offer a complementary solution, with strong resilience to adverse weather, long-range coverage, and inherent velocity estimation capabilities. Although radar has been extensively studied in defense applications, its integration into civilian autonomous driving perception frameworks remains underexplored. This project seeks to build upon prior multimodal detection work by incorporating radar as an additional modality into a fusion-based object detection framework, thereby advancing FGCU’s footprint in cutting-edge research on autonomous systems.
+  **Description:** Autonomous driving systems require highly reliable perception frameworks to detect classify objects under diverse environmental conditions. Current multimodal systems integrating cameras and LiDAR have advanced the field substantially, but they still face notable limitations. Cameras are affected by poor lighting and adverse weather, while LiDAR struggles with sparse point clouds at longer ranges. Radar sensors offer a complementary solution, with strong resilience to adverse weather, long-range coverage, and inherent velocity estimation capabilities. Although radar been extensively studied in defense applications, its integration into civilian autonomous driving perception frameworks remains underexplored. This project seeks to build upon prior multimodal detection work by incorporating radar as an additional modality into a fusion-based object detection framework, thereby advancing FGCU’s footprint in cutting-edge research on autonomous systems.
 
 * Investigate AI Application in Electrical Construction
 
@@ -225,6 +225,7 @@ Explore ground-breaking research conducted by the faculty of the U.A. Whitaker C
   **Student(s) Working on Project:** John Holik
 
   **Description:** This project aims to explore the integration of AI within the electrical construction industry, addressing the growing need for intelligent tools that can assist in tasks such as interpreting electrical codes, managing submittals, and cross-checking procedures. Electrical contractors face increasing complexity in their operations, and the ability to leverage AI-driven tools can significantly enhance efficiency and reduce errors. The target audience for this research includes electrical contractor executives, project managers, and industry professionals who stand to benefit from the practical applications of AI in their workflows.
+* AccessiBIMlity
 
   AccessiBIMlity
 

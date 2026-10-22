@@ -69,10 +69,13 @@ _BACKUP_MODEL = os.getenv("GROQ_BACKUP_MODEL", "openai/gpt-oss-20b")
 _using_backup = False
 
 def _make_groq(model, **extra):
-    # max_retries=0: the SDK would otherwise sleep through a 429 for as long
-    # as Groq's retry-after says (tens of seconds on the free tier). Surfacing
-    # it at once lets _with_key_rotation move to the next key instead.
-    return Groq(model=model, api_key=_GROQ_KEY, max_retries=0, **extra)
+    # With several keys, max_retries=0: the SDK would otherwise sleep through a
+    # 429 for as long as Groq's retry-after says (tens of seconds on the free
+    # tier), and surfacing it at once lets _with_key_rotation move to the next
+    # key. With a single key there is nothing to rotate to, so keep the SDK's
+    # own retries - they are what absorbs a passing 429 or 5xx.
+    retries = 0 if len(_GROQ_KEYS) > 1 else 2
+    return Groq(model=model, api_key=_GROQ_KEY, max_retries=retries, **extra)
 
 def _build_llms():
     """(Re)create the LLM objects for the current key and point Settings.llm
@@ -91,6 +94,13 @@ def _is_key_error(e) -> bool:
     name = type(e).__name__
     return code in (401, 403, 429) or "RateLimit" in name or "Authentication" in name \
         or "PermissionDenied" in name
+
+def _is_transient(e) -> bool:
+    """Server-side or network trouble worth one more try on the SAME model:
+    5xx, timeouts, connection errors. Never a reason to change models."""
+    code = getattr(e, "status_code", None)
+    name = type(e).__name__
+    return (code is not None and code >= 500) or "Timeout" in name or "Connection" in name
 
 def _rotate_groq_key(reason="") -> bool:
     """Switch to the next GROQ key. False when there is no other key to try."""
@@ -123,7 +133,9 @@ def _probe_llm():
         return True
     except Exception as e:
         print(f"  probe failed: {type(e).__name__}: {str(e)[:160]}")
-        return False
+        # A rate limit or a server blip says nothing about whether the model
+        # exists; only a hard error (404 decommissioned, 400) should demote it.
+        return _is_key_error(e) or _is_transient(e)
 
 def _activate_backup(reason=""):
     """Permanently switch to the backup model for the rest of this process."""
@@ -180,6 +192,26 @@ try:
     print(f"Loaded {len(KNOWN_PROFESSORS)} professor names for name filtering.")
 except Exception as e:
     print(f"Could not preload professor names: {e}")
+
+# Event names come from the index too (titles of event chunks: "WCE Career
+# Expo", "AI Day", ...), so a new event on FGCU's calendar routes to the event
+# files as soon as it is ingested, without anyone editing keywords.py.
+KNOWN_EVENTS = []
+try:
+    _probe = pinecone_index.query(vector=[0.1] * 1024, top_k=300,
+                                  include_metadata=True,
+                                  filter={"doc_type": "event"})
+    _names = set()
+    for m in _probe["matches"]:
+        t = (m["metadata"].get("title") or "").split("|")[0].strip().lower()
+        # multi-word names only; single generic words ("events", "overview")
+        # would pull unrelated questions into the event route
+        if 4 <= len(t) <= 60 and len(t.split()) >= 2 and not t.startswith(("wce events", "wce annual")):
+            _names.add(t)
+    KNOWN_EVENTS = sorted(_names, key=len, reverse=True)
+    print(f"Loaded {len(KNOWN_EVENTS)} event names for routing.")
+except Exception as e:
+    print(f"Could not preload event names: {e}")
 
 print("Ready.\n")
 
@@ -289,6 +321,10 @@ def _wants_date(q: str) -> bool:
     return any(w in ql for w in ("when", "what date", "which date", "what day",
                                  "date of", "how soon"))
 
+def _mentions_event(q: str) -> bool:
+    """True when the question names an event the index knows about."""
+    return any(name in q for name in KNOWN_EVENTS)
+
 def route_query(question: str, routing_text: str = None):
     """Return (doc_types, program, term). Keywords come from keywords.py.
     routing_text (question + recent history) lets follow-ups resolve a professor
@@ -310,7 +346,7 @@ def route_query(question: str, routing_text: str = None):
     hub_override      = any(w in q for w in kw.ALL_HUB_OVERRIDE)
     admissions_words   = any(w in q for w in kw.ALL_ADMISSIONS)
     student_life_words = any(w in q for w in kw.ALL_STUDENT_LIFE)
-    event_words        = any(w in q for w in kw.ALL_EVENT)
+    event_words        = any(w in q for w in kw.ALL_EVENT) or _mentions_event(q)
     policy_words       = any(w in q for w in kw.ALL_POLICY)
     advising_words     = any(w in q for w in kw.ALL_ADVISING)
     calendar_words     = any(w in q for w in kw.ALL_CALENDAR)
@@ -1095,6 +1131,12 @@ def answer_question(question: str, history=None, correct=True):
         try:
             return _with_key_rotation(go)   # rate-limited key -> next key, same model
         except Exception as e:
+            if _is_key_error(e) or _is_transient(e):
+                # Every key is busy, or Groq hiccupped: wait a moment and try
+                # the SAME model once more. Switching models here would let a
+                # passing 429 degrade every later answer in this process.
+                time.sleep(1.5)
+                return go()
             if _using_backup:
                 raise
             _activate_backup(type(e).__name__)

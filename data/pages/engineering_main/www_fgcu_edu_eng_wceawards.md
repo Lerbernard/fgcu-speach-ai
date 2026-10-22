@@ -48,6 +48,8 @@ Gabriel Correa
 
 Software Engineering Student of the Year
 
+* 2025
+
   * Maria Hernandez - Overall Undergraduate Student of the Year
   * Michael Ifrim - Overall Graduate Student of the Year
   * Morgan Tulacro - Bioengineering Student of the Year
@@ -55,6 +57,7 @@ Software Engineering Student of the Year
   * Maria Bartolome - Construction Management Student of the Year
   * Cassidy Rieman - Environmental Engineering Student of the Year
   * Kevin Kostage - Software Engineering Student of the Year
+* 2024
 
   * Madison Craumer – Overall Undergraduate Student of the Year
   * Zoie Kassis – Overall Graduate Student of the Year
@@ -68,6 +71,7 @@ Software Engineering Student of the Year
   * Michael Meeks – Environmental Student of the Year
   * Katarya Johnson-Williams – Software Engineering Student of the Year
   * Danny Joseph - Software Engineering Student of the Year
+* 2023
 
   * Yulissa Valdez - Overall Undergraduate
   * Corbin Meyers - Bioengineering
@@ -75,6 +79,7 @@ Software Engineering Student of the Year
   * Yulissa Valdez - Construction Management
   * Chevelle Dilello - Environmental Engineering
   * Ronny Fray - Software Engineering
+* 2022
 
   * Kaylei Kambak - Overall Undergraduate
   * Patrick Magnant - Bioengineering
@@ -82,18 +87,21 @@ Software Engineering Student of the Year
   * Nicholas Baylis - Construction Management
   * Emily Lutter - Environmental Engineering
   * Rachel Matthews - Software Engineering
+* 2021
 
   * Vanessa Francisco - Overall Undergraduate
   * Diana Montero - Bioengineering
   * Yosvany Medina Pinera - Civil Engineering
   * Josie Wiederkehr - Environmental Engineering
   * Travis Gayle - Software Engineering
+* 2020
 
   * Jaxiera Treminio - Overall Undergraduate
   * Anita Sze - Bioengineering
   * Shayna Dowling - Civil Engineering
   * Rebecca Nance - Environmental Engineering
   * Damian Morgan - Software Engineering
+* 2019
 
   * Isamar San Juan - Overall Undergraduate
   * Roshanak Gonzalez - Bioengineering
@@ -103,34 +111,49 @@ Software Engineering Student of the Year
 
 ## Excellence in Education (E3) Award
 
+* 2026
+
   * Dr. Jong-Yeop Kim
   * Lexi Velte
+* 2025
 
   * Dr. Long Nguyen
+* 2024
 
   * Melinda Morra
   * Dr. Anh Chau
+* 2023
 
   * Dr. Jiehong Liao
   * Paul Allen
+* 2022
 
   * Fernando Gonzalez
+* 2021
 
   * Andy Hughes
   * Gil Medina
+* 2020
 
   * John J. Langan
+* 2019
 
   * Julie Rose
+* 2018
 
   * Lynn See
+* 2017
 
   * Demica Mattia
+* 2015
 
   * Tanya Kunberger
+* 2014
 
   * Mark Chew
+* 2013
 
   * Mary Swanson
+* 2012
 
   * Lynn See
