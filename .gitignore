@@ -1,6 +1,6 @@
 ﻿scraper/
 test/
-.venv/
+.venv*/
 __pycache__/
 *.pyc
 backend/ingest_state.*.json
