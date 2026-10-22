@@ -93,7 +93,12 @@ def get_professor(path, filename, content=""):
 
 
 def get_term(filename):
-    m = re.search(r'(Fall|Spring|Summer)_(\d{4})', filename, re.IGNORECASE)
+    """'COP_1500_Fall_2025.md' -> 'fall 2025'; also the hyphenated calendar
+    files ('fall-2026-session-a-1st-7-weeks.md' -> 'fall 2026'). Without the
+    hyphen form, calendar chunks had no term and any calendar question that
+    named a term ("withdraw deadline for Fall 2026") matched nothing once the
+    term filter was pinned."""
+    m = re.search(r'(Fall|Spring|Summer)[_\- ](\d{4})', filename, re.IGNORECASE)
     return f"{m.group(1).lower()} {m.group(2)}" if m else ""
 
 

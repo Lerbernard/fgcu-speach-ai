@@ -166,6 +166,13 @@ STRIP_SELECTORS = [
     "video", "audio", "button", "nav", "#nav-main", "#nav-inner",
     "#nav-breadcrumb", "section.experience-fgcu", ".experience-fgcu",
     ".backbtn", ".sr-only", ".skip-link", ".social", ".share", "footer",
+    # hidden data table that feeds the site's JS events calendar: raw
+    # "| 06 | 10 | 2026 |" day/month/year cells that read as June 10 to a
+    # model. events.py turns the same table into readable dated entries.
+    "table.tiva-events-calendar-data", "[class*='calendar-data']",
+    # live news / events feeds embedded on many pages: different every day,
+    # so they'd make those pages "change" on every run
+    "section.newsfeed", "section.eventslist", ".eventlistitem",
 ]
 
 # Lines that are navigation/footer boilerplate (ported from clean_pages.py).

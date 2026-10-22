@@ -42,44 +42,6 @@ The university's primary mission is educating the leaders of tomorrow. But there
 
 VIEW/Download BROCHURE
 
-### Campus Events
-
-ALL MAJORS CAREER & INTERNSHIP FAIR
-
-Oct 22 | 10:00 am - 2:00 pm
-
-The largest career fair of the spring semester is here! Employers are eager to connect with FGCU students and
-
-EAGLE FAN FEST
-
-Oct 22 | 5:30 pm - 9:30 pm
-
-Join FGCU Athletics for an exciting evening at Fan Fest at Sugarshack Downtown. Eagles fans will have the oppo
-
-WIND CHAMBER CHOIRS CONCERT
-
-Oct 22 | 7:30 pm - 9:00 pm
-
-This concert is free and open to the public. Tickets can be reserved at fgcu.edu/concerts
-
-REFLECTIONS IN CLAY EXHIBITION
-
-Oct 23 | 8:00 am - 11:00 pm
-
-Reflections in Clay: Jordan Blankenship, Kel Campbell, and Maria Emilia SteinerWasmer Art Gallery Reflections
-
-ROAD TRIP: IT’S THE JOURNAL
-
-Road Trip: It’s the Journal, Not the DestinationA duet by Donne Hutcheson and Monica SloanGallery 101 Ro
-
-THE SOUND OF SUCCESS: BSM ALUMNI CAREER
-
-Oct 24 | 3:00 pm - 4:30 pm
-
-Celebrate 20 years of excellence at the Bower School of Music with an inspiring afternoon spotlighting alumni
-
-Full Calendar
-
 ### Follow Our Social Media & News
 
 STAY CONNECTEDGive to FGCU

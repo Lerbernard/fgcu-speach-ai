@@ -39,7 +39,3 @@ Employment Change 2022-2032
 ### Construction Industry Advisory Board (CIAB)
 
 Learn more about CIAB including the members, by-laws, and contact information.
-
-### U.A. Whitaker College of Engineering News
-
-See All News

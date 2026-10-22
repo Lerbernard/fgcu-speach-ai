@@ -93,6 +93,9 @@ def main(argv=None):
     ap.add_argument("--full", action="store_true", help="treat every file as changed")
     ap.add_argument("--state", default=STATE_PATH,
                     help="state file (default backend/ingest_state.json; use another for a test index)")
+    ap.add_argument("--paths", nargs="*", default=[],
+                    help="also re-ingest files whose path starts with any of these prefixes "
+                         "(for metadata changes, which don't alter file hashes)")
     args = ap.parse_args(argv)
 
     index_name = os.getenv("PINECONE_INDEX_NAME")
@@ -108,7 +111,8 @@ def main(argv=None):
             rel, text, meta = loaded
             docs[rel] = (text, meta)
     hashes = {rel: file_hash(text) for rel, (text, _) in docs.items()}
-    changed = [rel for rel, h in hashes.items() if args.full or known.get(rel) != h]
+    changed = [rel for rel, h in hashes.items()
+               if args.full or known.get(rel) != h or any(rel.startswith(p) for p in args.paths)]
     deleted = [rel for rel in known if rel not in docs]
     print(f"{len(docs)} indexable files | {len(changed)} to (re)ingest | {len(deleted)} to delete")
     if args.dry_run:

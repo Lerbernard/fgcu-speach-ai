@@ -680,6 +680,13 @@ EVENT_WORDS = {
            "what's happening", "whats happening", "happening on campus", "club fair",
            "say yes to the nest", "holmes is your home", "holmes is your",
            "hard hat ceremony",
+           # named WCE events from the college's events calendar; without these
+           # "when is the career expo" routed to campus (via "wce") and the
+           # event files were never searched
+           "career expo", "expo", "wce showcase", "showcase", "chapter one",
+           "stock development day", "ai day", "concrete expo", "eagle x", "eagle-x",
+           "wce day", "order of the engineer", "gencyber", "go-kart", "go kart",
+           "scientific computing summer camp", "school visits",
            "eaglehacks", "hackathon", "e-week", "e week", "eagle game jam", "game jam",
            "capture the flag", "ctf night", "game night", "pc building workshop",
            "speaker night"],
