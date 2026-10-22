@@ -6,3 +6,4 @@ CGN 4321C
  GIS in Civil and Environmental - 3 credits(s)
  Introduction to the basics of geographic information systems, their software and hardware, and their applications in civil and environmental engineering.
  Prerequisite(s)
+ EGN 2111C for level Undergraduate with minimum grade of C

@@ -4,4 +4,4 @@ Subject: EGN | Course: EGN 6941
 
 EGN 6941
  Project - 3 credits(s)
- Individual work culminating in a professional practice-oriented report.
+ Execution of an independent engineering project based on a research proposal, including data collection, analysis, and interpretation. Emphasis on applying research and engineering methods, developing professional-quality technical report, and communicating results through written and oral presentations.

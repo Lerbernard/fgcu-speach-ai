@@ -1,22 +1,119 @@
-# Enrollment Services
+<!-- source: https://www.fgcu.edu/enrollmentservices/ -->
 
-## By the Numbers
-- 52% graduate with zero debt
-- No tuition increase in 7 years
-- $116M in aid & scholarships annually
-- $21M in Pell grants
+# Enrollment Services Center
 
-## Resources
-- MyFGCU Student Portal: Access to student resources and services in one location.
-- FAFSA 2026-2027: Available now.
-- FGCU Foundation Scholarships: Application opens annually October 1st – May 1st.
-- CARES Act: Emergency Financial Aid Grants to Students, reported to the U.S. Dept. of Education.
+The Enrollment Services Center (ESC) was designed to house related services under one roof with the student experience in mind. Please click on the icons below to learn about the services provided in the ESC.
 
-## Important Upcoming Dates
-- Jun 02 — Last Day to Withdraw without Academic Penalty; deadline at 5 pm — Summer 2026 (Session I)
-- Jun 05 — Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule); deadline at 5 pm — Summer 2026 (Session A)
-- Jun 05 — Last Day to Receive a 25% tuition refund (must withdraw from ALL classes) — Summer 2026 (Session C)
+The ESC is conveniently located in the heart of the Student Plaza on the first floor of McTarnaghan Hall.  Students are invited and welcome to come into the ESC anytime with no appointment necessary.   We look forward to seeing you soon!
 
-## Contact
-Enrollment Services
-Phone: 239-590-7920
+Bill & Payment
+
+Eagle ID Card
+
+Excess Hours
+
+Florida Prepaid
+
+Holds
+
+Meal Plans
+
+Parking Permits
+
+Student Refunds
+
+Tuition & Fees
+
+FAFSA
+
+Scholarships
+
+Bright Futures
+
+FAFSA Verification
+
+FERPA Form
+
+Veteran Services
+
+Transcripts
+
+Residency Reclassification
+
+Registration Forms
+
+Student Account Services Forms
+
+Financial Aid Forms
+
+## 52%
+
+Graduate with zero debt
+
+## No
+
+Tuition increase in 7 years
+
+## $116M
+
+In aid & scholarships annually
+
+## $21M
+
+In Pell grants
+
+## MyFGCU Student Portal
+
+Get access to student resources and services in one location with easy access to the things students use most often.
+
+FAFSA 2026-2027
+
+Available Now | Don't miss your opportunity to apply
+
+Apply Now
+
+FGCU Foundation Scholarships
+
+Application opens annually October 1st - May 1st
+
+Apply Now
+
+CARES ACT
+
+Emergency Financial Aid Grants to Students | Reporting to U.S. Dept. of Education
+
+View Report
+
+## Instagram Spotlight
+
+SEE MORE DATES
+
+Important Upcoming Dates
+
+Oct 26
+
+Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm - Fall 2026 (Full Term)
+
+Oct 27
+
+Study Day (no classes) - Fall 2026 (Full Term)
+
+Oct 27
+
+Study Day (no classes) - Fall 2026 (Session B)
+
+Oct 27
+
+Study Day (no classes) - Fall 2026 (Session II)
+
+## Our Location
+
+**Enrollment Services**
+
+**Location:** Enrollment Services is located on the 1st floor of McTarnaghan Hall.
+
+**Hours:**  8 a.m. - 5 p.m. Monday - Friday
+
+**Phone:**239-590-7920
+
+**Contact Us**

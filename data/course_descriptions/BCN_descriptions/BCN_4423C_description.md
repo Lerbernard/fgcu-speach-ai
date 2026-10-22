@@ -6,3 +6,4 @@ BCN 4423C
  Temporary Structures - 3 credits(s)
  Studies the temporary structures that contractors have to build in order to construct the primary structure. This includes formwork, scaffolding and equipment for hoisting materials, personnel and erecting structures. Apply basic surveying techniques for construction layout and control.
  Prerequisite(s)
+ BCN 3431C for level Undergraduate with minimum grade of C

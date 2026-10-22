@@ -6,3 +6,4 @@ CEG 4012C
  Geotechnical Engineering II - 3 credits(s)
  Earth pressure and settlement analysis, shear strength and compressibility, bearing capacity, slope stability. Introduction to foundations utilizing practical geotechnical design.
  Prerequisite(s)
+ CEG 3011C for level Undergraduate with minimum grade of C

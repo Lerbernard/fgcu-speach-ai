@@ -1,17 +1,17 @@
-# Department of Computing and Software Engineering — Overview
+<!-- source: https://www.fgcu.edu/eng/computing-software-engineering/ -->
 
-A degree from the Department of Computing and Software Engineering at FGCU prepares you for careers in computer and information technology occupations through a foundation of traditional computer science courses and specialized software engineering courses in cutting-edge areas.
+# Department of Computing and Software Engineering
 
-Employment in computer and information technology occupations is projected to grow much faster than average for all occupations from 2022 to 2032 (Bureau of Labor Statistics).
+A degree from the Department of Computing and Software Engineering at Florida Gulf Coast University prepares you for a variety of careers in computer and information technology occupations thanks to a foundation of traditional computer science courses and specific software engineering courses in a variety of cutting-edge areas.
 
-## Programs Offered
-- Software Engineering (B.S.) — ABET accredited
-- Computer Science (B.S.)
-- Computer Science Minor
-- Computer Science (M.S.)
+SOFTWARE ENGINEERING B.S.COMPUTER SCIENCE B.S.computer science MINORComputer Science M.S.
 
-## Department Resources
-- EagleCyberNest Cybersecurity Lab
-- Dendritic Institute (AI and Data Science)
+Employment in computer and information technology occupations is projected to grow **much faster** **than the average** for all occupations from 2024 to 2034 (Bureau of Labor Statistics). Today, the software industry makes software products to be used by most, if not all, fields. Because of this, students with degrees in software engineering and computer science are in high demand both in government agencies and private sectors. Graduates can also further their education at the graduate level in Software Engineering, Computer Science, Computer Engineering, Business, etc.
 
-Department Chair: Fernando Gonzalez, Ph.D.
+The B.S. Software Engineering Program at FGCU is accredited by the Engineering Accreditation Commission of ABET.
+
+Faculty and Staff
+
+EagleCyberNest Lab
+
+Dendritic Institute

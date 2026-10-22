@@ -6,3 +6,4 @@ BME 4632C
  Biotransport Phenomena - 3 credits(s)
  The quantitative description of momentum, heat and mass (convection and diffusion) transport in living systems. Application of engineering methods to model and quantify transport aspects of biological and medical systems.
  Prerequisite(s)
+ BME 3261C for level Undergraduate with minimum grade of C

@@ -6,3 +6,4 @@ ENV 4101C
  Atmospheric Pollution - 3 credits(s)
  Source, effects, and regulations of air pollutants. Meteorology and dispersion of air pollution. Sampling and analysis of gaseous and particulate air pollutants. Photochemical air pollution and mobile sources.
  Prerequisite(s)
+ ENV 3006C for level Undergraduate with minimum grade of C and CWR 3201C for level Undergraduate with minimum grade of C

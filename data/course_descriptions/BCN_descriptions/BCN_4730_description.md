@@ -6,4 +6,6 @@ BCN 4730
  Construction Safety Health&Env - 3 credits(s)
  Construction safety issues, concerns, requirements, and procedures. The analysis includes costs, planning, administration, inspection, prevention, loss control and drug-free place. Understanding of the major health and environmental issues encountered on construction sites.
  Prerequisite(s)
- 
+ BCN 1210C for level Undergraduate with minimum grade of C
+ Attribute(s)
+ CLWS - Coll Lvl English Lang Writing

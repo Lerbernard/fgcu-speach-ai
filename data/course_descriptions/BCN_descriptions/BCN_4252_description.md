@@ -6,3 +6,4 @@ BCN 4252
  Building Information Modeling - 3 credits(s)
  Learn current Building Information Modeling (BIM) software to identify design errors and improve the construction process.
  Prerequisite(s)
+ BCN 3255 for level Undergraduate with minimum grade of C

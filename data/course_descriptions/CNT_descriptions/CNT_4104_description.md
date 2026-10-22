@@ -6,3 +6,4 @@ CNT 4104
  Software Proj Comp Networks - 3 credits(s)
  Covers fundamental concepts and modern technologies in network software development at the application and TCP/IP level, as well as essential knowledge of the architectures, models and performance evaluation of computer communication software. Team project is a major part of this course.
  Prerequisite(s)
+ COP 3530 for level Undergraduate with minimum grade of C and CEN 3073 for level Undergraduate with minimum grade of C

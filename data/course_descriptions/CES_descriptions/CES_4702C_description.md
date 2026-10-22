@@ -6,3 +6,4 @@ CES 4702C
  Reinforced Concrete Design - 3 credits(s)
  The objective of this course is to analyze and design reinforced concrete structural members. The topics covered in this course include, but are not limited to, flexural analysis and design of beams, properties of concrete and steel, fundamentals of reinforced concrete behavior, T-beams and slabs including flexural and shear behavior, deflections and crack control.
  Prerequisite(s)
+ CES 3100C for level Undergraduate with minimum grade of C and CCE 3101C for level Undergraduate with minimum grade of C

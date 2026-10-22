@@ -6,3 +6,4 @@ CAP 4401
  Digital Image Processing - 3 credits(s)
  Introduction to digital image processing concepts, including acquisition, sampling, quantization, spatial and frequency techniques, color and morphological processing, enhancement, restoration, segmentation, classification, and deep learning for image understanding and analysis.
  Prerequisite(s)
+ COP 3003 for level Undergraduate with minimum grade of C or EGN 1041C for level Undergraduate with minimum grade of C

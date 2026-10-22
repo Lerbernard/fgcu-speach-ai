@@ -4,5 +4,8 @@ Subject: ENV | Course: ENV 4612C
 
 ENV 4612C
  Sustainability in Engineering - 3 credits(s)
- Sustainable practices are defined and green engineering principles are directed towards engineering design. Life cycle analyses are used to assess environmental, economic, and societal impacts. Topic areas include energy, water, transportation, buildings, food production and infrastructure. 
- ~Previous course number
+ Sustainable practices are defined and green engineering principles are directed towards engineering design. Life cycle analyses are used to assess environmental, economic, and societal impacts. Topic areas include energy, water, transportation, buildings, food production and infrastructure. ~Previous course number ENV 4612, prior to 201408
+ Prerequisite(s)
+ ENV 3006C for level Undergraduate with minimum grade of C
+ Attribute(s)
+ SCGR - Sustainability Course Grad Req

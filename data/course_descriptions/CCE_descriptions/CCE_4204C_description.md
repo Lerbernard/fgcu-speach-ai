@@ -6,3 +6,4 @@ CCE 4204C
  Construction Methods & Managmt - 3 credits(s)
  Introduction to construction engineering, field operations, and construction management.
  Prerequisite(s)
+ CEG 3011C for level Undergraduate with minimum grade of C
