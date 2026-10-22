@@ -1,0 +1,6 @@
+# Ask the Eagle data updater (updater/update.py). Plain HTTP + HTML parsing;
+# no browser needed, so it runs in a few minutes on a GitHub Actions runner.
+requests>=2.32
+beautifulsoup4>=4.12
+markdownify>=0.13
+pyyaml>=6.0

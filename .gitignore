@@ -1,2 +1,5 @@
 ﻿scraper/
 test/
+.venv/
+__pycache__/
+*.pyc
