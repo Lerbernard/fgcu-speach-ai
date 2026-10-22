@@ -41,10 +41,6 @@ Samantha Romero
 
 B.A. Journalism
 
-### Internships & Cooperative Programs in the News
-
-See All News
-
 ## Quick Resources
 
 Career Development Services Academic Calendar

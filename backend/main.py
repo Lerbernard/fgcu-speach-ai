@@ -53,21 +53,73 @@ Settings.embed_model = PineconeInferenceEmbedding(pc)
 Settings.chunk_size = 400
 Settings.chunk_overlap = 50
 
-_GROQ_KEY = os.getenv("GROQ_API_KEY")
-_PRIMARY_MODEL = "llama-3.3-70b-versatile"
-_BACKUP_MODEL = "openai/gpt-oss-120b"
-
-def _make_groq(model, **extra):
-    return Groq(model=model, api_key=_GROQ_KEY, **extra)
-
-_LLM_PRIMARY = _make_groq(_PRIMARY_MODEL)
-_LLM_BACKUP = _make_groq(_BACKUP_MODEL, additional_kwargs={"reasoning_effort": "low"})
+# Every GROQ_API_KEY* in the environment is a usable key (GROQ_API_KEY,
+# GROQ_API_KEY2, GROQ_API_KEY3, ...). When one hits its rate limit or is
+# rejected, we move to the next and retry, so a busy minute on one free-tier
+# key doesn't surface as an error to the student.
+_GROQ_KEYS = [v.strip() for k, v in sorted(os.environ.items())
+              if re.fullmatch(r"GROQ_API_KEY\d*", k) and v.strip()]
+_groq_key_idx = 0
+_GROQ_KEY = _GROQ_KEYS[0] if _GROQ_KEYS else None
+# llama-3.3-70b-versatile is no longer served to this account (404 on every
+# key), so the old fallback gpt-oss-120b is the primary now. Both are
+# overridable from the environment without a code change.
+_PRIMARY_MODEL = os.getenv("GROQ_PRIMARY_MODEL", "openai/gpt-oss-120b")
+_BACKUP_MODEL = os.getenv("GROQ_BACKUP_MODEL", "openai/gpt-oss-20b")
 _using_backup = False
 
-def _probe_llm(llm):
+def _make_groq(model, **extra):
+    # max_retries=0: the SDK would otherwise sleep through a 429 for as long
+    # as Groq's retry-after says (tens of seconds on the free tier). Surfacing
+    # it at once lets _with_key_rotation move to the next key instead.
+    return Groq(model=model, api_key=_GROQ_KEY, max_retries=0, **extra)
+
+def _build_llms():
+    """(Re)create the LLM objects for the current key and point Settings.llm
+    at whichever of primary/backup is active."""
+    global _LLM_PRIMARY, _LLM_BACKUP
+    _LLM_PRIMARY = _make_groq(_PRIMARY_MODEL, additional_kwargs={"reasoning_effort": "low"})
+    _LLM_BACKUP = _make_groq(_BACKUP_MODEL, additional_kwargs={"reasoning_effort": "low"})
+    Settings.llm = _LLM_BACKUP if _using_backup else _LLM_PRIMARY
+
+_build_llms()
+
+def _is_key_error(e) -> bool:
+    """True for errors another key could fix: rate limit / quota (429) or a
+    rejected key (401/403). A bad model name or a server error is not one."""
+    code = getattr(e, "status_code", None)
+    name = type(e).__name__
+    return code in (401, 403, 429) or "RateLimit" in name or "Authentication" in name \
+        or "PermissionDenied" in name
+
+def _rotate_groq_key(reason="") -> bool:
+    """Switch to the next GROQ key. False when there is no other key to try."""
+    global _groq_key_idx, _GROQ_KEY
+    if len(_GROQ_KEYS) < 2:
+        return False
+    _groq_key_idx = (_groq_key_idx + 1) % len(_GROQ_KEYS)
+    _GROQ_KEY = _GROQ_KEYS[_groq_key_idx]
+    _build_llms()
+    print(f"  !! switched to GROQ key #{_groq_key_idx + 1}" + (f" ({reason})" if reason else ""), flush=True)
+    return True
+
+def _with_key_rotation(fn):
+    """Run fn(); on a key-level error rotate to the next key and try again,
+    at most once per key. Other errors propagate unchanged. fn must read the
+    LLM through the module globals (Settings.llm / _LLM_PRIMARY) so it picks
+    up the rebuilt object after a rotation."""
+    for _ in range(max(1, len(_GROQ_KEYS))):
+        try:
+            return fn()
+        except Exception as e:
+            if not _is_key_error(e) or not _rotate_groq_key(type(e).__name__):
+                raise
+    return fn()
+
+def _probe_llm():
     """Cheap liveness check — returns False if the model errors (e.g. decommissioned)."""
     try:
-        llm.complete("ping")
+        _with_key_rotation(lambda: _LLM_PRIMARY.complete("ping"))
         return True
     except Exception as e:
         print(f"  probe failed: {type(e).__name__}: {str(e)[:160]}")
@@ -82,8 +134,8 @@ def _activate_backup(reason=""):
         print(f"  !! switched to backup model {_BACKUP_MODEL}"
               + (f" ({reason})" if reason else ""))
 
-print(f"Connecting to Groq (primary: {_PRIMARY_MODEL})...")
-if _probe_llm(_LLM_PRIMARY):
+print(f"Connecting to Groq (primary: {_PRIMARY_MODEL}, {len(_GROQ_KEYS)} key(s))...")
+if _probe_llm():
     Settings.llm = _LLM_PRIMARY
     print(f"  -> active model: {_PRIMARY_MODEL}")
 else:
@@ -706,7 +758,7 @@ def _correct_typos(question: str) -> str:
         "corrected question - no quotes, no explanation.\n\nQuestion: " + q
     )
     try:
-        out = str(Settings.llm.complete(prompt)).strip().strip('"').strip()
+        out = str(_with_key_rotation(lambda: Settings.llm.complete(prompt))).strip().strip('"').strip()
     except Exception:
         return question
     if not out or len(out) > len(q) * 2 + 20:
@@ -775,7 +827,7 @@ def _condense_query(question: str, history) -> str:
         f"\nConversation:\n{convo}\n\nLatest question: {question}\n\nStandalone query:"
     )
     try:
-        out = str(Settings.llm.complete(prompt)).strip().strip('"').strip()
+        out = str(_with_key_rotation(lambda: Settings.llm.complete(prompt))).strip().strip('"').strip()
     except Exception:
         return question
     if not out or len(out) > len(question) * 6 + 80:
@@ -1036,17 +1088,17 @@ def answer_question(question: str, history=None, correct=True):
     _post = _post or None
 
     def _run(dt, prog, trm, code, prof):
-        try:
+        def go():
             return make_engine(dt, prog, trm, code, prof,
                                qa_template=qa_template,
                                postprocessors=_post).query(retrieval_query)
+        try:
+            return _with_key_rotation(go)   # rate-limited key -> next key, same model
         except Exception as e:
             if _using_backup:
                 raise
             _activate_backup(type(e).__name__)
-            return make_engine(dt, prog, trm, code, prof,
-                               qa_template=qa_template,
-                               postprocessors=_post).query(retrieval_query)
+            return go()
 
     def _no_match(r):
         s = str(r).strip()
@@ -1058,7 +1110,8 @@ def answer_question(question: str, history=None, correct=True):
         r"not available|unable to find)", re.I)
 
     def _abstained(r):
-        return bool(_ABSTAIN_RX.search(str(r)))
+        # the model writes curly apostrophes ("don’t"); the pattern expects straight ones
+        return bool(_ABSTAIN_RX.search(str(r).replace("’", "'")))
 
     # When the student's question resolved to a concrete term (e.g. "fall 2026"),
     # that term is authoritative: every relaxation below keeps it, so a missed
@@ -1486,12 +1539,17 @@ async def transcribe(audio: UploadFile = File(...), language: str = Form(""), _h
     if code:
         form_data["language"] = code
     async with httpx.AsyncClient(timeout=60) as client:
-        resp = await client.post(
-            "https://api.groq.com/openai/v1/audio/transcriptions",
-            headers={"Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}"},
-            files={"file": (filename, audio_bytes, content_type)},
-            data=form_data
-        )
+        for _ in range(max(1, len(_GROQ_KEYS))):
+            resp = await client.post(
+                "https://api.groq.com/openai/v1/audio/transcriptions",
+                headers={"Authorization": f"Bearer {_GROQ_KEY}"},
+                files={"file": (filename, audio_bytes, content_type)},
+                data=form_data
+            )
+            # rate-limited or rejected key: try the next one before giving up
+            if resp.status_code in (401, 403, 429) and _rotate_groq_key(f"transcribe HTTP {resp.status_code}"):
+                continue
+            break
     if resp.status_code != 200:
         print(f"[/transcribe] Groq error {resp.status_code}: {resp.text[:500]}")
         return {"text": "", "error": resp.text[:300]}

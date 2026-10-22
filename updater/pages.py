@@ -58,7 +58,9 @@ def run(manifest, state, fetch, report, dry_run=False, limit=None):
 
         path = abs_path(rel)
         old = read_text(path)
-        if old is not None and sha(old) == new_hash:
+        # write_text appends a final newline, so compare without it or every
+        # page would count as "updated" on every run
+        if old is not None and old.rstrip("\n") == md.rstrip("\n"):
             st["hash"] = new_hash
             report.unchanged(SOURCE)
             continue

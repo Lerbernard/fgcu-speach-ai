@@ -1,7 +1,11 @@
 {
  "academic_calendar": {
-  "last_changed": "2026-10-22T17:29:43+00:00",
-  "last_checked": "2026-10-22T17:29:43+00:00",
+  "generated": [
+   "upcoming-dates-spring-2027.md",
+   "upcoming-dates-fall-2026.md"
+  ],
+  "last_changed": "2026-10-22T18:31:21+00:00",
+  "last_checked": "2026-10-22T18:31:21+00:00",
   "term_pages": {
    "1": "Fall 2007",
    "10": "Summer C 2007",
@@ -289,17 +293,17 @@
   "list_count": 66
  },
  "last_run": {
-  "at": "2026-10-22T17:31:19+00:00",
-  "changed_files": 27,
+  "at": "2026-10-22T18:31:24+00:00",
+  "changed_files": 6,
   "errors": 0
  },
  "pages": {
   "pages/about_fgcu/www_fgcu_edu.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/",
-   "hash": "0a83248fa5840305029dff8645c981015d15fe4b1a76f37bc6fc44cf82dfe401",
-   "last_changed": "2026-10-22T17:23:44+00:00",
-   "last_checked": "2026-10-22T17:23:44+00:00",
+   "hash": "fafd73efa661f2a6203255906c3c9c96165f24b0e607fcf4c30f6007619ff062",
+   "last_changed": "2026-10-22T18:31:25+00:00",
+   "last_checked": "2026-10-22T18:31:25+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/"
@@ -308,8 +312,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/about/",
    "hash": "2110da3f2b8a886fdd280cb0bac9e9d1816928d2aa573ec95bd7a8cdfcd4ae0c",
-   "last_changed": "2026-10-22T17:23:45+00:00",
-   "last_checked": "2026-10-22T17:23:45+00:00",
+   "last_changed": "2026-10-22T18:22:39+00:00",
+   "last_checked": "2026-10-22T18:31:25+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/about/"
@@ -317,9 +321,9 @@
   "pages/about_fgcu/www_fgcu_edu_advancement.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/advancement/",
-   "hash": "683a117e512c559635c1d9185614a4ce008752ce21de5cb1a4a8f74fccbd7d05",
-   "last_changed": "2026-10-22T17:23:46+00:00",
-   "last_checked": "2026-10-22T17:23:46+00:00",
+   "hash": "85f48a29cc7b5db10a94f3462ae21a2790b8bc10a8a65ed80a79bb317e1d0e0f",
+   "last_changed": "2026-10-22T18:31:26+00:00",
+   "last_checked": "2026-10-22T18:31:26+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/advancement/"
@@ -327,9 +331,9 @@
   "pages/about_fgcu/www_fgcu_edu_community.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/community/",
-   "hash": "518bd7eb4720b7e95f13c1bf5e79bb5264dcf5bdf5fb12a56b82117f70b52221",
-   "last_changed": "2026-10-22T17:23:48+00:00",
-   "last_checked": "2026-10-22T17:23:48+00:00",
+   "hash": "5c1c4f8dd35fa7d31d48531c07c645f6a6d8492fe78463eb88a06e97e214cca8",
+   "last_changed": "2026-10-22T18:31:27+00:00",
+   "last_checked": "2026-10-22T18:31:27+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/community/"
@@ -338,8 +342,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/communityengagement/",
    "hash": "956869ef023de1a40a900ab47fa88217cc141b347695345564e8af9e5eadded2",
-   "last_changed": "2026-10-22T17:23:49+00:00",
-   "last_checked": "2026-10-22T17:23:49+00:00",
+   "last_changed": "2026-10-22T18:22:44+00:00",
+   "last_checked": "2026-10-22T18:31:28+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/communityengagement/"
@@ -348,8 +352,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/worldaffairslectures/",
    "hash": "0a634984d3a8d9cd1b7a33806adf6f90b85ce8bffb1a3ff8da2f4837d567db14",
-   "last_changed": "2026-10-22T17:23:50+00:00",
-   "last_checked": "2026-10-22T17:23:50+00:00",
+   "last_changed": "2026-10-22T18:22:46+00:00",
+   "last_checked": "2026-10-22T18:31:30+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/worldaffairslectures/"
@@ -358,8 +362,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/",
    "hash": "e2bb49c5dbecc3e2caa0287f7d624923745e600405e3c2b98bc82983f7dc9f80",
-   "last_changed": "2026-10-22T17:23:53+00:00",
-   "last_checked": "2026-10-22T17:23:53+00:00",
+   "last_changed": "2026-10-22T18:22:46+00:00",
+   "last_checked": "2026-10-22T18:31:32+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/"
@@ -367,7 +371,7 @@
   "pages/academics/www_fgcu_edu_academics_advising.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/advising/",
-   "last_checked": "2026-10-22T17:23:53+00:00",
+   "last_checked": "2026-10-22T18:31:32+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/advising/"
@@ -376,8 +380,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/caa/",
    "hash": "b82c4bdb4256fdf501f7c9b69aec915548257f531fe902535470ab9c174f037f",
-   "last_changed": "2026-10-22T17:23:54+00:00",
-   "last_checked": "2026-10-22T17:23:54+00:00",
+   "last_changed": "2026-10-22T18:22:48+00:00",
+   "last_checked": "2026-10-22T18:31:34+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/caa/"
@@ -386,8 +390,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/colleges/",
    "hash": "19b5ef97623d2fdafdb74a2a1752091a0e5c1611a9f993cfd72969ae74ccf9c8",
-   "last_changed": "2026-10-22T17:23:57+00:00",
-   "last_checked": "2026-10-22T17:23:57+00:00",
+   "last_changed": "2026-10-22T18:22:52+00:00",
+   "last_checked": "2026-10-22T18:31:35+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/colleges/"
@@ -396,8 +400,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/global-engagement-office/",
    "hash": "939069fbc24d14c505292eb65f01f273791c9e7edd2ddeb0b66f5aa0406f5398",
-   "last_changed": "2026-10-22T17:23:58+00:00",
-   "last_checked": "2026-10-22T17:23:58+00:00",
+   "last_changed": "2026-10-22T18:22:52+00:00",
+   "last_checked": "2026-10-22T18:31:37+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/global-engagement-office/"
@@ -406,8 +410,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/innovate/",
    "hash": "6ece3c66fa6caf7b3af9dbd26deb8a375e5718ece5110c9a6ef277eca6602b07",
-   "last_changed": "2026-10-22T17:23:59+00:00",
-   "last_checked": "2026-10-22T17:23:59+00:00",
+   "last_changed": "2026-10-22T18:22:53+00:00",
+   "last_checked": "2026-10-22T18:31:37+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/innovate/"
@@ -415,9 +419,9 @@
   "pages/academics/www_fgcu_edu_academics_internships.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/internships/",
-   "hash": "4c95d46e497500488439070637943c38a71a7b9505a26bba79181e50eb4b9ebe",
-   "last_changed": "2026-10-22T17:24:00+00:00",
-   "last_checked": "2026-10-22T17:24:00+00:00",
+   "hash": "f17eba675ea24a42a73062d5e35523776745b83782263e107fcde8b0ac6ae7be",
+   "last_changed": "2026-10-22T18:31:38+00:00",
+   "last_checked": "2026-10-22T18:31:38+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/internships/"
@@ -426,8 +430,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/research/",
    "hash": "16fb86d50c95c45fe68428fcbad251abeb25baf897309a5879786fd0812fbfcc",
-   "last_changed": "2026-10-22T17:24:01+00:00",
-   "last_checked": "2026-10-22T17:24:01+00:00",
+   "last_changed": "2026-10-22T18:22:56+00:00",
+   "last_checked": "2026-10-22T18:31:39+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/research/"
@@ -436,8 +440,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/graduatestudies/",
    "hash": "2a2a12a3c400d7f9106e33686ec4b0e84339215699d5790b09e57a820b6fcc28",
-   "last_changed": "2026-10-22T17:24:02+00:00",
-   "last_checked": "2026-10-22T17:24:02+00:00",
+   "last_changed": "2026-10-22T18:22:57+00:00",
+   "last_checked": "2026-10-22T18:31:40+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/graduatestudies/"
@@ -446,8 +450,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/sisr/",
    "hash": "c3b2b5ea8d1c37e44a92392e14f963941d7e8746b57c51c1bfb34914c54a9d3f",
-   "last_changed": "2026-10-22T17:24:03+00:00",
-   "last_checked": "2026-10-22T17:24:03+00:00",
+   "last_changed": "2026-10-22T18:22:57+00:00",
+   "last_checked": "2026-10-22T18:31:41+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/sisr/"
@@ -456,8 +460,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/",
    "hash": "1b41465847639b2f70d09a4b7a766adfb0c1a896e7e728be6031fd07e9e7f515",
-   "last_changed": "2026-10-22T17:24:04+00:00",
-   "last_checked": "2026-10-22T17:24:04+00:00",
+   "last_changed": "2026-10-22T18:22:58+00:00",
+   "last_checked": "2026-10-22T18:31:43+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/"
@@ -467,7 +471,7 @@
    "final_url": "https://www.fgcu.edu/admissionsandaid/graduateadmissions/",
    "hash": "bf1c7e231158365fd78f63f1016c9573e3a7c9f36403d2103991ffcd3979df9b",
    "last_changed": "2026-10-22T17:24:05+00:00",
-   "last_checked": "2026-10-22T17:24:05+00:00",
+   "last_checked": "2026-10-22T18:31:43+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/graduateadmissions/"
@@ -476,8 +480,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/",
    "hash": "03127190ba5d6eebb9268f55767143dfeacd5a1d181a4a89eb21bd6ef94325ba",
-   "last_changed": "2026-10-22T17:24:06+00:00",
-   "last_checked": "2026-10-22T17:24:06+00:00",
+   "last_changed": "2026-10-22T18:23:00+00:00",
+   "last_checked": "2026-10-22T18:31:44+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/"
@@ -486,8 +490,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/admittedstudents",
    "hash": "95510ecfc360cf327341f0366ea117903a486910f6fcaec90dc6ab80fbf338ff",
-   "last_changed": "2026-10-22T17:24:07+00:00",
-   "last_checked": "2026-10-22T17:24:07+00:00",
+   "last_changed": "2026-10-22T18:23:01+00:00",
+   "last_checked": "2026-10-22T18:31:45+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/admittedstudents/"
@@ -496,8 +500,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/highschoolcounselors",
    "hash": "d69411e9cde1e1d8146573c26e21a3188f49a1a75878174ff5089cf0f2736371",
-   "last_changed": "2026-10-22T17:24:08+00:00",
-   "last_checked": "2026-10-22T17:24:08+00:00",
+   "last_changed": "2026-10-22T18:23:02+00:00",
+   "last_checked": "2026-10-22T18:31:46+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/highschoolcounselors/"
@@ -506,8 +510,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/internationalstudents/",
    "hash": "f03f7df66403dce60baef0d2d9cd2a1b235d0169a5c8b258299b189a1b074e51",
-   "last_changed": "2026-10-22T17:24:09+00:00",
-   "last_checked": "2026-10-22T17:24:09+00:00",
+   "last_changed": "2026-10-22T18:23:03+00:00",
+   "last_checked": "2026-10-22T18:31:47+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/internationalstudents/"
@@ -516,8 +520,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/nondegreeadmissions",
    "hash": "1bb9f945f81cc109ac5d96afd441f1ff60a167244a79d34caae8bab99c6fcc59",
-   "last_changed": "2026-10-22T17:24:10+00:00",
-   "last_checked": "2026-10-22T17:24:10+00:00",
+   "last_changed": "2026-10-22T18:23:04+00:00",
+   "last_checked": "2026-10-22T18:31:48+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/nondegreeadmissions/"
@@ -526,8 +530,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/transferadmissions",
    "hash": "a3b82e5dbcab42944418fb8605817e675eb8707f94ecbb9c9337c772b3edf079",
-   "last_changed": "2026-10-22T17:24:11+00:00",
-   "last_checked": "2026-10-22T17:24:11+00:00",
+   "last_changed": "2026-10-22T18:23:06+00:00",
+   "last_checked": "2026-10-22T18:31:50+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/admissionsandaid/undergraduateadmissions/transferadmissions/"
@@ -536,8 +540,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/enrollmentservices/",
    "hash": "5d1bb07ac0eddd8767a5fa0287a32922fe14a2f811ae4741a2cb26d5722951f3",
-   "last_changed": "2026-10-22T17:24:12+00:00",
-   "last_checked": "2026-10-22T17:24:12+00:00",
+   "last_changed": "2026-10-22T18:23:06+00:00",
+   "last_checked": "2026-10-22T18:31:51+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/enrollmentservices/"
@@ -546,8 +550,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/",
    "hash": "d228df324accea3e0bcba740e8528e9eb991456dedc51ce033aadeb5b408a3aa",
-   "last_changed": "2026-10-22T17:24:13+00:00",
-   "last_checked": "2026-10-22T17:24:13+00:00",
+   "last_changed": "2026-10-22T18:23:08+00:00",
+   "last_checked": "2026-10-22T18:31:52+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/"
@@ -556,8 +560,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-bs",
    "hash": "d1587f67d277c6064963604fcc8c2bd4160ee009163c6a374e380a43365f0543",
-   "last_changed": "2026-10-22T17:24:14+00:00",
-   "last_checked": "2026-10-22T17:24:14+00:00",
+   "last_changed": "2026-10-22T18:23:09+00:00",
+   "last_checked": "2026-10-22T18:31:53+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-bs/"
@@ -565,7 +569,7 @@
   "pages/engineering_departments/computing_software_engineering/eng_computing-software-engineering_computerscience-minor.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-minor",
-   "last_checked": "2026-10-22T17:24:15+00:00",
+   "last_checked": "2026-10-22T18:31:54+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-minor/"
@@ -574,8 +578,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/eaglecybernest/",
    "hash": "932c24b4575204f6562f1f8db409c200e52e59fb532566d33accc6394e1eb62b",
-   "last_changed": "2026-10-22T17:24:16+00:00",
-   "last_checked": "2026-10-22T17:24:16+00:00",
+   "last_changed": "2026-10-22T18:23:11+00:00",
+   "last_checked": "2026-10-22T18:31:55+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/eaglecybernest/"
@@ -584,8 +588,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/dendritic-institute/",
    "hash": "e8e80eec2d7e409d884086248c003694f8edd7d56ae424cf5e9581c9340171c8",
-   "last_changed": "2026-10-22T17:24:17+00:00",
-   "last_checked": "2026-10-22T17:24:17+00:00",
+   "last_changed": "2026-10-22T18:23:12+00:00",
+   "last_checked": "2026-10-22T18:31:56+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/dendritic-institute/"
@@ -594,8 +598,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/graduateprograms/computer-science-ms/",
    "hash": "db78ee18db8e447b9ad8fefb8b5533bde8054978cdbd8bae249396552c6babe4",
-   "last_changed": "2026-10-22T17:24:18+00:00",
-   "last_checked": "2026-10-22T17:24:18+00:00",
+   "last_changed": "2026-10-22T18:23:13+00:00",
+   "last_checked": "2026-10-22T18:31:57+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/graduateprograms/computer-science-ms/"
@@ -604,8 +608,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/",
    "hash": "601ce229f4804963c7fac42dc784f3bd4fc0ce7c1cc1e5d7e69700804992a02c",
-   "last_changed": "2026-10-22T17:24:19+00:00",
-   "last_checked": "2026-10-22T17:24:19+00:00",
+   "last_changed": "2026-10-22T18:23:14+00:00",
+   "last_checked": "2026-10-22T18:31:58+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/"
@@ -613,9 +617,9 @@
   "pages/engineering_departments/www_fgcu_edu_eng_constructionmanagement.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/constructionmanagement/",
-   "hash": "4e4ef903b9ec72c20f4d2e2ffb8d20f98e153c87ddba6e013218504adad42356",
-   "last_changed": "2026-10-22T17:24:20+00:00",
-   "last_checked": "2026-10-22T17:24:20+00:00",
+   "hash": "50c64cfc89d7c6c9f841c9c23fd696e7df9c9392fb1ba73db5a52d2b4a84867c",
+   "last_changed": "2026-10-22T18:31:59+00:00",
+   "last_checked": "2026-10-22T18:31:59+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/constructionmanagement/"
@@ -624,8 +628,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/dendritic-institute/",
    "hash": "e8e80eec2d7e409d884086248c003694f8edd7d56ae424cf5e9581c9340171c8",
-   "last_changed": "2026-10-22T17:24:21+00:00",
-   "last_checked": "2026-10-22T17:24:21+00:00",
+   "last_changed": "2026-10-22T18:23:16+00:00",
+   "last_checked": "2026-10-22T18:32:00+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/dendritic-institute/"
@@ -634,8 +638,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/facultystaff/",
    "hash": "f5ed6b7f41a90c70feaa12c8fb775ea8f3b5c2950b9fe24839815f63d6ba9c87",
-   "last_changed": "2026-10-22T17:24:28+00:00",
-   "last_checked": "2026-10-22T17:24:28+00:00",
+   "last_changed": "2026-10-22T18:23:25+00:00",
+   "last_checked": "2026-10-22T18:32:07+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/facultystaff/"
@@ -645,7 +649,7 @@
    "final_url": "https://www.fgcu.edu/eng/student-involvement/learning-hub/",
    "hash": "929d0f44c139e85f2c18f0b16ae7e4b2288a2f7821bb8aaaf5aa919bdbd0bcc9",
    "last_changed": "2026-10-22T17:24:29+00:00",
-   "last_checked": "2026-10-22T17:24:29+00:00",
+   "last_checked": "2026-10-22T18:32:08+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/student-involvement/learning-hub/"
@@ -653,9 +657,9 @@
   "pages/engineering_main/www_fgcu_edu_eng.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/",
-   "hash": "721d7d1b311a39956049cc081e990fbc756771f7be7239c1668d9dbe3e029a26",
-   "last_changed": "2026-10-22T17:24:30+00:00",
-   "last_checked": "2026-10-22T17:24:30+00:00",
+   "hash": "61fcd34b6baa256de34d90d7c6666333c45c8c8ccbc9886db783e82eee8ff05b",
+   "last_changed": "2026-10-22T18:23:29+00:00",
+   "last_checked": "2026-10-22T18:32:09+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/"
@@ -664,8 +668,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/about/",
    "hash": "46783d70a37d57ad08bbb9423463c72a7067bae7e26af72d2ef1172668f4cc48",
-   "last_changed": "2026-10-22T17:24:31+00:00",
-   "last_checked": "2026-10-22T17:24:31+00:00",
+   "last_changed": "2026-10-22T18:23:30+00:00",
+   "last_checked": "2026-10-22T18:32:10+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/about/"
@@ -674,8 +678,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/academics/advising/",
    "hash": "f843d0027abdcc86a7fd8018693d0d662b6ff4e00710265a3e10fb37b9463e84",
-   "last_changed": "2026-10-22T17:24:32+00:00",
-   "last_checked": "2026-10-22T17:24:32+00:00",
+   "last_changed": "2026-10-22T18:23:31+00:00",
+   "last_checked": "2026-10-22T18:32:11+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/advising/"
@@ -684,8 +688,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/technology_recommendations",
    "hash": "b63b4997b71ac7ffdd5debc269f89ddc6ebff99c1bf43ff55940ef3dc619a880",
-   "last_changed": "2026-10-22T17:24:33+00:00",
-   "last_checked": "2026-10-22T17:24:33+00:00",
+   "last_changed": "2026-10-22T18:23:32+00:00",
+   "last_checked": "2026-10-22T18:32:12+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/technology_recommendations/"
@@ -694,8 +698,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/wceawards",
    "hash": "f36f0f7d62d67d3b0fb4b7da6527e36d93567d3610f01baa2daff9e5128758de",
-   "last_changed": "2026-10-22T17:24:34+00:00",
-   "last_checked": "2026-10-22T17:24:34+00:00",
+   "last_changed": "2026-10-22T18:23:33+00:00",
+   "last_checked": "2026-10-22T18:32:14+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/wceawards/"
@@ -705,7 +709,7 @@
    "final_url": "https://www.fgcu.edu/academics/advising/advising-resources-hub",
    "hash": "f2dfe90b4b9085cdcbb28a07211359bfa4b211816f59c7ff6391a273a09bec79",
    "last_changed": "2026-10-22T17:24:35+00:00",
-   "last_checked": "2026-10-22T17:24:35+00:00",
+   "last_checked": "2026-10-22T18:32:15+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/advising/faq"
@@ -715,7 +719,7 @@
    "final_url": "https://www.fgcu.edu/academics/advising/advising-resources-hub-holds-key",
    "hash": "03797b21f66fe8d46d4629c1508ff4389b403a33d7a36b2d1a961ba1d8612505",
    "last_changed": "2026-10-22T17:24:36+00:00",
-   "last_checked": "2026-10-22T17:24:36+00:00",
+   "last_checked": "2026-10-22T18:32:16+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/academics/advising/holdskey"
@@ -725,7 +729,7 @@
    "final_url": "https://www.fgcu.edu/academics/advising/",
    "hash": "f843d0027abdcc86a7fd8018693d0d662b6ff4e00710265a3e10fb37b9463e84",
    "last_changed": "2026-10-22T17:24:37+00:00",
-   "last_checked": "2026-10-22T17:24:37+00:00",
+   "last_checked": "2026-10-22T18:32:17+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/advising/"
@@ -735,7 +739,7 @@
    "final_url": "https://www.fgcu.edu/academics/advising/advising-resources-hub",
    "hash": "fcf81009c5a4f9d898251721e5e51f36d879c036c7761bedb7d42bd254b5f3af",
    "last_changed": "2026-10-22T17:24:38+00:00",
-   "last_checked": "2026-10-22T17:24:38+00:00",
+   "last_checked": "2026-10-22T18:32:17+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/advising/advisingsyllabus"
@@ -745,7 +749,7 @@
    "final_url": "https://www.fgcu.edu/academics/advising/advising-resources-hub",
    "hash": "16de32a2d59a3daffb9245c1cc712e599b7291a725b7ff83a506f169a62b9d21",
    "last_changed": "2026-10-22T17:24:39+00:00",
-   "last_checked": "2026-10-22T17:24:39+00:00",
+   "last_checked": "2026-10-22T18:32:19+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/advising/transientstudentinstructions"
@@ -755,7 +759,7 @@
    "final_url": "https://www.fgcu.edu/studentcomplaints/",
    "hash": "ef16ffb7b561ca79e3ad7ddeb0496bf08afb87042c2810c093c4ccbe270a8172",
    "last_changed": "2026-10-22T17:24:40+00:00",
-   "last_checked": "2026-10-22T17:24:40+00:00",
+   "last_checked": "2026-10-22T18:32:20+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentcomplaints/"
@@ -764,8 +768,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/bioengineering-bs",
    "hash": "34974ed3816c0afc48abc96af089f24a29cd6ceb400d6cc691628bb5f8c5fa97",
-   "last_changed": "2026-10-22T17:24:41+00:00",
-   "last_checked": "2026-10-22T17:24:41+00:00",
+   "last_changed": "2026-10-22T18:23:40+00:00",
+   "last_checked": "2026-10-22T18:32:21+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/bioengineering-bs"
@@ -775,7 +779,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/bioengineering-bs/",
    "hash": "a420565b1386d909fd09a03cef0ec11521c932971e68cbe5d04e23245f7462c7",
    "last_changed": "2026-10-22T17:24:42+00:00",
-   "last_checked": "2026-10-22T17:24:42+00:00",
+   "last_checked": "2026-10-22T18:32:22+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:20:52 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/bioengineering-bs/"
@@ -784,8 +788,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/civileng-bsce",
    "hash": "003b49a83138eebdda7945c54defce2e8b261b08905c571be3a52c3d22d61bc6",
-   "last_changed": "2026-10-22T17:24:43+00:00",
-   "last_checked": "2026-10-22T17:24:43+00:00",
+   "last_changed": "2026-10-22T18:23:42+00:00",
+   "last_checked": "2026-10-22T18:32:23+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/civileng-bsce"
@@ -795,7 +799,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/civil-engineering-bsce/",
    "hash": "1fb349d42d8e158b2d03022c23d93210a2557d7c13401b4a82f51c794a02ad2a",
    "last_changed": "2026-10-22T17:24:44+00:00",
-   "last_checked": "2026-10-22T17:24:44+00:00",
+   "last_checked": "2026-10-22T18:32:23+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:21:54 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/civil-engineering-bsce/"
@@ -804,8 +808,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-bs",
    "hash": "14fb7cbb98b3a9a4b598b1f2a137831e2f418915c4079ef3901ad4281a819de4",
-   "last_changed": "2026-10-22T17:24:45+00:00",
-   "last_checked": "2026-10-22T17:24:45+00:00",
+   "last_changed": "2026-10-22T18:23:44+00:00",
+   "last_checked": "2026-10-22T18:32:25+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-bs"
@@ -815,7 +819,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-bs/",
    "hash": "7f0c72072ee9c86232b8fe3399cf7c950bce5cb6da0f2abc2032b0a02131d32d",
    "last_changed": "2026-10-22T17:24:46+00:00",
-   "last_checked": "2026-10-22T17:24:46+00:00",
+   "last_checked": "2026-10-22T18:32:25+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:31 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-bs/"
@@ -825,7 +829,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-bs/",
    "hash": "7f0c72072ee9c86232b8fe3399cf7c950bce5cb6da0f2abc2032b0a02131d32d",
    "last_changed": "2026-10-22T17:24:47+00:00",
-   "last_checked": "2026-10-22T17:24:47+00:00",
+   "last_checked": "2026-10-22T18:32:26+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:31 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-bs/"
@@ -835,7 +839,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-bs/",
    "hash": "7f0c72072ee9c86232b8fe3399cf7c950bce5cb6da0f2abc2032b0a02131d32d",
    "last_changed": "2026-10-22T17:24:48+00:00",
-   "last_checked": "2026-10-22T17:24:48+00:00",
+   "last_checked": "2026-10-22T18:32:27+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:31 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-bs/"
@@ -845,7 +849,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-bs/",
    "hash": "7f0c72072ee9c86232b8fe3399cf7c950bce5cb6da0f2abc2032b0a02131d32d",
    "last_changed": "2026-10-22T17:24:49+00:00",
-   "last_checked": "2026-10-22T17:24:49+00:00",
+   "last_checked": "2026-10-22T18:32:28+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:31 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-bs/"
@@ -855,7 +859,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-bs/",
    "hash": "7f0c72072ee9c86232b8fe3399cf7c950bce5cb6da0f2abc2032b0a02131d32d",
    "last_changed": "2026-10-22T17:24:50+00:00",
-   "last_checked": "2026-10-22T17:24:50+00:00",
+   "last_checked": "2026-10-22T18:32:29+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:31 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-bs/"
@@ -865,7 +869,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-bs/",
    "hash": "7f0c72072ee9c86232b8fe3399cf7c950bce5cb6da0f2abc2032b0a02131d32d",
    "last_changed": "2026-10-22T17:24:51+00:00",
-   "last_checked": "2026-10-22T17:24:51+00:00",
+   "last_checked": "2026-10-22T18:32:30+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:31 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-bs/"
@@ -874,8 +878,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/constructionmanagement/constructionmanagement-bs",
    "hash": "eee015c4b5d7044cacc2a64e71a278dc41ccf3bd74924b18eec023ed957cb93d",
-   "last_changed": "2026-10-22T17:24:52+00:00",
-   "last_checked": "2026-10-22T17:24:52+00:00",
+   "last_changed": "2026-10-22T18:23:51+00:00",
+   "last_checked": "2026-10-22T18:32:32+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/constructionmanagement/constructionmanagement-bs"
@@ -885,7 +889,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/construction-management-bscm/",
    "hash": "7779b4c7a35b2298ae149dfa4e50b9c10a34ddc2b9b1fa5b5f443dc61a22c703",
    "last_changed": "2026-10-22T17:24:53+00:00",
-   "last_checked": "2026-10-22T17:24:53+00:00",
+   "last_checked": "2026-10-22T18:32:32+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:41 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/construction-management-bscm/"
@@ -894,8 +898,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/enve-bs",
    "hash": "6dc798449bbe67befb515e6bb55641244f6cd9d91d99150c20168aa46ee89ef3",
-   "last_changed": "2026-10-22T17:24:55+00:00",
-   "last_checked": "2026-10-22T17:24:55+00:00",
+   "last_changed": "2026-10-22T18:23:53+00:00",
+   "last_checked": "2026-10-22T18:32:34+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/enve-bs"
@@ -905,7 +909,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/environmental-engineering-bsenve/",
    "hash": "7c50ba477dfb377b0501f681c74383e3a9765fa0cc1d3c29db0539c12499c5c5",
    "last_changed": "2026-10-22T17:24:55+00:00",
-   "last_checked": "2026-10-22T17:24:55+00:00",
+   "last_checked": "2026-10-22T18:32:34+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:24:10 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/environmental-engineering-bsenve/"
@@ -914,8 +918,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/",
    "hash": "601ce229f4804963c7fac42dc784f3bd4fc0ce7c1cc1e5d7e69700804992a02c",
-   "last_changed": "2026-10-22T17:24:56+00:00",
-   "last_checked": "2026-10-22T17:24:56+00:00",
+   "last_changed": "2026-10-22T18:23:55+00:00",
+   "last_checked": "2026-10-22T18:32:36+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/"
@@ -923,9 +927,9 @@
   "pages/engineering_programs/fgcu_edu_eng_constructionmanagement.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/constructionmanagement/",
-   "hash": "4e4ef903b9ec72c20f4d2e2ffb8d20f98e153c87ddba6e013218504adad42356",
-   "last_changed": "2026-10-22T17:24:57+00:00",
-   "last_checked": "2026-10-22T17:24:57+00:00",
+   "hash": "50c64cfc89d7c6c9f841c9c23fd696e7df9c9392fb1ba73db5a52d2b4a84867c",
+   "last_changed": "2026-10-22T18:32:37+00:00",
+   "last_checked": "2026-10-22T18:32:37+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/constructionmanagement/"
@@ -935,7 +939,7 @@
    "final_url": "https://www.fgcu.edu/eng/graduateprograms/",
    "hash": "749e2ca1513006f9bec43b8ccab6b917a71936b25b0ed2496781af95c4087604",
    "last_changed": "2026-10-22T17:24:58+00:00",
-   "last_checked": "2026-10-22T17:24:58+00:00",
+   "last_checked": "2026-10-22T18:32:38+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/graduateprograms/"
@@ -945,7 +949,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/ms-civengr/",
    "hash": "9e816c31cfd35410ae9e192ec69f259090287d4a6cdac9a3978d2decd783892c",
    "last_changed": "2026-10-22T17:24:59+00:00",
-   "last_checked": "2026-10-22T17:24:59+00:00",
+   "last_checked": "2026-10-22T18:32:38+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:26:55 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/ms-civengr/"
@@ -955,7 +959,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/computer-science-ms/",
    "hash": "3ad5042343537922d4921fb169d367a1925caaff65c70a5cf38592fa69798174",
    "last_changed": "2026-10-22T17:25:00+00:00",
-   "last_checked": "2026-10-22T17:25:00+00:00",
+   "last_checked": "2026-10-22T18:32:39+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:22:37 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/computer-science-ms/"
@@ -965,7 +969,7 @@
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/bioengineering-minor",
    "hash": "2c32f579890b023937ca16f44823434f7c895da43aff98888becb3e4b93a629c",
    "last_changed": "2026-10-22T17:25:01+00:00",
-   "last_checked": "2026-10-22T17:25:01+00:00",
+   "last_checked": "2026-10-22T18:32:41+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/bioengineering-minor"
@@ -975,7 +979,7 @@
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-minor",
    "hash": "01e565cfa18509d3aeaf460693cdd77044525fd4c7e3312058f7e4e22c2e82a5",
    "last_changed": "2026-10-22T17:25:03+00:00",
-   "last_checked": "2026-10-22T17:25:03+00:00",
+   "last_checked": "2026-10-22T18:32:42+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/computerscience-minor"
@@ -985,7 +989,7 @@
    "final_url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/enve-minor",
    "hash": "a5e02c3f20f3e5e3c584bef0e37209f87c5d9dd988da499b475387a3b75f6495",
    "last_changed": "2026-10-22T17:25:03+00:00",
-   "last_checked": "2026-10-22T17:25:03+00:00",
+   "last_checked": "2026-10-22T18:32:43+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/bioengineering-civilengineering-environmentalengineering/enve-minor"
@@ -994,8 +998,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/computing-software-engineering/softwareengineering-bs",
    "hash": "46f502d0c93af56f52661b7878d871b181ac8bd2b1fa9b62a58c8e7b4714165d",
-   "last_changed": "2026-10-22T17:25:04+00:00",
-   "last_checked": "2026-10-22T17:25:04+00:00",
+   "last_changed": "2026-10-22T18:24:03+00:00",
+   "last_checked": "2026-10-22T18:32:44+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/computing-software-engineering/softwareengineering-bs"
@@ -1005,7 +1009,7 @@
    "final_url": "https://catalog.fgcu.edu/programs/software-engineering-bs/",
    "hash": "83e454e98f0000d6eb7f9570c2b103501cd21d2965ef41f17629ea85ff9bda36",
    "last_changed": "2026-10-22T17:25:05+00:00",
-   "last_checked": "2026-10-22T17:25:05+00:00",
+   "last_checked": "2026-10-22T18:32:44+00:00",
    "last_modified": "Wed, 21 Oct 2026 19:29:16 GMT",
    "last_status": 200,
    "url": "https://catalog.fgcu.edu/programs/software-engineering-bs/"
@@ -1014,8 +1018,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/research/",
    "hash": "fea583bee135b23a96b458be04c32d3fca758abf2e208504b1ad14492e9d2a40",
-   "last_changed": "2026-10-22T17:25:07+00:00",
-   "last_checked": "2026-10-22T17:25:07+00:00",
+   "last_changed": "2026-10-22T18:24:05+00:00",
+   "last_checked": "2026-10-22T18:32:46+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/research/"
@@ -1025,7 +1029,7 @@
    "final_url": "https://www.fgcu.edu/eng/internships/community-employer-involvement",
    "hash": "245853b883116749bf3e5cb6b7a8d717c80cc646cca074da30ec1962d4980885",
    "last_changed": "2026-10-22T17:25:07+00:00",
-   "last_checked": "2026-10-22T17:25:07+00:00",
+   "last_checked": "2026-10-22T18:32:47+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/internships/community-employer-involvement"
@@ -1035,7 +1039,7 @@
    "final_url": "https://www.fgcu.edu/eng/internships/concrete-expo/",
    "hash": "36288193f33294f1cad7533a93a4dcccee0f5984574067bbd48fe574075e702a",
    "last_changed": "2026-10-22T17:25:08+00:00",
-   "last_checked": "2026-10-22T17:25:08+00:00",
+   "last_checked": "2026-10-22T18:32:48+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/internships/concrete-expo/"
@@ -1045,7 +1049,7 @@
    "final_url": "https://www.fgcu.edu/eng/student-involvement/order-of-the-engineer/",
    "hash": "e2a02fc672e8997e4ca5de5729a2f190baaf47865436c530a6ed918691aec381",
    "last_changed": "2026-10-22T17:25:10+00:00",
-   "last_checked": "2026-10-22T17:25:10+00:00",
+   "last_checked": "2026-10-22T18:32:49+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/student-involvement/order-of-the-engineer/"
@@ -1055,7 +1059,7 @@
    "final_url": "https://www.fgcu.edu/eng/student-involvement/wce-day/",
    "hash": "ffd430d1f2b85a1a8a772c055b2d8c424bb7b8e46c2652f62d760225e25c0744",
    "last_changed": "2026-10-22T17:25:11+00:00",
-   "last_checked": "2026-10-22T17:25:11+00:00",
+   "last_checked": "2026-10-22T18:32:50+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/student-involvement/wce-day/"
@@ -1065,7 +1069,7 @@
    "final_url": "https://www.fgcu.edu/eng/internships/",
    "hash": "b3628a0ff7279f2f969f0b73b6b2209bbdbf5d08e5427514414409c48b897737",
    "last_changed": "2026-10-22T17:25:11+00:00",
-   "last_checked": "2026-10-22T17:25:11+00:00",
+   "last_checked": "2026-10-22T18:32:51+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/internships/"
@@ -1075,7 +1079,7 @@
    "final_url": "https://www.fgcu.edu/eng/research/",
    "hash": "fea583bee135b23a96b458be04c32d3fca758abf2e208504b1ad14492e9d2a40",
    "last_changed": "2026-10-22T17:25:12+00:00",
-   "last_checked": "2026-10-22T17:25:12+00:00",
+   "last_checked": "2026-10-22T18:32:52+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/research/"
@@ -1083,9 +1087,9 @@
   "pages/engineering_student_life/engineering_student_life/wce-ambassadors.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/student-involvement/",
-   "hash": "3ad7bde279ebb8af7453717e9c00ba55aaf74341616c4b5ba9c6a4a76bc3deb6",
-   "last_changed": "2026-10-22T17:25:13+00:00",
-   "last_checked": "2026-10-22T17:25:13+00:00",
+   "hash": "c1c995f9f033ae77541afb4a660d26efd7f01059fe4169e27b7b4283e0e1c276",
+   "last_changed": "2026-10-22T18:24:14+00:00",
+   "last_checked": "2026-10-22T18:32:53+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/student-involvement/"
@@ -1093,9 +1097,9 @@
   "pages/engineering_student_life/engineering_student_life/wce-involvement-overview.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/student-involvement/",
-   "hash": "3ad7bde279ebb8af7453717e9c00ba55aaf74341616c4b5ba9c6a4a76bc3deb6",
-   "last_changed": "2026-10-22T17:25:15+00:00",
-   "last_checked": "2026-10-22T17:25:15+00:00",
+   "hash": "c1c995f9f033ae77541afb4a660d26efd7f01059fe4169e27b7b4283e0e1c276",
+   "last_changed": "2026-10-22T18:24:15+00:00",
+   "last_checked": "2026-10-22T18:32:54+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/student-involvement/"
@@ -1103,9 +1107,9 @@
   "pages/engineering_student_life/engineering_student_life/wce-make-an-impact.md": {
    "etag": null,
    "final_url": "https://www.fgcu.edu/eng/student-involvement/",
-   "hash": "3ad7bde279ebb8af7453717e9c00ba55aaf74341616c4b5ba9c6a4a76bc3deb6",
-   "last_changed": "2026-10-22T17:25:15+00:00",
-   "last_checked": "2026-10-22T17:25:15+00:00",
+   "hash": "c1c995f9f033ae77541afb4a660d26efd7f01059fe4169e27b7b4283e0e1c276",
+   "last_changed": "2026-10-22T18:24:15+00:00",
+   "last_checked": "2026-10-22T18:32:56+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/student-involvement/"
@@ -1115,7 +1119,7 @@
    "final_url": "https://www.fgcu.edu/eng/wce-news/",
    "hash": "7b955784863ac9b1b1f7ccf5274f613b8860b2c44ff60db9097eae156fdd074c",
    "last_changed": "2026-10-22T17:25:16+00:00",
-   "last_checked": "2026-10-22T17:25:16+00:00",
+   "last_checked": "2026-10-22T18:32:57+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/eng/wce-news/"
@@ -1124,8 +1128,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/governmentrelations/",
    "hash": "2bf5dc32fa5d3eb74b28125f22dbe0e92edf690212d1658eec5f03ad9f97c585",
-   "last_changed": "2026-10-22T17:25:17+00:00",
-   "last_checked": "2026-10-22T17:25:17+00:00",
+   "last_changed": "2026-10-22T18:24:17+00:00",
+   "last_checked": "2026-10-22T18:32:57+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/governmentrelations/"
@@ -1134,8 +1138,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/institutional-ethics-and-compliance/ethics/",
    "hash": "6c30926432ff95dc864085cd6dcfc1b60efa450af6ca7b4374e165c0dd92adc7",
-   "last_changed": "2026-10-22T17:25:18+00:00",
-   "last_checked": "2026-10-22T17:25:18+00:00",
+   "last_changed": "2026-10-22T18:24:18+00:00",
+   "last_checked": "2026-10-22T18:32:59+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/institutional-ethics-and-compliance/ethics/"
@@ -1144,8 +1148,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/stateauthorization/",
    "hash": "74190963e579f6bacf2c7592180dce5c1e06ffaa2431a3561e7bc40382c8eb6a",
-   "last_changed": "2026-10-22T17:25:19+00:00",
-   "last_checked": "2026-10-22T17:25:19+00:00",
+   "last_changed": "2026-10-22T18:24:19+00:00",
+   "last_checked": "2026-10-22T18:32:59+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/stateauthorization/"
@@ -1154,8 +1158,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/adaptive/",
    "hash": "7c75101c070ce30497e03604b74a68e785300e8c7b7b82fd31de01eed54cdcfe",
-   "last_changed": "2026-10-22T17:25:20+00:00",
-   "last_checked": "2026-10-22T17:25:20+00:00",
+   "last_changed": "2026-10-22T18:24:20+00:00",
+   "last_checked": "2026-10-22T18:33:00+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/adaptive/"
@@ -1164,8 +1168,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/counseling-and-psychological-services/",
    "hash": "1095d6906c515c28fd4266f1abd2fe1d50300eeb6b549d46515d5efdcb999b4e",
-   "last_changed": "2026-10-22T17:25:22+00:00",
-   "last_checked": "2026-10-22T17:25:22+00:00",
+   "last_changed": "2026-10-22T18:24:23+00:00",
+   "last_checked": "2026-10-22T18:33:01+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/counseling-and-psychological-services/"
@@ -1174,8 +1178,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/retention/",
    "hash": "da1c0e539877bf09b67f4c96ab5d5aa511e93c0dddd27898228a8d60ab798b3b",
-   "last_changed": "2026-10-22T17:25:22+00:00",
-   "last_checked": "2026-10-22T17:25:22+00:00",
+   "last_changed": "2026-10-22T18:24:23+00:00",
+   "last_checked": "2026-10-22T18:33:02+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/retention/"
@@ -1184,8 +1188,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/sg/",
    "hash": "0dfeed3547418b8ff50c17893f230e0fdaaeef88bff51cd6edd9d3c95999f236",
-   "last_changed": "2026-10-22T17:25:23+00:00",
-   "last_checked": "2026-10-22T17:25:23+00:00",
+   "last_changed": "2026-10-22T18:24:24+00:00",
+   "last_checked": "2026-10-22T18:33:03+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/sg/"
@@ -1194,8 +1198,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/",
    "hash": "8e63bc69a238d8814e336aa8d2d4d909a5b4abe50a320c354bb84249ecfc801d",
-   "last_changed": "2026-10-22T17:25:25+00:00",
-   "last_checked": "2026-10-22T17:25:25+00:00",
+   "last_changed": "2026-10-22T18:24:27+00:00",
+   "last_checked": "2026-10-22T18:33:06+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/"
@@ -1204,8 +1208,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/care/",
    "hash": "48ab316f5c7100c242277986d52256d22c1b232a6dea3b0ae6703abd58411895",
-   "last_changed": "2026-10-22T17:25:27+00:00",
-   "last_checked": "2026-10-22T17:25:27+00:00",
+   "last_changed": "2026-10-22T18:24:28+00:00",
+   "last_checked": "2026-10-22T18:33:07+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/care/"
@@ -1214,8 +1218,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/dean_of_students/",
    "hash": "7438757e94c9f54fe8b99a20029eb2801cb89dd089796d08891604b637037be1",
-   "last_changed": "2026-10-22T17:25:27+00:00",
-   "last_checked": "2026-10-22T17:25:27+00:00",
+   "last_changed": "2026-10-22T18:24:29+00:00",
+   "last_checked": "2026-10-22T18:33:08+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/dean_of_students/"
@@ -1224,8 +1228,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/dean_of_students/bni",
    "hash": "e68d0ccd97748ea0c09456501c532f5c45170a28d82f43b11c3187b9f06d3379",
-   "last_changed": "2026-10-22T17:25:28+00:00",
-   "last_checked": "2026-10-22T17:25:28+00:00",
+   "last_changed": "2026-10-22T18:24:30+00:00",
+   "last_checked": "2026-10-22T18:33:08+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/dean_of_students/bni/"
@@ -1234,8 +1238,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/housing/",
    "hash": "07d2bfe8a4905f7d170f851d22dc2e33cd0b7e0c1ea1d3cc3ea934feabc880f0",
-   "last_changed": "2026-10-22T17:25:29+00:00",
-   "last_checked": "2026-10-22T17:25:29+00:00",
+   "last_changed": "2026-10-22T18:24:31+00:00",
+   "last_checked": "2026-10-22T18:33:09+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/housing/"
@@ -1244,8 +1248,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/studenthealth/",
    "hash": "80fcdcea6f36dd5793db6bfab6080b4450fdbfe1cbdfaeefd3ba897c6e7dfe9c",
-   "last_changed": "2026-10-22T17:25:30+00:00",
-   "last_checked": "2026-10-22T17:25:30+00:00",
+   "last_changed": "2026-10-22T18:24:32+00:00",
+   "last_checked": "2026-10-22T18:33:10+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/studenthealth/"
@@ -1254,8 +1258,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/studentlife/studentorgs/",
    "hash": "58fcb735065b7b674693ed763b2a0cf48463ca33a7b51bd8e2ab23ff8566e67f",
-   "last_changed": "2026-10-22T17:25:32+00:00",
-   "last_checked": "2026-10-22T17:25:32+00:00",
+   "last_changed": "2026-10-22T18:24:34+00:00",
+   "last_checked": "2026-10-22T18:33:11+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/studentlife/studentorgs/"
@@ -1264,8 +1268,8 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/trio/",
    "hash": "4492ecb5ee4ce24fcfa2101f8cfc1e3f7f03ab851af7ba2e238de5b80a787949",
-   "last_changed": "2026-10-22T17:25:32+00:00",
-   "last_checked": "2026-10-22T17:25:32+00:00",
+   "last_changed": "2026-10-22T18:24:34+00:00",
+   "last_checked": "2026-10-22T18:33:12+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/trio/"
@@ -1274,12 +1278,12 @@
    "etag": null,
    "final_url": "https://www.fgcu.edu/university-recreation-and-wellness/",
    "hash": "2a2603e7912a17217358f52907993d9c2a3ca7800e701e361f005a4fda30705a",
-   "last_changed": "2026-10-22T17:25:34+00:00",
-   "last_checked": "2026-10-22T17:25:34+00:00",
+   "last_changed": "2026-10-22T18:24:36+00:00",
+   "last_checked": "2026-10-22T18:33:13+00:00",
    "last_modified": null,
    "last_status": 200,
    "url": "https://www.fgcu.edu/university-recreation-and-wellness/"
   }
  },
- "saved_at": "2026-10-22T17:34:50+00:00"
+ "saved_at": "2026-10-22T18:33:13+00:00"
 }
