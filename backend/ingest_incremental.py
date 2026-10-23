@@ -87,10 +87,38 @@ def ids_for_path(index, rel_path, dim, namespace):
     return [m["id"] if isinstance(m, dict) else m.id for m in (matches or [])]
 
 
+def prune_orphans(index, namespace, keep_paths, dry_run=False):
+    """Delete vectors whose file no longer exists in data/. The per-file
+    delete above only sees files the state knows about, so vectors written
+    by an older ingest for since-removed files (a departed professor, a
+    discontinued course) would otherwise live on. Walks every id in the index
+    (ids are listed page by page, metadata fetched 100 at a time)."""
+    keep = set(keep_paths) | {p.replace("/", "\\") for p in keep_paths}
+    orphans = []
+    for page in index.list(namespace=namespace):
+        ids = list(page)
+        for i in range(0, len(ids), 100):
+            fetched = index.fetch(ids=ids[i:i + 100], namespace=namespace)
+            vectors = fetched["vectors"] if isinstance(fetched, dict) else fetched.vectors
+            for vid, v in vectors.items():
+                md = v["metadata"] if isinstance(v, dict) else v.metadata
+                if (md or {}).get("path") not in keep:
+                    orphans.append(vid)
+    print(f"prune: {len(orphans)} vectors belong to files that no longer exist")
+    if orphans and not dry_run:
+        for i in range(0, len(orphans), 1000):
+            index.delete(ids=orphans[i:i + 1000], namespace=namespace)
+    return len(orphans)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--full", action="store_true", help="treat every file as changed")
+    ap.add_argument("--full", action="store_true",
+                    help="treat every file as changed and prune vectors of files that no longer exist")
+    ap.add_argument("--prune", action="store_true",
+                    help="only remove vectors whose file no longer exists (also done on --full and on "
+                         "the first run against an index)")
     ap.add_argument("--state", default=STATE_PATH,
                     help="state file (default backend/ingest_state.json; use another for a test index)")
     ap.add_argument("--paths", nargs="*", default=[],
@@ -103,6 +131,9 @@ def main(argv=None):
 
     state = load_state(args.state, index_name)
     known = state.setdefault("files", {})
+    # first run against this index: nothing is known, so everything is
+    # re-uploaded anyway; finish the job by removing what older ingests left
+    do_prune = args.prune or args.full or not known
 
     docs = {}
     for fp in iter_data_files(DATA_DIR):
@@ -111,10 +142,14 @@ def main(argv=None):
             rel, text, meta = loaded
             docs[rel] = (text, meta)
     hashes = {rel: file_hash(text) for rel, (text, _) in docs.items()}
-    changed = [rel for rel, h in hashes.items()
-               if args.full or known.get(rel) != h or any(rel.startswith(p) for p in args.paths)]
+    if args.prune and not args.full:
+        changed = []
+    else:
+        changed = [rel for rel, h in hashes.items()
+                   if args.full or known.get(rel) != h or any(rel.startswith(p) for p in args.paths)]
     deleted = [rel for rel in known if rel not in docs]
-    print(f"{len(docs)} indexable files | {len(changed)} to (re)ingest | {len(deleted)} to delete")
+    print(f"{len(docs)} indexable files | {len(changed)} to (re)ingest | {len(deleted)} to delete"
+          + (" | prune orphans afterwards" if do_prune else ""))
     if args.dry_run:
         for rel in changed[:50]:
             print("  ingest:", rel, "(new)" if rel not in known else "")
@@ -123,7 +158,7 @@ def main(argv=None):
         for rel in deleted:
             print("  delete:", rel)
         return 0
-    if not changed and not deleted:
+    if not changed and not deleted and not do_prune:
         return 0
     if not index_name or not os.getenv("PINECONE_API_KEY"):
         sys.exit("Set PINECONE_API_KEY and PINECONE_INDEX_NAME.")
@@ -168,11 +203,19 @@ def main(argv=None):
             failed += 1
             print(f"delete {rel}: FAILED {type(e).__name__}: {e}")
 
+    pruned = 0
+    if do_prune and not failed:
+        try:
+            pruned = prune_orphans(index, namespace, docs.keys())
+        except Exception as e:
+            failed += 1
+            print(f"prune: FAILED {type(e).__name__}: {e}")
+
     save_state(state, args.state)
     total = index.describe_index_stats()
     total = total["total_vector_count"] if isinstance(total, dict) else total.total_vector_count
-    print(f"\nDone: {done} files ingested, {len(deleted)} removed, {failed} failed. "
-          f"Vectors in index: {total}")
+    print(f"\nDone: {done} files ingested, {len(deleted)} removed, {pruned} orphan vectors pruned, "
+          f"{failed} failed. Vectors in index: {total}")
     return 1 if failed else 0
 
 
