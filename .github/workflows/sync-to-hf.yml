@@ -1,7 +1,14 @@
+# Deploy backend/ to the Hugging Face Space on every push to main.
+# Uploads the folder with the huggingface_hub client directly; the old
+# huggingface/hub-sync action broke when the hf CLI dropped the command it
+# relied on.
 name: Sync backend to Hugging Face Space
 on:
   push:
     branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/sync-to-hf.yml"
   workflow_dispatch:
 
 jobs:
@@ -9,11 +16,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-      - uses: huggingface/hub-sync@v0.1.0
-        with:
-          github_repo_id: ${{ github.repository }}
-          huggingface_repo_id: TestFGCU/ask-the-eagle-backend
-          hf_token: ${{ secrets.HF_TOKEN }}
-          subdirectory: backend
+          python-version: "3.11"
+      - run: pip install -q "huggingface_hub>=0.30"
+      - name: Upload backend/ to the Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python - <<'EOF'
+          import os
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          api.upload_folder(
+              folder_path="backend",
+              repo_id="TestFGCU/ask-the-eagle-backend",
+              repo_type="space",
+              commit_message=f"sync backend from GitHub {os.environ.get('GITHUB_SHA', '')[:7]}",
+              ignore_patterns=[".env*", "__pycache__/**", "*.pyc", "ingest_state*.json", ".gitignore"],
+          )
+          print("uploaded backend/ to the Space")
+          EOF
