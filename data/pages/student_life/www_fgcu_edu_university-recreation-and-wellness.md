@@ -22,7 +22,7 @@ Registrations
 
 ### Today's Hours
 
- Aquatics Center: 11:00am - 5:00pm University Recreation & Wellness Center: 6:00am - 11:00pm ROC: Sunrise - 11:00pm SoVi Pool: 12:00pm - 5:00pm Waterfront: CLOSED Rec Field 1: Sunrise - Sunset Rec Field 2: Sunrise - Sunset |
+ Aquatics Center: CLOSED University Recreation & Wellness Center: 10:00am - 7:00pm ROC: Sunrise - 11:00pm SoVi Pool: 12:00pm - 5:00pm Waterfront: 12:00pm - 5:00pm Rec Field 1: Sunrise - Sunset Rec Field 2: Sunrise - Sunset |
 
 Operating HoursLIGHTNING STATUS
 
