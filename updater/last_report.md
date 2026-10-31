@@ -1,15 +1,14 @@
-## Data update 2026-10-22
+## Data update 2026-10-31
 
-448 file change(s) in 360s.
+25 file change(s) in 305s.
 
 | source | new | updated | removed | unchanged |
 |---|---:|---:|---:|---:|
-| pages | 0 | 63 | 4 | 34 |
-| faculty | 3 | 49 | 4 | 14 |
-| courses | 96 | 22 | 0 | 0 |
-| course_descriptions | 1 | 182 | 21 | 0 |
-| events | 2 | 0 | 0 | 0 |
-| academic_calendar | 1 | 0 | 0 | 0 |
+| pages | 0 | 8 | 0 | 86 |
+| faculty | 0 | 6 | 0 | 60 |
+| courses | 3 | 6 | 0 | 0 |
+| events | 0 | 0 | 0 | 2 |
+| academic_calendar | 0 | 1 | 1 | 0 |
 
 **courses**
 - Spring 2025: 123 sections -> 76 course files (0 new, 0 updated, 0 removed)
@@ -17,150 +16,39 @@
 - Fall 2025: 128 sections -> 79 course files (0 new, 0 updated, 0 removed)
 - Spring 2026: 138 sections -> 86 course files (0 new, 0 updated, 0 removed)
 - Summer 2026: 25 sections -> 19 course files (0 new, 0 updated, 0 removed)
-- Fall 2026: 147 sections -> 95 course files (5 new, 22 updated, 0 removed)
-- Spring 2027: 142 sections -> 91 course files (91 new, 0 updated, 0 removed)
+- Fall 2026: 147 sections -> 95 course files (0 new, 1 updated, 0 removed)
+- Spring 2027: 145 sections -> 94 course files (3 new, 5 updated, 0 removed)
 
 **course_descriptions**
 - Summer 2027: 183 courses listed
 - Spring 2027: 183 courses listed
 - Fall 2026: 183 courses listed
 - Summer 2026: 181 courses listed
-- Summer 2027: 183 courses (1 new, 182 updated, 21 removed)
+- Summer 2027: 183 courses (0 new, 0 updated, 0 removed)
 
 ### Changed files
 - `pages/about_fgcu/www_fgcu_edu.md` — updated (pages)
-- `pages/about_fgcu/www_fgcu_edu_about.md` — updated (pages)
-- `pages/about_fgcu/www_fgcu_edu_advancement.md` — updated (pages)
-- `pages/about_fgcu/www_fgcu_edu_community.md` — updated (pages)
-- `pages/about_fgcu/www_fgcu_edu_communityengagement.md` — updated (pages)
-- `pages/about_fgcu/www_fgcu_edu_worldaffairslectures_part2.md (merged into www_fgcu_edu_worldaffairslectures.md)` — removed (pages)
-- `pages/about_fgcu/www_fgcu_edu_worldaffairslectures.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_academics.md` — updated (pages)
 - `pages/academics/www_fgcu_edu_academics_caa.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_academics_colleges.md` — updated (pages)
 - `pages/academics/www_fgcu_edu_academics_global-engagement-office.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_academics_innovate.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_academics_internships.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_academics_research.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_graduatestudies.md` — updated (pages)
-- `pages/academics/www_fgcu_edu_sisr.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_graduateadmissions.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_undergraduateadmissions.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_undergraduateadmissions_admittedstudents.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_undergraduateadmissions_highschoolcounselors.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_undergraduateadmissions_internationalstudents.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_undergraduateadmissions_nondegreeadmissions.md` — updated (pages)
-- `pages/admissions/www_fgcu_edu_admissionsandaid_undergraduateadmissions_transferadmissions.md` — updated (pages)
 - `pages/admissions/www_fgcu_edu_enrollmentservices.md` — updated (pages)
-- `pages/engineering_departments/computing_software_engineering/eng_computing-software-engineering.md` — updated (pages)
-- `pages/engineering_departments/computing_software_engineering/eng_computing-software-engineering_computerscience-bs.md` — updated (pages)
-- `pages/engineering_departments/computing_software_engineering/eng_computing-software-engineering_eaglecybernest.md` — updated (pages)
-- `pages/engineering_departments/computing_software_engineering/eng_dendritic-institute.md` — updated (pages)
-- `pages/engineering_departments/computing_software_engineering/eng_graduateprograms_computer-science-ms.md` — updated (pages)
-- `pages/engineering_departments/www_fgcu_edu_eng_bioengineering-civilengineering-environmentalengineering.md` — updated (pages)
-- `pages/engineering_departments/www_fgcu_edu_eng_constructionmanagement.md` — updated (pages)
-- `pages/engineering_departments/www_fgcu_edu_eng_dendritic-institute.md` — updated (pages)
 - `pages/engineering_faculty/www_fgcu_edu_eng_facultystaff.md` — updated (pages)
-- `pages/engineering_main/www_fgcu_edu_eng.md` — updated (pages)
-- `pages/engineering_main/www_fgcu_edu_eng_about.md` — updated (pages)
 - `pages/engineering_main/www_fgcu_edu_eng_advising.md` — updated (pages)
-- `pages/engineering_main/www_fgcu_edu_eng_technology_recommendations.md` — updated (pages)
-- `pages/engineering_main/www_fgcu_edu_eng_wceawards.md` — updated (pages)
-- `pages/engineering_programs/bioengineering_bs/eng_bioengineering-bs.md` — updated (pages)
-- `pages/engineering_programs/civil_engineering_bsce/eng_civil-engineering-bsce.md` — updated (pages)
-- `pages/engineering_programs/computer_science_bs/eng_computerscience-bs.md` — updated (pages)
-- `pages/engineering_programs/construction_management_bscm/eng_construction-management-bscm.md` — updated (pages)
-- `pages/engineering_programs/environmental_engineering_bsenve/eng_environmental-engineering-bsenve.md` — updated (pages)
-- `pages/engineering_programs/fgcu_edu_eng_bioengineering-civilengineering-environmentalengineering.md` — updated (pages)
-- `pages/engineering_programs/fgcu_edu_eng_constructionmanagement.md` — updated (pages)
-- `pages/engineering_programs/software_engineering_bs/eng_software-engineering-bs.md` — updated (pages)
-- `pages/engineering_research/www_fgcu_edu_eng_research_part2.md (merged into www_fgcu_edu_eng_research.md)` — removed (pages)
-- `pages/engineering_research/www_fgcu_edu_eng_research.md` — updated (pages)
-- `pages/policies_legal/www_fgcu_edu_governmentrelations.md` — updated (pages)
-- `pages/policies_legal/www_fgcu_edu_institutional-ethics-and-compliance_ethics_part2.md (merged into www_fgcu_edu_institutional-ethics-and-compliance_ethics.md)` — removed (pages)
-- `pages/policies_legal/www_fgcu_edu_institutional-ethics-and-compliance_ethics_part3.md (merged into www_fgcu_edu_institutional-ethics-and-compliance_ethics.md)` — removed (pages)
-- `pages/policies_legal/www_fgcu_edu_institutional-ethics-and-compliance_ethics.md` — updated (pages)
-- `pages/policies_legal/www_fgcu_edu_stateauthorization.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_adaptive.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_counseling-and-psychological-services.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_retention.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_sg.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_studentlife.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_studentlife_care.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_studentlife_dean_of_students.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_studentlife_dean_of_students_bni.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_studentlife_housing.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_studentlife_studenthealth.md` — updated (pages)
 - `pages/student_life/www_fgcu_edu_studentlife_studentorgs.md` — updated (pages)
-- `pages/student_life/www_fgcu_edu_trio.md` — updated (pages)
 - `pages/student_life/www_fgcu_edu_university-recreation-and-wellness.md` — updated (pages)
-- `pages/engineering_faculty/kagdi_huzefa.md` — updated (faculty)
-- `pages/engineering_faculty/dermisis_dimitrios.md` — updated (faculty)
-- `pages/engineering_faculty/tsegaye_seneshaw.md` — updated (faculty)
-- `pages/engineering_faculty/liao_jiehong.md` — updated (faculty)
-- `pages/engineering_faculty/lura_derek.md` — updated (faculty)
-- `pages/engineering_faculty/sahiner_nurettin.md` — updated (faculty)
 - `pages/engineering_faculty/sypabekova_marzhan.md` — updated (faculty)
-- `pages/engineering_faculty/torres_jorge.md` — updated (faculty)
 - `pages/engineering_faculty/lieber_claude.md` — updated (faculty)
-- `pages/engineering_faculty/nguyen_long.md` — updated (faculty)
-- `pages/engineering_faculty/hasbrouck_cindy.md` — updated (faculty)
-- `pages/engineering_faculty/bao_jieyi.md` — updated (faculty)
-- `pages/engineering_faculty/chau_anh.md` — updated (faculty)
-- `pages/engineering_faculty/figueiredo_muller_marina.md` — updated (faculty)
-- `pages/engineering_faculty/seichi_marchiori_raissa.md` — updated (faculty)
 - `pages/engineering_faculty/shaheen_ehab.md` — updated (faculty)
 - `pages/engineering_faculty/tayeh_amelia.md` — updated (faculty)
-- `pages/engineering_faculty/wao_joel.md` — updated (faculty)
-- `pages/engineering_faculty/kunkle_andy.md` — updated (faculty)
-- `pages/engineering_faculty/makredes_steve.md` — updated (faculty)
-- `pages/engineering_faculty/mendoza_steven.md` — updated (faculty)
-- `pages/engineering_faculty/pope_christopher.md` — updated (faculty)
-- `pages/engineering_faculty/sharma_bhattarai_sushmit.md` — new (faculty)
-- `pages/engineering_faculty/swartz_trent.md` — updated (faculty)
-- `pages/engineering_faculty/tibi_fadi.md` — updated (faculty)
-- `pages/engineering_faculty/tiedeman_robert.md` — updated (faculty)
-- `pages/engineering_faculty/badir_ashraf.md` — updated (faculty)
-- `pages/engineering_faculty/ozdagli_ali.md` — updated (faculty)
-- `pages/engineering_faculty/said_mohamed_fathi.md` — updated (faculty)
-- `pages/engineering_faculty/villiers_claude.md` — updated (faculty)
-- `pages/engineering_faculty/al_suleh_munir.md` — updated (faculty)
-- `pages/engineering_faculty/kebedew_mebrahtom_gebremariam.md` — updated (faculty)
-- `pages/engineering_faculty/danley_ashley.md` — updated (faculty)
-- `pages/engineering_faculty/elshall_ahmed.md` — updated (faculty)
-- `pages/engineering_faculty/karatum_osman.md` — updated (faculty)
-- `pages/engineering_faculty/kim_jongyeop.md` — updated (faculty)
-- `pages/engineering_faculty/redfern_lauren.md` — updated (faculty)
-- `pages/engineering_faculty/gebremedhin_mewcha_amha.md` — updated (faculty)
-- `pages/engineering_faculty/gonzalez_fernando.md` — updated (faculty)
-- `pages/engineering_faculty/jones_jamaree.md` — new (faculty)
-- `pages/engineering_faculty/ahuja_vinod.md` — updated (faculty)
-- `pages/engineering_faculty/buckley_ingrid.md` — updated (faculty)
-- `pages/engineering_faculty/islam_md_baharul.md` — updated (faculty)
-- `pages/engineering_faculty/koufakou_anna.md` — updated (faculty)
-- `pages/engineering_faculty/qu_chengyi.md` — updated (faculty)
-- `pages/engineering_faculty/ciris_pelin.md` — updated (faculty)
-- `pages/engineering_faculty/de_castro_silva_leandro.md` — updated (faculty)
-- `pages/engineering_faculty/devasenapathy_deepa.md` — updated (faculty)
-- `pages/engineering_faculty/dhakal_sudip.md` — updated (faculty)
-- `pages/engineering_faculty/hanna_yacoub.md` — new (faculty)
-- `pages/engineering_faculty/sunny_cijy.md` — updated (faculty)
-- `pages/engineering_faculty/goldbach_kimberly.md` — updated (faculty)
-- `pages/engineering_faculty/afifi_mona.md (no longer on the faculty list)` — removed (faculty)
-- `pages/engineering_faculty/davidson_keith.md (no longer on the faculty list)` — removed (faculty)
-- `pages/engineering_faculty/smith_rodman.md (no longer on the faculty list)` — removed (faculty)
-- `pages/engineering_faculty/velte_lexi.md (no longer on the faculty list)` — removed (faculty)
-- `pages/engineering_student_life/engineering_student_life/events/wce-events-calendar.md` — new (events)
-- `pages/engineering_student_life/engineering_student_life/events/wce-annual-events.md` — new (events)
-- `academic_calendar/upcoming-dates.md` — new (academic_calendar)
+- `pages/engineering_faculty/sharma_bhattarai_sushmit.md` — updated (faculty)
+- `pages/engineering_faculty/hanna_yacoub.md` — updated (faculty)
+- `academic_calendar/upcoming-dates-fall-2026.md` — updated (academic_calendar)
+- `academic_calendar/upcoming-dates-spring-2027.md (no longer on the calendar page)` — removed (academic_calendar)
+
+### Needs a human: source changed behind a hand-edited file
+- **pages/engineering_programs/advising/eng_advising.md** — page changed (previous change: 2026-10-22T22:16:57+00:00) — https://www.fgcu.edu/eng/advising/
+- **pages/engineering_student_life/engineering_student_life/events/concrete-expo.md** — page changed (previous change: 2026-10-22T17:25:08+00:00) — https://www.fgcu.edu/eng/internships/concrete-expo/
 
 ### Warnings
-- pages: pages/academics/www_fgcu_edu_academics_advising.md: NOT replaced, new content is 25% the size of the old file
-- pages: pages/engineering_departments/computing_software_engineering/eng_computing-software-engineering_computerscience-minor.md: NOT replaced, new content is 29% the size of the old file
-- pages: pages/engineering_main/www_fgcu_edu_eng_advising.md: https://www.fgcu.edu/eng/advising/ now redirects to https://www.fgcu.edu/academics/advising/
-- pages: pages/engineering_programs/advising/academics_advising_faq.md: https://www.fgcu.edu/academics/advising/faq now redirects to https://www.fgcu.edu/academics/advising/advising-resources-hub
-- pages: pages/engineering_programs/advising/academics_advising_holds.md: https://www.fgcu.edu/academics/advising/holdskey now redirects to https://www.fgcu.edu/academics/advising/advising-resources-hub-holds-key
-- pages: pages/engineering_programs/advising/eng_advising.md: https://www.fgcu.edu/eng/advising/ now redirects to https://www.fgcu.edu/academics/advising/
-- pages: pages/engineering_programs/advising/eng_advising_advisingsyllabus.md: https://www.fgcu.edu/eng/advising/advisingsyllabus now redirects to https://www.fgcu.edu/academics/advising/advising-resources-hub
-- pages: pages/engineering_programs/advising/eng_advising_transientstudentinstructions.md: https://www.fgcu.edu/eng/advising/transientstudentinstructions now redirects to https://www.fgcu.edu/academics/advising/advising-resources-hub
+- pages: pages/academics/www_fgcu_edu_academics_advising.md: NOT replaced, new content is 26% the size of the old file (set allow_shrink: true in sources.yaml if the page really shrank)
+- pages: pages/admissions/www_fgcu_edu_admissionsandaid_graduateadmissions.md: NOT replaced, new content is 20% the size of the old file (set allow_shrink: true in sources.yaml if the page really shrank)
+- pages: pages/engineering_departments/computing_software_engineering/eng_computing-software-engineering_computerscience-minor.md: NOT replaced, new content is 29% the size of the old file (set allow_shrink: true in sources.yaml if the page really shrank)

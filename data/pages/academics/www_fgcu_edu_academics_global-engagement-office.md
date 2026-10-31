@@ -307,7 +307,7 @@ GEO provides assistance for its international travelers in a variety of ways inc
 
   The following policy was approved by President Martin on November 13, 2020
 
-  * FGCU Policy 2.020, International Travel link:
+  * FGCU Policy 2.020, International Travel link:  International Travel Policy
 * Travel Insurance
 
   All FGCU faculty, staff and students traveling internationally on University Sponsored International Travel are required to be covered by the CISI Travel Abroad Insurance Plan. University Sponsored International Travel is defined as any international academic or business travel taken by faculty, staff, and students, or Volunteers, authorized, funded, coordinated, or administered by the University. Such travel may include, but is not limited to, teaching, research, consulting, co-operative programs, service, administrative work, field studies, volunteer work, performances, athletic contests, and trips abroad in connection with a University-recognized student organization, academic, or administrative unit.

@@ -2,10 +2,6 @@
 
 # University Advising Services
 
-October 23 Virtual Operations
-
-Find Your Advisor
-
 ## Your Path to Academic Success Starts Here
 
 Academic Advising at FGCU supports student success through personalized guidance, degree planning, and access to key university resources. Our advisors are here to help you explore your options, make informed choices, and stay on track throughout your academic journey from your first semester to graduation.

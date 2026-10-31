@@ -62,7 +62,7 @@
 
   Content & Digital Marketing Coordinator
 
-  REED 0163B
+  HOLMES 0203A
 
   239-745-4429
 
@@ -190,7 +190,7 @@
 
   HOLMES 0324
 
-  2387454362
+  239-745-4362
 
   msypabekova@fgcu.edu
 
@@ -210,7 +210,7 @@
 
   Adjunct, College of Engineering
 
-  HOLMES 0323
+  HOLMES 0421
 
   clieber@fgcu.edu
 * Construction Management
@@ -277,6 +277,8 @@
 
   HOLMES 0123
 
+  239-745-4714
+
   eshaheen@fgcu.edu
 
   **Tayeh, Amelia**
@@ -284,6 +286,8 @@
   Instructor I, Construction Management
 
   HOLMES 0124
+
+  239-590-7961
 
   atayeh@fgcu.edu
 
@@ -344,6 +348,8 @@
   Visiting Assistant Professor, Construction Management
 
   HOLMES 0120
+
+  239-745-4792
 
   ssharmabhattarai@fgcu.edu
 
@@ -775,6 +781,8 @@
 
   HOLMES 0126B
 
+  239-745-4791
+
   yhanna@fgcu.edu
 
   cybersecurity, Post-Quantum Cryptography (PQC), embedded systems, and critical infrastructure security, with an emphasis on developing practical security solutions for resource-constrained devices and cyber-physical environments. His broader research interests include Internet of Things (IoT) security, Cyber-Physical Systems (CPS), smart grid security, 5G and next-generation networks, and secure wireless communications.
@@ -863,7 +871,7 @@
 
   **McCaw, Christina**
 
-  HOLMES 0117B
+  Offsite
 
   239-745-4501
 

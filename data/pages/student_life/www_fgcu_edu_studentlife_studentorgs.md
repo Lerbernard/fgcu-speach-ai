@@ -103,3 +103,102 @@ FIND GROUPS ON EAGLELINK
 ### EagleLink Events
 
 View All Events
+
+Looking for a Registered Student Organization that may align with your chosen major or a career path you are considering? Explore based on your College or School.
+
+*Please note all Registered Student Organizations are student-led organizations and are not entities of their college or school.*
+
+* College of Arts & Sciences and Water School
+* Lutgert College of Business and Daveler & Kauanui School of Entrepreneurship
+* College of Education
+* U.A. Whitaker College of Engineering
+* Marieb College of Health and Human Services
+
+| American Society For Microbiology Florida Gulf Coast University Student Chapter |
+| Anthropology Club |
+| Astronomy and Astrophysics Club |
+| Beta Beta Beta Biological Honors Society |
+| Blue Solutions |
+| Chemistry Club |
+| Communications and Media Club |
+| Environmental Coalition Of Florida Gulf Coast University |
+| Environmental Education Alliance of Southwest Florida - FGCU Student Chapter |
+| Florida Water Environment Association - FGCU Student Chapter |
+| Forensics Club |
+| Geology Club |
+| German Culture Club |
+| Gulf Coast Living Lab |
+| History Club at FGCU |
+| Math Club |
+| Mock Trial Team |
+| Model United Nations |
+| Moot Court at FGCU |
+| Music Therapy Association |
+| Ornithology Club |
+| Phi Alpha Delta Pre-Law Fraternity, International |
+| Philosophy Club |
+| Plant Futures FGCU Chapter |
+| Pre-Dental Society at FGCU |
+| Pre-Law Club |
+| Pre-Medical Club |
+| Pre-Veterinary Society |
+| Primatology Club |
+| Psychology Club |
+| Sigma Tau Delta |
+| Society for Women in Marine Science |
+| Sociology Club |
+| Spanish Club |
+| Students for the Exploration and Development of Space |
+
+| Accounting Society |
+| American Marketing Association |
+| Beta Alpha Psi |
+| Business Ethics Society |
+| Crypto Club |
+| Finance Society |
+| FPRA FGCU Student Chapter |
+| Graduate Business Student Association |
+| Hospitality Management Association |
+| INIT FGCU |
+| Institute of Management Accountants Student Chapter |
+| International Business Association |
+| Latinos in Business at FGCU |
+| Professional Sales Club |
+| Real Estate Society |
+| Society for Human Resource Management at FGCU |
+| Supply Chain Club |
+| Technology Systems & Analytics Association |
+| Women in Business |
+
+| Eagles Educate of FGCU |
+| Kappa Delta Pi - Education Honors Sorority |
+
+| American Society of Civil Engineers |
+| Associated Builders and Contractors FGCU Student Chapter |
+| Biomedical Engineering Society |
+| Computer Science & Software Engineering Club |
+| Design-Build Institute of America FGCU Chapter |
+| Florida Engineering Society at Florida Gulf Coast University - Student Chapter |
+| Game Development Club |
+| National Society of Black Engineers |
+| Society of Hispanic Professional Engineers |
+| Society of Women Engineers |
+| Women in Construction Student Organization |
+
+| Cancer Awareness Club at FGCU |
+| Christians in Health Care |
+| Doctor of Nursing Practice Nurse Practitioner (DNP) Student Organization |
+| Exercise Science Student Association at FGCU |
+| Global Medical Brigades |
+| Gulf Coast Student Occupational Therapy Association Inc. |
+| Health Science Student Collaboration |
+| Lifestyle Medicine Interest Group at FGCU |
+| Nurses Christian Fellowship |
+| Nursing Student Association |
+| Physician Assistant Studies Student Society |
+| Pre-Anesthesiologist Assistant Club at FGCU |
+| Pre-Health Pathways Society |
+| Pre-Physician Assistant Association |
+| Social Work Student Association |
+| Student Organization of Nurse Anesthetists |
+| Student Physical Therapy Association |

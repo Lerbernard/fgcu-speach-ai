@@ -90,21 +90,13 @@ SEE MORE DATES
 
 Important Upcoming Dates
 
-26
+02
 
-Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm - Fall 2026 (Full Term)
+Last Day to Withdraw without Academic Penalty ; Deadline at 5 pm - Fall 2026 (Session II)
 
-27
+02
 
-Study Day (no classes) - Fall 2026 (Full Term)
-
-27
-
-Study Day (no classes) - Fall 2026 (Session B)
-
-27
-
-Study Day (no classes) - Fall 2026 (Session II)
+Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm - Fall 2026 (Session B)
 
 ## Our Location
 

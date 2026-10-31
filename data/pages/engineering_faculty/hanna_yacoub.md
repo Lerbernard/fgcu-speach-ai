@@ -1,6 +1,7 @@
 ## Hanna, Yacoub
 **Visiting Assistant Professor, Computer Science and Software Engineering**
 Department of Computing & Software Engineering
+239-745-4791
 yhanna@fgcu.edu
 HOLMES 0126B
 cybersecurity, Post-Quantum Cryptography (PQC), embedded systems, and critical infrastructure security, with an emphasis on developing practical security solutions for resource-constrained devices and cyber-physical environments. His broader research interests include Internet of Things (IoT) security, Cyber-Physical Systems (CPS), smart grid security, 5G and next-generation networks, and secure wireless communications.
