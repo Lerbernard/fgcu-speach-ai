@@ -90,21 +90,25 @@ SEE MORE DATES
 
 Important Upcoming Dates
 
-26
+11
 
-Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm - Fall 2026 (Full Term)
+Veteran's Day (no classes) - Fall 2026 (Session II)
 
-27
+11
 
-Study Day (no classes) - Fall 2026 (Full Term)
+Veteran's Day (no classes) - Fall 2026 (Full Term)
 
-27
+11
 
-Study Day (no classes) - Fall 2026 (Session B)
+Veteran's Day (no classes) - Fall 2026 (Session B)
 
-27
+12
 
-Study Day (no classes) - Fall 2026 (Session II)
+Reinstate after Cancelation for Non-Payment (Full Payment Required) ; Deadline at 5 pm - Fall 2026 (Session B)
+
+12
+
+Reinstate after Cancelation for Non-Payment (Full Payment Required) ; Deadline at 5 pm - Fall 2026 (Session II)
 
 ## Our Location
 

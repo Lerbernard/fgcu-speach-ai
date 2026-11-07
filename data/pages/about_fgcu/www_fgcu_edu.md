@@ -12,11 +12,13 @@ Apply to FGCU
 
 Financial Aid
 
-### What's New in the Nest?
+### Honoring Our Veterans
 
-FGCU360.com is your best source for university news, must-see videos and share-worthy stories — all the things that make you go "Wings Up." Quick reads, cool vids and new content weekly. Connect to the Nest anytime, anywhere, online.
+FGCU proudly recognizes the courage and commitment of all those who have served in the U.S. Armed Forces — especially the veterans within our own community.
 
-EXPLORE FGCU360
+We invite you to join us on campus for FGCU Salutes, a week honoring military service and sacrifice as part of America's 250th anniversary, featuring ceremonies, a Veterans Expo and community events
+
+View the FGCU Salutes schedule
 
 ### FGCU by the Numbers
 
