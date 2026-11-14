@@ -90,21 +90,21 @@ SEE MORE DATES
 
 Important Upcoming Dates
 
-26
+15
 
-Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm - Fall 2026 (Full Term)
+Last Day to Apply for Graduation - Spring 2027 (Full Term)
 
-27
+15
 
-Study Day (no classes) - Fall 2026 (Full Term)
+Last Day to Apply for Graduation - Spring 2027 (Session I)
 
-27
+15
 
-Study Day (no classes) - Fall 2026 (Session B)
+Last Day to Apply for Graduation - Spring 2027 (Session II)
 
-27
+16
 
-Study Day (no classes) - Fall 2026 (Session II)
+Graduating Student Survey Opens (Tentative) - Fall 2026 (Full Term)
 
 ## Our Location
 
