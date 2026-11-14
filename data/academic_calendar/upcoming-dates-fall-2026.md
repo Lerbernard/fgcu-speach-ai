@@ -2,9 +2,11 @@
 
 # Fall 2026 — Upcoming Dates
 
-Key dates for Fall 2026 as listed on the official academic calendar on 2026-10-22. These override older dates elsewhere.
+Key dates for Fall 2026 as listed on the official academic calendar on 2026-11-14. These override older dates elsewhere.
 
-- Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm (Full Term): Monday, 26 October 2026
-- Study Day (no classes) (Full Term): Tuesday, 27 October 2026
-- Study Day (no classes) (Session B): Tuesday, 27 October 2026
-- Study Day (no classes) (Session II): Tuesday, 27 October 2026
+- Veteran's Day (no classes) (Full Term): Wednesday, 11 November 2026
+- Veteran's Day (no classes) (Session B): Wednesday, 11 November 2026
+- Veteran's Day (no classes) (Session II): Wednesday, 11 November 2026
+- Reinstate after Cancelation for Non-Payment (Full Payment Required) ; Deadline at 5 pm (Session II): Thursday, 12 November 2026
+- Reinstate after Cancelation for Non-Payment (Full Payment Required) ; Deadline at 5 pm (Session B): Thursday, 12 November 2026
+- Graduating Student Survey Opens (Tentative) (Full Term): Monday, 16 November 2026

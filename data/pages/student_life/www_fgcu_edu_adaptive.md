@@ -20,7 +20,7 @@ Adaptive Services strives to enhance access and opportunity for all students, fa
   We are excited to work with you and we look forward to seeing you soon!
 * First Time Registration for Incoming/Current Students
 
-  **If you are an incoming student for the Fall 2026 semester, or you are a current student needing accommodations for the first time**, please email us at adaptive@fgcu.edu , or by phone at 239-590-7956, to get more information on scheduling an appointment.
+  **If you are an incoming student for the Spring 2027 semester, or you are a current student needing accommodations for the first time**, please email us at adaptive@fgcu.edu , or by phone at 239-590-7956, to get more information on scheduling an appointment.
 
   Learn more about **first time** accommodation requests for **Incoming & Current Students**
 
