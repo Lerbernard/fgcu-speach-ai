@@ -35,10 +35,6 @@ Chat about credits and financial aid at a virtual Transfer to the Nest event.
 
 REGISTER
 
-See how your classes might transfer to FGCU through Degree Works.
-
-TRANSFER TOOL
-
 ### Transferring from a partner college (FSW, SCF, or SFSC)?
 
 **Destination FGCU** provides students from partner colleges (FSW, SCF, and SFSC) with the tools and guidance they need to easily and successfully transfer to FGCU to complete a bachelor's degree.
@@ -225,7 +221,7 @@ Important Dates
 
 | Fall | Spring | Summer |
 
-| 4/1 – Application Deadline to be Considered for Scholarships  4/1 – Out-of-State Waiver Application Deadline  6/1 – Preferred Application Deadline  7/7 - Deposit Deadline | 10/1 - Application Deadline to be Considered for Scholarships  10/1 - Out-of-State Waiver Application Deadline             \*Extended to Nov 1 for Spring 2026  11/1 – Preferred Application Deadline  12/15 - Deposit Deadline | \*4/1 – Preferred Application Deadline  5/1 - Deposit Deadline |
+| 4/1 – Application Deadline to be Considered for Scholarships  4/1 – Out-of-State Waiver Application Deadline  6/1 – Preferred Application Deadline  7/7 - Deposit Deadline | 10/1 - Application Deadline to be Considered for Scholarships  10/1 - Out-of-State Waiver Application Deadline             \*Extended to Nov 1 for Spring 2026  11/1 – Preferred Application Deadline  12/1 - Deposit Deadline | \*4/1 – Preferred Application Deadline  5/1 - Deposit Deadline |
 
 Admissions Forms
 

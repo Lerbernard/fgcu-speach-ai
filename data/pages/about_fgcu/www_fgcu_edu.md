@@ -12,11 +12,11 @@ Apply to FGCU
 
 Financial Aid
 
-### What's New in the Nest?
+### Experience the Magic of the Season With Joyful & Triumphant
 
-FGCU360.com is your best source for university news, must-see videos and share-worthy stories — all the things that make you go "Wings Up." Quick reads, cool vids and new content weekly. Connect to the Nest anytime, anywhere, online.
+Embark on a musical journey Sunday, November 22 as the talented musicians of FGCU's Bower School of Music & the Arts perform timeless melodies, carols and holiday favorites. Performances are at 4 and 7 p.m. at Moorings Presbyterian Church in Naples.
 
-EXPLORE FGCU360
+Secure your tickets today
 
 ### FGCU by the Numbers
 

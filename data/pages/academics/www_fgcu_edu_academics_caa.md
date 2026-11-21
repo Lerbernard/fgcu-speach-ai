@@ -6,18 +6,6 @@
 
 We offer free resources to help all FGCU students maximize their academic potential. Take advantage of free academic coaching, tutoring, supplemental instruction and writing consultations.
 
-The CAA will be ending our in-person services at 5:00 pm on Thursday, Oct. 22 and will operate remotely on Friday, October 23. Here is an overview of available support and how students can access our resources:
-
-* **Thursday, Oct. 22 after 5:00 pm:** Students can utilize Brainfuse.
-  * Log in with Eagle Email and Password
-* **Friday, Oct. 23:** The CAA will operate remotely from 8:00 am-5:00 pm
-  * ***Peer Academic Coaching:*** Students can still meet with an Academic Coach virtually by booking an appointment here.
-  * ***Writing Lab:*** Students can drop-in virtually for Writing Lab services from 10:00 am-5:00pm. They can access the virtual drop-in queue here.
-  * ***Peer Tutoring:*** Students can access virtual tutoring via Brainfuse.
-  * ***Supplemental Instruction:*** The Friday SI session was moved earlier in the week. Students who are in A&P 1 and 2 received communications via Canvas.
-
-Regular services will resume on Monday, October 26.
-
 Supplemental Instruction
 
 Writing Lab
