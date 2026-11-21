@@ -1,6 +1,7 @@
 ## Sharma Bhattarai, Sushmit (Ph.D.)
 **Visiting Assistant Professor, Construction Management**
 Department of Construction Management
+239-745-4792
 ssharmabhattarai@fgcu.edu
 HOLMES 0120
 Digital Technologies in Construction
