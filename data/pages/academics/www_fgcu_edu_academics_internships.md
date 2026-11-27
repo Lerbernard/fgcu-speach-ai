@@ -8,7 +8,7 @@ The Office of Internships & Cooperative Programs (ICP) is your campus connection
 
 Students, employers, faculty, and staff – we’re here for you!
 
-Explore Resources
+## Explore Resources
 
 Student Resources
 
@@ -46,37 +46,45 @@ Career Development Services Academic Calendar
 
 ### Staff Directory
 
-**Ashleigh Droz, MA**
+Hi I’m Trudi-Ann Dyer! I love empowering students to bridge the gap between the classroom and their internship journey.
 
-Director, Internships & Cooperative Programs
-
-239-745-4486
-
-adroz@fgcu.edu
-
-**Coming Soon!**
-
-Coordinator, Internships & Cooperative Programs
+As an Internship Coordinator II, I currently support students majoring in STEM-related programs such as those within the Department of Chemistry & Physics, Biological Sciences, Health Sciences and even Digital Media Design. Whether you need help with internship search strategies, resources or just exploring your options before you get started. I am happy to help!
 
 **Trudi-Ann Dyer, MS**
 
-Internship Coordinator II Science, Math & Healthcare
+Internship Coordinator II: Natural Science, Forensic Science, Math & Healthcare
 
 239-745-4358
 
 tdyer@fgcu.edu
 
-**Sara Niepelova, MA**
+Hello! My name is Mya Finney, and I am an Internship Coordinator I in the Office of Internships and Cooperative Programs. In my role, I primarily work with students pursuing careers in the humanities and social sciences fields. Additionally, I help students who are interested in interning abroad find their dream opportunities. I interned in an archive in Edinburgh, Scotland for a semester and enjoy helping students connect with the same amazing experiences I had.
 
-Internship Coordinator I Unique Populations & Programs
+I graduated from FGCU with my B.A. in History, with minors in Art and Integrated Studies. Now, I am continuing my studies in my M.A. Master's program in History, also at FGCU! I am an Eagle through and through.
+
+When I'm not helping students find internship opportunities and studying, you can find me in my pottery studio making functional ware for local coffee shops and businesses. I'm delighted to be able to assist you on your career journey!
+
+**Mya Finney**
+
+Internship Coordinator I: Humanities & Social Sciences
 
 239-590-7899
 
-sniepelova@fgcu.edu
+mfinney@fgcu.edu
 
-**Coming Soon!**
+Hi! My name is Madi, a proud FGCU alumna and former elementary school teacher, and I’m excited to help fellow Eagles navigate their career and internship journeys!
 
-Internship Coordinator Humanities & Social Sciences
+Through my experience in education, I discovered a passion for supporting students as they explore their interests, develop professional skills, and prepare for their futures. I enjoy helping students tell their stories through resume and cover letter development, interview preparation, career exploration, and navigating the job and internship search process.
+
+Whether you’re just beginning to explore your options or preparing for your next career step, I look forward to helping you build confidence, soar toward your goals, and make the most of your time at FGCU. Go Eagles!
+
+**Madison Hallman**
+
+Internship Coordinator I: Education Pathways
+
+239-590-7899
+
+mhallman@fgcu.edu
 
 ## Questions? We Are Here to Answer Your Questions.
 

@@ -12,11 +12,9 @@ Apply to FGCU
 
 Financial Aid
 
-### What's New in the Nest?
+### Giving Thanks for Our Eagles
 
-FGCU360.com is your best source for university news, must-see videos and share-worthy stories — all the things that make you go "Wings Up." Quick reads, cool vids and new content weekly. Connect to the Nest anytime, anywhere, online.
-
-EXPLORE FGCU360
+From our Eagle Family to yours, Happy Thanksgiving! We're thankful for our students, alumni, faculty and staff making a difference every day.
 
 ### FGCU by the Numbers
 
