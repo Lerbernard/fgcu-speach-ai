@@ -1,6 +1,7 @@
 ## Shaheen, Ehab (PhD)
 **Instructor II, Construction Management**
 Department of Construction Management
+239-745-4714
 eshaheen@fgcu.edu
 HOLMES 0123
 Dr. Shaheen brings more than two decades of experience in the trenches of project execution in the oil and gas industry and real estate development. Dr. Shaheen has managed projects, led project delivery groups, and been involved with every aspect of capital project delivery, from design & engineering to construction & integrity assurance, procurement & contracts to logistics & regulatory, and everything in between. He has managed projects for asset owners and ECPM alike, working on billion-dollar CAPEX investments ranging from on shore and off-shore pipelines, mining equipment failures, marine terminals, rail / truck offloading facilities, and residential/corporate construction.

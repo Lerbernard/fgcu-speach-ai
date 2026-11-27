@@ -105,41 +105,22 @@ Explore ground-breaking research conducted by the faculty of the U.A. Whitaker C
   **Funding Amount:** $55,000
 
   Currently Hiring
-* Design and Fabrication of Microfluidic Chips for Tapered Optical Fiber Based Biosensors
+* Tapered Optical Fiber-Based Biosensor Development
 
-  Design and Fabrication of Microfluidic Chips for Tapered Optical Fiber Based Biosensors
+  Tapered Optical Fiber-Based Biosensor Development
 
-  **Faculty Member(s) Working on Project:** Marzhan Sypabekova, Ph.D., and Derek Lura, Ph.D.
+  **Faculty Member(s) Working on Project:** Marzhan Sypabekova, Ph.D.
 
-  **Student(s) Working on Project:** Alba Lako (graduated), Gus Brugger, Rigoberto Tovar
+  **Description:** This project develops tapered optical fiber-based biosensors for biomedical and environmental applications. Tapering an optical fiber exposes its evanescent field to the surrounding medium, so binding of a target molecule to the functionalized fiber surface produces a measurable optical signal. The work covers fiber tapering, surface functionalization with biorecognition elements such as antibodies, aptamers, and enzymes, integration with 3D-printed microfluidic chips, and evaluation of sensor sensitivity, selectivity, and reusability. The goal is to create low-cost, label-free, and rapid sensing platforms that can be adapted to detect a wide range of biomarkers and analytes.
 
-  **Description:** This project designs, fabricates, and tests microfluidic chip architectures that integrate and protect tapered optical fibers. Chip variants span channel geometry, inlet/outlet layout, fiber alignment and anchoring features, encapsulation methods, and substrate/material choices. Performance is quantified via refractive-index (RI) sensing tests to assess evanescent-field interaction, stability, response time, repeatability, and optical coupling efficiency under continuous flow. The fibers are biofunctionalized using robust surface-chemistry routes (e.g., silanization and monolayer formation followed by aptamer/antibody immobilization) to enable selective biomarker detection, and chips are benchmarked for signal-to-noise ratio, limit of detection, and regeneration consistency. The outcome is a validated set of chip designs with documented trade-offs for RI-based and biofunctionalized tapered-fiber biosensing.
-
-  **Funding Source:** Startup Package
-* Periodontal Biosensor Development for Detection of Peri-Implantitis
-
-  Periodontal Biosensor Development for Detection of Peri-Implantitis
-
-  **Faculty Member(s) Working on Project:** Marzhan Sypabekova, Ph.D., and Sarkis Sozkes, Ph.D.
-
-  **Description:** This project develops a fiber-optic biosensor to detect early peri-implantitis by quantifying the inflammatory biomarker MMP-8. Activities include ELISA-based antibody validation, surface functionalization of tapered optical fibers, sensor fabrication and calibration in clinically relevant ranges, and specificity/sensitivity testing to generate a prototype and pilot data.
-
-  **Funding Source:** WCE HeadStart Grant
-
-  **Funding Amount:** $5,000
-
-  Currently Hiring
+  **Funding Source:** FGCU Collaborative Materials Research Initiative Seed Grant
 * Development and Validation of an Alveolar Lung-on-a-Chip Model
 
   Development and Validation of an Alveolar Lung-on-a-Chip Model
 
-  **Faculty Member(s) Working on Project:** Marzhan Sypabekova, Ph.D.
+  **Description:** This project develops an alveolar lung-on-a-chip model that recreates the air-blood barrier of the human lung. The platform combines a 3D-printed microfluidic chip with a thin, biologically relevant membrane that supports the growth of lung epithelial cells. The work includes membrane fabrication and characterization, chip design and printing, and optimization of cell culture conditions. The validated model will provide an accessible in vitro tool for studying lung diseases such as chronic obstructive pulmonary disease (COPD) and for testing the effects of drugs and inhaled substances.
 
-  Student(s) Working on Project: Nicholas Blanco, Peyton McCarthy, Sidney Dascani
-
-  **Description:** This project builds an alveoli-on-a-chip using a 3D-printed, biocompatible resin microfluidic chip that houses a porous membrane to recreate the alveolar–capillary interface. The upper channel supports an air–liquid interface epithelium, while the lower channel perfuses lung microvascular endothelium; a flexible membrane enables cyclic strain to mimic breathing. The printed geometry provides optical access and standardized ports for controlled flow.
-
-  **Funding Source:** Department funds, Brodie Scholarship (awarded to Peyton McCarthy)
+  Currently Hiring
 
 * Reimagining the JFK Assassination in the Smartphone Era: AI-Driven Analysis of Historical Footage and Crowd Dynamics
 
@@ -152,6 +133,8 @@ Explore ground-breaking research conducted by the faculty of the U.A. Whitaker C
   **Description:** The assassination of President John F. Kennedy in 1963 remains one of the most visually iconic and publicly scrutinized events of the 20th century. While the Zapruder film provides the only continuous record of the assassination, additional amateur films exist but suffer from distance, grain, shakiness, and obscured sightlines. In the contemporary digital era, the same event would likely be captured by hundreds of smartphones and instantly disseminated across social media platforms. This project proposes to merge computer vision and AI techniques with media studies to reimagine how the Kennedy assassination might have been recorded today. The research will (a) enhance poor-quality archival films, (b) apply AI to detect and count spectators frame by frame, (c) analyze crowd distribution in Dealey Plaza, and (d) model how many smartphone recordings would exist in today’s media environment. The outcomes will provide both technical innovations in archival video restoration and scholarly insights into how technology alters the public witnessing of history.
 
   **Funding Source:** WCE HeadStart Grant Program
+
+  **Funding Amount:** $5,000
 
   **Outside Organizations Collaborating on Project:** Department of Communication and Philosophy, FGCU
 * SignifyAR: An Augmented Reality-Based Platform for Real-Time Multilingual Sign Language Interpretation

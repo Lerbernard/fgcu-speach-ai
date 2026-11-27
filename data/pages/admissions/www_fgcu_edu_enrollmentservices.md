@@ -90,21 +90,25 @@ SEE MORE DATES
 
 Important Upcoming Dates
 
-26
+30
 
-Last Day to Withdraw without Academic Penalty (if within the Withdrawal Limit Rule, see note) ; Deadline at 5 pm - Fall 2026 (Full Term)
+Finals Begin - Fall 2026 (Full Term)
 
-27
+01
 
-Study Day (no classes) - Fall 2026 (Full Term)
+Grades Due from Faculty by Noon - Fall 2026 (Session B)
 
-27
+01
 
-Study Day (no classes) - Fall 2026 (Session B)
+Grades Due from Faculty by Noon - Fall 2026 (Session II)
 
-27
+04
 
-Study Day (no classes) - Fall 2026 (Session II)
+Degree Conferral - Fall 2026 (Session II)
+
+04
+
+Degree Conferral - Fall 2026 (Session I)
 
 ## Our Location
 

@@ -2,7 +2,7 @@
 **Adjunct, College of Engineering**
 Department of Environmental Engineering, Civil Engineering and Bioengineering
 clieber@fgcu.edu
-HOLMES 0323
+HOLMES 0421
 Dr. Claude Lieber joined the U.A. Whitaker College of Engineering in January of 2018. Dr. Lieber has had a long career in medicine. He is a retired surgeon who was an Associate Professor of Surgery at Thomas Jefferson University, Philadelphia, and Chief of Surgery at the affiliated Veteran’s Administration Medical Center. He has taught human physiology for years. His interests include the application of mathematics, statistics, and machine learning to physiological phenomena. He obtained his master’s degree in Biomedical Engineering from Florida Atlantic University.
 
 **Education**

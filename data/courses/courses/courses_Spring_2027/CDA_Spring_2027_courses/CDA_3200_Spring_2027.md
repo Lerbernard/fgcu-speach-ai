@@ -4,7 +4,7 @@ Term: Spring 2027 | Subject: CDA | Course: CDA 3200 | Sections: 2
 
 CDA 3200 Spring 2027 — Instructor: Hanna, Yacoub
 Course: Digital Systems & Architecture (3 credits) | CRN: 16770
-Schedule: Class: M W 01:30pm - 02:45pm Griffin Hall 205; Exam: W 12:30pm - 02:45pm Griffin Hall 205
+Schedule: Class: M W 01:30pm - 02:45pm University Library Classroom 410; Exam: W 12:30pm - 02:45pm University Library Classroom 410
 Session: Full Term
 
 CDA 3200 Spring 2027 — Instructor: Hanna, Yacoub
